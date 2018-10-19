@@ -13,6 +13,7 @@
     <change-notes><![CDATA[
         <ul>
             <li>Fix - Missing negative numbers</li>
+            <li>Add - Ability to make comments</li>
         </ul>
     ]]>
     </change-notes>
@@ -30,6 +31,7 @@
         <fileTypeFactory implementation="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.YScriptFileTypeFactory"/>
         <lang.parserDefinition language="YScript" implementationClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.YScriptParserDefinition"/>
         <lang.syntaxHighlighterFactory language="YScript" implementationClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.YScriptSyntaxHighlighterFactory"/>
+        <lang.commenter language="YScript" implementationClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.YScriptCommenter"/>
     </extensions>
 
     <actions>

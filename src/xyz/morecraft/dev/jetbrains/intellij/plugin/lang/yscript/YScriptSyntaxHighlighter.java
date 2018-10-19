@@ -60,6 +60,10 @@ public class YScriptSyntaxHighlighter extends SyntaxHighlighterBase {
             return KEY_KEYS;
         } else if (tokenType.equals(YScriptTypes.KEY_PROGRAM)) {
             return KEY_KEYS;
+        } else if (tokenType.equals(YScriptTypes.KEY_DEFINE)) {
+            return KEY_KEYS;
+        } else if (tokenType.equals(YScriptTypes.KEY_EXTENSION)) {
+            return KEY_KEYS;
         } else if (tokenType.equals(YScriptTypes.KEY_VAR)) {
             return KEY_KEYS;
         } else if (tokenType.equals(YScriptTypes.KEY_AS)) {
@@ -137,8 +141,6 @@ public class YScriptSyntaxHighlighter extends SyntaxHighlighterBase {
         } else if (tokenType.equals(YScriptTypes.V_STRING)) {
             return VALUE_KEYS;
         } else if (tokenType.equals(YScriptTypes.V_NUMBER)) {
-            return VALUE_KEYS;
-        } else if (tokenType.equals(YScriptTypes.XML_NAMESPACE)) {
             return VALUE_KEYS;
         } else if (tokenType.equals(TokenType.BAD_CHARACTER)) {
             return BAD_CHAR_KEYS;

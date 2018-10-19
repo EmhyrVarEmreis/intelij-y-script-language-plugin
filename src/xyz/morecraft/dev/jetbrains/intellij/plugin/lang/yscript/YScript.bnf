@@ -15,19 +15,23 @@
 
 YScriptFile ::= item_*
 
-private item_ ::= (import | program | COMMENT | EOL)
+private item_ ::= (import | program | define | COMMENT | EOL)
 
 import ::= KEY_IMPORT package X_SEMICOLON
 
 program ::= KEY_PROGRAM package X_OPEN_BRACKET vars? X_CLOSE_BRACKET (KEY_RETURNS type)? block X_SEMICOLON
 
+define ::= KEY_DEFINE type KEY_AS (KEY_EXTENSION KEY_OF type)? KEY_BEGIN (varDef X_SEMICOLON)* KEY_END X_SEMICOLON
+
 package ::= IDENTIFIER (X_DOUBLE_COLON IDENTIFIER)*
 
 vars ::= var (X_COMMA var)*
 
-var ::= KEY_VAR IDENTIFIER KEY_AS type
+var ::= KEY_VAR varDef
 
-type ::= (KEY_ARRAY KEY_OF)? IDENTIFIER (X_COLON XML_NAMESPACE)?
+varDef ::= IDENTIFIER KEY_AS type
+
+type ::= (KEY_ARRAY KEY_OF)? IDENTIFIER (X_COLON V_STRING)?
 
 statement ::= (var | return | if | with | while | create | sort | index | delete | try | assign | call)
 

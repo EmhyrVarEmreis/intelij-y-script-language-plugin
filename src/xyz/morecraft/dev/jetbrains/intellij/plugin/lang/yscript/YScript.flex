@@ -34,7 +34,7 @@ X_CLOSE_SQUARE_BRACKET="]"
 XML_NAMESPACE=\"\w+\:\/\/\w+(\.\w+)*(\/\w+)+\"
 
 V_STRING=\"([^\\\"]|\\\\|\\\")*\"
-V_NUMBER=\d+(\.\d+)?
+V_NUMBER=-?\d+(\.\d+)?
 
 IDENTIFIER=[a-zA-Z]\w*
 

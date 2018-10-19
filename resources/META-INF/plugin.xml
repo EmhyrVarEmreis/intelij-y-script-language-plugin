@@ -11,7 +11,9 @@
     ]]></description>
 
     <change-notes><![CDATA[
-      Basic syntax check and highlighting.
+        <ul>
+            <li>Fix - Missing negative numbers</li>
+        </ul>
     ]]>
     </change-notes>
 

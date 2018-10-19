@@ -1,0 +1,94 @@
+{
+  parserClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.parser.YScriptParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="YScript"
+  psiImplClassSuffix="Impl"
+  psiPackage="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi"
+  psiImplPackage="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl"
+
+  elementTypeHolderClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptTypes"
+  elementTypeClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptElementType"
+  tokenTypeClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptTokenType"
+}
+
+YScriptFile ::= item_*
+
+private item_ ::= (import | program | COMMENT | EOL)
+
+import ::= KEY_IMPORT package X_SEMICOLON
+
+program ::= KEY_PROGRAM package X_OPEN_BRACKET vars? X_CLOSE_BRACKET (KEY_RETURNS type)? block X_SEMICOLON
+
+package ::= IDENTIFIER (X_DOUBLE_COLON IDENTIFIER)*
+
+vars ::= var (X_COMMA var)*
+
+var ::= KEY_VAR IDENTIFIER KEY_AS type
+
+type ::= (KEY_ARRAY KEY_OF)? IDENTIFIER (X_COLON XML_NAMESPACE)?
+
+statement ::= (var | return | if | with | while | create | sort | index | delete | try | assign | call)
+
+if ::= KEY_IF expression KEY_THEN body (KEY_ELSE body)?
+
+with ::= (withLoop | withObj)
+
+withLoop ::= KEY_WITH IDENTIFIER KEY_AS expression KEY_DO body
+
+withObj ::= KEY_WITH propertySimple KEY_DO body
+
+while ::= KEY_WHILE expression KEY_DO body
+
+create ::= KEY_CREATE propertySimple KEY_BEGIN (assign X_SEMICOLON)* KEY_END
+
+sort ::= KEY_SORT propertySimple KEY_USING package;
+
+index ::= KEY_INDEX propertySimple KEY_USING propertySimple;
+
+delete ::= KEY_DELETE propertySimple
+
+try ::= KEY_TRY block (KEY_CATCH X_OPEN_BRACKET var X_CLOSE_BRACKET block)+
+
+return ::= KEY_RETURN expression?;
+
+assign ::= propertySimple X_ASSIGN expression
+
+expression ::= (expressionTerm operator expression) | expressionTerm
+
+expressionTerm ::= (expressionFactor operator expressionTerm) | expressionFactor
+
+expressionFactor ::= (expressionDotted | expressionSimple)
+
+expressionDotted ::= (expressionBraced | cast) (X_DOT expressionFactor)?
+
+expressionBraced ::= X_OPEN_BRACKET expression X_CLOSE_BRACKET
+
+expressionSimple ::= KEY_NEGATION? (fIsInstance | cast | call | value | boolean | propertySimple)
+
+operator ::= (KEY_AND | KEY_OR | OP_LT | OP_GT | OP_LTE | OP_GTE | OP_PLUS | OP_MINUS | OP_MUL | OP_DIVIDE | OP_EQIALS | OP_NEQUALS)
+
+boolean ::= (KEY_TRUE | KEY_FALSE)
+
+cast ::= X_OPEN_BRACKET expressionFactor KEY_AS type X_CLOSE_BRACKET
+
+call ::= package X_OPEN_BRACKET arguments? X_CLOSE_BRACKET
+
+arguments ::= expression (X_COMMA expression)*
+
+propertySimple ::= propertyBase (X_DOT propertyBase)*
+
+propertyBase ::= IDENTIFIER (bracketSingleExpression|bracketDoubleExpression)?
+
+bracketSingleExpression ::= X_OPEN_SQUARE_BRACKET expression X_CLOSE_SQUARE_BRACKET
+
+bracketDoubleExpression ::= X_OPEN_SQUARE_BRACKET X_OPEN_SQUARE_BRACKET expression X_CLOSE_SQUARE_BRACKET X_CLOSE_SQUARE_BRACKET
+
+value ::= (V_STRING|V_NUMBER)
+
+fIsInstance ::= IDENTIFIER F_KEY_IS_INSTANCE X_OPEN_BRACKET type X_CLOSE_BRACKET
+
+body ::= (block | statement)
+
+block ::= KEY_BEGIN (statement X_SEMICOLON)* KEY_END

@@ -16,21 +16,33 @@ import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAtt
 public class YScriptSyntaxHighlighter extends SyntaxHighlighterBase {
 
     public static final TextAttributesKey SEPARATOR =
-            createTextAttributesKey("SIMPLE_SEPARATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN);
+            createTextAttributesKey("YSCRIPT_SEPARATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN);
     public static final TextAttributesKey KEY =
-            createTextAttributesKey("SIMPLE_KEY", DefaultLanguageHighlighterColors.KEYWORD);
+            createTextAttributesKey("YSCRIPT_KEY", DefaultLanguageHighlighterColors.KEYWORD);
     public static final TextAttributesKey VALUE =
-            createTextAttributesKey("SIMPLE_VALUE", DefaultLanguageHighlighterColors.STRING);
+            createTextAttributesKey("YSCRIPT_VALUE", DefaultLanguageHighlighterColors.STRING);
     public static final TextAttributesKey COMMENT =
-            createTextAttributesKey("SIMPLE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
+            createTextAttributesKey("YSCRIPT_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
+    public static final TextAttributesKey SEMICOLON =
+            createTextAttributesKey("YSCRIPT_SEMICOLON", DefaultLanguageHighlighterColors.SEMICOLON);
+    public static final TextAttributesKey COMMA =
+            createTextAttributesKey("YSCRIPT_COMMA", DefaultLanguageHighlighterColors.COMMA);
+    public static final TextAttributesKey PARENTHESES =
+            createTextAttributesKey("YSCRIPT_PARENTHESES", DefaultLanguageHighlighterColors.PARENTHESES);
+    public static final TextAttributesKey BRACKETS =
+            createTextAttributesKey("YSCRIPT_BRACKETS", DefaultLanguageHighlighterColors.BRACKETS);
     public static final TextAttributesKey BAD_CHARACTER =
-            createTextAttributesKey("SIMPLE_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
+            createTextAttributesKey("YSCRIPT_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
 
     private static final TextAttributesKey[] BAD_CHAR_KEYS = new TextAttributesKey[]{BAD_CHARACTER};
     private static final TextAttributesKey[] SEPARATOR_KEYS = new TextAttributesKey[]{SEPARATOR};
     private static final TextAttributesKey[] KEY_KEYS = new TextAttributesKey[]{KEY};
     private static final TextAttributesKey[] VALUE_KEYS = new TextAttributesKey[]{VALUE};
     private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[]{COMMENT};
+    private static final TextAttributesKey[] SEMICOLON_KEYS = new TextAttributesKey[]{SEMICOLON};
+    private static final TextAttributesKey[] COMMA_KEYS = new TextAttributesKey[]{COMMA};
+    private static final TextAttributesKey[] PARENTHESES_KEYS = new TextAttributesKey[]{PARENTHESES};
+    private static final TextAttributesKey[] BRACKETS_KEYS = new TextAttributesKey[]{BRACKETS};
     private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
 
     @NotNull
@@ -105,21 +117,23 @@ public class YScriptSyntaxHighlighter extends SyntaxHighlighterBase {
         } else if (tokenType.equals(YScriptTypes.X_DOT)) {
             return SEPARATOR_KEYS;
         } else if (tokenType.equals(YScriptTypes.X_COMMA)) {
-            return SEPARATOR_KEYS;
+            return COMMA_KEYS;
         } else if (tokenType.equals(YScriptTypes.X_COLON)) {
-            return SEPARATOR_KEYS;
+            return SEMICOLON_KEYS;
         } else if (tokenType.equals(YScriptTypes.X_ASSIGN)) {
             return SEPARATOR_KEYS;
         } else if (tokenType.equals(YScriptTypes.X_SEMICOLON)) {
-            return SEPARATOR_KEYS;
+            return SEMICOLON_KEYS;
         } else if (tokenType.equals(YScriptTypes.X_DOUBLE_COLON)) {
-            return SEPARATOR_KEYS;
+            return SEMICOLON_KEYS;
         } else if (tokenType.equals(YScriptTypes.X_OPEN_BRACKET)) {
-            return SEPARATOR_KEYS;
+            return PARENTHESES_KEYS;
         } else if (tokenType.equals(YScriptTypes.X_CLOSE_BRACKET)) {
-            return SEPARATOR_KEYS;
-//        } else if (tokenType.equals(YScriptTypes.X_QUOTATION_MARK)) {
-//            return SEPARATOR_KEYS;
+            return PARENTHESES_KEYS;
+        } else if (tokenType.equals(YScriptTypes.X_OPEN_SQUARE_BRACKET)) {
+            return BRACKETS_KEYS;
+        } else if (tokenType.equals(YScriptTypes.X_CLOSE_SQUARE_BRACKET)) {
+            return BRACKETS_KEYS;
         } else if (tokenType.equals(YScriptTypes.V_STRING)) {
             return VALUE_KEYS;
         } else if (tokenType.equals(YScriptTypes.V_NUMBER)) {

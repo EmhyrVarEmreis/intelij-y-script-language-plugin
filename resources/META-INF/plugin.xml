@@ -5,9 +5,10 @@
     <vendor email="mstef94@gmail.com" url="http://mateuszstefaniak.me/">Mateusz Stefaniak</vendor>
 
     <description><![CDATA[
-      <h2>Y Script File Extension</h2><br>
-      This plugin is used to make work on IAS QSystem platform easier.
-      <a href="https://github.com/EmhyrVarEmreis/intelij-y-script-language-support">GitHub Repository</a>
+      <h2>Y Script File Extension</h2><br/>
+      This plugin is used to make work on IAS QSystem platform easier.<br/>
+      <a href="https://github.com/EmhyrVarEmreis/intelij-y-script-language-support">GitHub Repository</a><br/>
+      <a href="http://www.invenireaude.com/content/portfolio/intro.html">IAS QSystem</a>
     ]]></description>
 
     <change-notes><![CDATA[

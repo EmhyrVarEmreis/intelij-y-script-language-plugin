@@ -124,6 +124,8 @@ public class YScriptSyntaxHighlighter extends SyntaxHighlighterBase {
             return KEY_KEYS;
         } else if (tokenType.equals(YScriptTypes.F_KEY_IS_INSTANCE)) {
             return KEY_KEYS;
+        } else if (tokenType.equals(YScriptTypes.F_KEY_IS_TYPE)) {
+            return KEY_KEYS;
         } else if (tokenType.equals(YScriptTypes.X_DOT)) {
             return SEPARATOR_KEYS;
         } else if (tokenType.equals(YScriptTypes.X_COMMA)) {

@@ -75,7 +75,7 @@ expressionDotted ::= (expressionBraced | cast) (X_DOT expressionFactor)?
 
 expressionBraced ::= X_OPEN_BRACKET expression X_CLOSE_BRACKET
 
-expressionSimple ::= KEY_NEGATION? (fIsInstance | cast | call | value | boolean | propertySimple)
+expressionSimple ::= KEY_NEGATION? (fIsInstance | fIsType | cast | call | value | boolean | propertySimple)
 
 operator ::= (KEY_AND | KEY_OR | OP_LT | OP_GT | OP_LTE | OP_GTE | OP_PLUS | OP_MINUS | OP_MUL | OP_DIVIDE | OP_EQIALS | OP_NEQUALS)
 
@@ -98,6 +98,9 @@ bracketDoubleExpression ::= X_OPEN_SQUARE_BRACKET X_OPEN_SQUARE_BRACKET expressi
 value ::= (V_STRING|V_NUMBER)
 
 fIsInstance ::= propertySimple F_KEY_IS_INSTANCE X_OPEN_BRACKET type X_CLOSE_BRACKET
+// TODO 'expression' instead of 'propertySimple'
+
+fIsType ::= propertySimple F_KEY_IS_TYPE X_OPEN_BRACKET type X_CLOSE_BRACKET
 // TODO 'expression' instead of 'propertySimple'
 
 body ::= (block | statement)

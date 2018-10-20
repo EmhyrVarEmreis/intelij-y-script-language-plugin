@@ -91,7 +91,8 @@ bracketDoubleExpression ::= X_OPEN_SQUARE_BRACKET X_OPEN_SQUARE_BRACKET expressi
 
 value ::= (V_STRING|V_NUMBER)
 
-fIsInstance ::= IDENTIFIER F_KEY_IS_INSTANCE X_OPEN_BRACKET type X_CLOSE_BRACKET
+fIsInstance ::= propertySimple F_KEY_IS_INSTANCE X_OPEN_BRACKET type X_CLOSE_BRACKET
+// TODO 'expression' instead of 'propertySimple'
 
 body ::= (block | statement)
 

@@ -116,6 +116,8 @@ public class YScriptSyntaxHighlighter extends SyntaxHighlighterBase {
             return KEY_KEYS;
         } else if (tokenType.equals(YScriptTypes.KEY_TO)) {
             return KEY_KEYS;
+        } else if (tokenType.equals(YScriptTypes.KEY_MERGE)) {
+            return KEY_KEYS;
         } else if (tokenType.equals(YScriptTypes.KEY_AND)) {
             return KEY_KEYS;
         } else if (tokenType.equals(YScriptTypes.KEY_OR)) {

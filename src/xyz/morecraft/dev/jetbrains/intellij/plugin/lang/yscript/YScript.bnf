@@ -37,7 +37,7 @@ varDef ::= IDENTIFIER KEY_AS type
 
 type ::= (KEY_ARRAY KEY_OF)? IDENTIFIER (X_COLON V_STRING)?
 
-statement ::= (var | return | if | with | while | create | sort | index | delete | try | throw | for | assign | call)
+statement ::= (var | return | if | with | while | create | sort | index | delete | try | throw | for | assign | merge | call)
 
 if ::= KEY_IF expression KEY_THEN body (KEY_ELSE body)?
 
@@ -59,13 +59,15 @@ delete ::= KEY_DELETE propertySimple
 
 try ::= KEY_TRY block (KEY_CATCH X_OPEN_BRACKET var X_CLOSE_BRACKET block)+
 
-throw ::= KEY_THROW (new | propertySimple)
+throw ::= KEY_THROW (new | expression)
 
 for ::= KEY_FOR IDENTIFIER X_ASSIGN V_NUMBER KEY_TO expression KEY_DO block
 
 return ::= KEY_RETURN expression?;
 
 assign ::= propertySimple X_ASSIGN (expression | new)
+
+merge ::= propertySimple KEY_MERGE propertySimple
 
 new ::= KEY_NEW type blockAssign?
 
@@ -75,7 +77,7 @@ expressionTerm ::= (expressionFactor operator expressionTerm) | expressionFactor
 
 expressionFactor ::= (expressionDotted | expressionSimple)
 
-expressionDotted ::= (expressionBraced | cast) (X_DOT expressionFactor)?
+expressionDotted ::= (expressionBraced | cast | call) (X_DOT expressionFactor)?
 
 expressionBraced ::= X_OPEN_BRACKET expression X_CLOSE_BRACKET
 

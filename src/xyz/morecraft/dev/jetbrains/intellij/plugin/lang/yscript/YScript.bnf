@@ -21,7 +21,7 @@ import ::= KEY_IMPORT package X_SEMICOLON
 
 program ::= KEY_PROGRAM package X_OPEN_BRACKET vars? X_CLOSE_BRACKET (KEY_RETURNS type)? block X_SEMICOLON
 
-define ::= KEY_DEFINE type KEY_AS (KEY_EXTENSION KEY_OF type)? KEY_BEGIN (varDef X_SEMICOLON)* KEY_END X_SEMICOLON
+define ::= KEY_DEFINE type KEY_AS (KEY_EXTENSION KEY_OF type)? blockDefine X_SEMICOLON
 
 package ::= IDENTIFIER (X_DOUBLE_COLON IDENTIFIER)*
 
@@ -45,7 +45,7 @@ withObj ::= KEY_WITH propertySimple KEY_DO body
 
 while ::= KEY_WHILE expression KEY_DO body
 
-create ::= KEY_CREATE propertySimple KEY_BEGIN (assign X_SEMICOLON)* KEY_END
+create ::= KEY_CREATE propertySimple blockCreate
 
 sort ::= KEY_SORT propertySimple KEY_USING package;
 
@@ -96,3 +96,7 @@ fIsInstance ::= IDENTIFIER F_KEY_IS_INSTANCE X_OPEN_BRACKET type X_CLOSE_BRACKET
 body ::= (block | statement)
 
 block ::= KEY_BEGIN (statement X_SEMICOLON)* KEY_END
+
+blockCreate ::= KEY_BEGIN (assign X_SEMICOLON)* KEY_END
+
+blockDefine ::= KEY_BEGIN (varDef X_SEMICOLON)* KEY_END

@@ -12,7 +12,8 @@ public class YScriptPairedBraceMatcher implements PairedBraceMatcher {
 
     private static final BracePair[] PAIRS = new BracePair[]{
             new BracePair(YScriptTypes.X_OPEN_BRACKET, YScriptTypes.X_CLOSE_BRACKET, false),
-            new BracePair(YScriptTypes.X_OPEN_SQUARE_BRACKET, YScriptTypes.X_CLOSE_SQUARE_BRACKET, false)
+            new BracePair(YScriptTypes.X_OPEN_SQUARE_BRACKET, YScriptTypes.X_CLOSE_SQUARE_BRACKET, false),
+            new BracePair(YScriptTypes.KEY_BEGIN, YScriptTypes.KEY_END, true)
     };
 
     @NotNull

@@ -16,6 +16,7 @@
             <li>Add - Ability to make comments</li>
             <li>Add - Highlighting braces</li>
             <li>Add - Support for DEFINE</li>
+            <li>Add - Folding and highlighting code blocks</li>
             <li>Update - Syntax highlighter colors</li>
         </ul>
     ]]>
@@ -36,6 +37,7 @@
         <lang.syntaxHighlighterFactory language="YScript" implementationClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.YScriptSyntaxHighlighterFactory"/>
         <lang.commenter language="YScript" implementationClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.YScriptCommenter"/>
         <lang.braceMatcher language="YScript" implementationClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.YScriptPairedBraceMatcher"/>
+        <lang.foldingBuilder language="YScript" implementationClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.YScriptFoldingBuilder"/>
     </extensions>
 
     <actions>

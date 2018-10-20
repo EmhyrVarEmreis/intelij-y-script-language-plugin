@@ -63,7 +63,9 @@ throw ::= KEY_THROW KEY_NEW type blockCreate?
 
 return ::= KEY_RETURN expression?;
 
-assign ::= propertySimple X_ASSIGN expression
+assign ::= propertySimple X_ASSIGN (expression | new)
+
+new ::= KEY_NEW type blockCreate
 
 expression ::= (expressionTerm operator expression) | expressionTerm
 

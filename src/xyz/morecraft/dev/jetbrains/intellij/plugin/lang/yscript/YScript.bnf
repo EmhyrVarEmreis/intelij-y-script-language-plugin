@@ -79,7 +79,7 @@ expressionBraced ::= X_OPEN_BRACKET expression X_CLOSE_BRACKET
 
 expressionSimple ::= KEY_NEGATION? (fIsInstance | fIsType | cast | call | value | boolean | propertySimple)
 
-operator ::= (KEY_AND | KEY_OR | OP_LT | OP_GT | OP_LTE | OP_GTE | OP_PLUS | OP_MINUS | OP_MUL | OP_DIVIDE | OP_EQIALS | OP_NEQUALS)
+operator ::= (KEY_AND | KEY_OR | OP_LT | OP_GT | OP_LTE | OP_GTE | OP_PLUS | OP_MINUS | OP_MUL | OP_DIVIDE | OP_MODULO | OP_EQIALS | OP_NEQUALS)
 
 boolean ::= (KEY_TRUE | KEY_FALSE)
 

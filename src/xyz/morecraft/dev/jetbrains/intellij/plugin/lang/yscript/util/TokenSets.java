@@ -7,7 +7,6 @@ public class TokenSets {
 
     public static TokenSet BLOCK_SET = TokenSet.create(
             YScriptTypes.BLOCK,
-            YScriptTypes.BLOCK_ASSIGN,
             YScriptTypes.BLOCK_DEFINE
     );
 

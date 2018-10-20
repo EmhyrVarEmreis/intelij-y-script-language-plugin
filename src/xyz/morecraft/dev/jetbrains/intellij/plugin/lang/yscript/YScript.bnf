@@ -69,7 +69,7 @@ assign ::= propertySimple X_ASSIGN (expression | new)
 
 merge ::= propertySimple KEY_MERGE propertySimple
 
-new ::= KEY_NEW type blockAssign?
+new ::= KEY_NEW type block?
 
 expression ::= (expressionTerm operator expression) | expressionTerm
 
@@ -112,7 +112,5 @@ fIsType ::= propertySimple F_KEY_IS_TYPE X_OPEN_BRACKET type X_CLOSE_BRACKET
 body ::= (block | statement)
 
 block ::= KEY_BEGIN (statement X_SEMICOLON)* KEY_END
-
-blockAssign ::= KEY_BEGIN (assign X_SEMICOLON)* KEY_END
 
 blockDefine ::= KEY_BEGIN (varDef X_SEMICOLON)* KEY_END

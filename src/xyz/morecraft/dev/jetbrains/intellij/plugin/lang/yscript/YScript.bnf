@@ -45,7 +45,7 @@ withObj ::= KEY_WITH propertySimple KEY_DO body
 
 while ::= KEY_WHILE expression KEY_DO body
 
-create ::= KEY_CREATE propertySimple blockCreate
+create ::= KEY_CREATE propertySimple blockCreate?
 
 sort ::= KEY_SORT propertySimple KEY_USING package;
 

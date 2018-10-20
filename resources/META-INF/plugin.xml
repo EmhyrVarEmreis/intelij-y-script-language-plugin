@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript</id>
     <name>Y Script support (IAS)</name>
-    <version>0.3</version>
+    <version>0.2</version>
     <vendor email="mstef94@gmail.com" url="http://mateuszstefaniak.me/">Mateusz Stefaniak</vendor>
 
     <description><![CDATA[
@@ -15,6 +15,7 @@
             <li>Fix - Missing negative numbers</li>
             <li>Fix - Missing optional assignment operator (?=)</li>
             <li>Fix - Invalid matching multiline comments</li>
+            <li>Fix - CREATE block can be empty</li>
             <li>Add - Ability to make comments</li>
             <li>Add - Highlighting braces</li>
             <li>Add - Support for DEFINE</li>

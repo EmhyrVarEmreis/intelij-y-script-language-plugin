@@ -13,6 +13,7 @@
     <change-notes><![CDATA[
         <ul>
             <li>Fix - Missing negative numbers</li>
+            <li>Fix - Missing optional assignment operator (?=)</li>
             <li>Add - Ability to make comments</li>
             <li>Add - Highlighting braces</li>
             <li>Add - Support for DEFINE</li>

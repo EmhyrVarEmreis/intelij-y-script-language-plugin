@@ -49,7 +49,7 @@ withObj ::= KEY_WITH propertySimple KEY_DO body
 
 while ::= KEY_WHILE expression KEY_DO body
 
-create ::= KEY_CREATE propertySimple blockCreate?
+create ::= KEY_CREATE propertySimple block?
 
 sort ::= KEY_SORT propertySimple KEY_USING package;
 
@@ -59,13 +59,13 @@ delete ::= KEY_DELETE propertySimple
 
 try ::= KEY_TRY block (KEY_CATCH X_OPEN_BRACKET var X_CLOSE_BRACKET block)+
 
-throw ::= KEY_THROW KEY_NEW type blockCreate?
+throw ::= KEY_THROW (new | propertySimple)
 
 return ::= KEY_RETURN expression?;
 
 assign ::= propertySimple X_ASSIGN (expression | new)
 
-new ::= KEY_NEW type blockCreate
+new ::= KEY_NEW type blockAssign?
 
 expression ::= (expressionTerm operator expression) | expressionTerm
 
@@ -109,6 +109,6 @@ body ::= (block | statement)
 
 block ::= KEY_BEGIN (statement X_SEMICOLON)* KEY_END
 
-blockCreate ::= KEY_BEGIN (assign X_SEMICOLON)* KEY_END
+blockAssign ::= KEY_BEGIN (assign X_SEMICOLON)* KEY_END
 
 blockDefine ::= KEY_BEGIN (varDef X_SEMICOLON)* KEY_END

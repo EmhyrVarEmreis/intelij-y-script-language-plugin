@@ -19,6 +19,7 @@
             <li>Add - Ability to make comments</li>
             <li>Add - Highlighting braces</li>
             <li>Add - Support for DEFINE</li>
+            <li>Add - Support for EXTERNAL</li>
             <li>Add - Folding and highlighting code blocks</li>
             <li>Update - Syntax highlighter colors</li>
         </ul>

@@ -64,6 +64,8 @@ public class YScriptSyntaxHighlighter extends SyntaxHighlighterBase {
             return KEY_KEYS;
         } else if (tokenType.equals(YScriptTypes.KEY_EXTENSION)) {
             return KEY_KEYS;
+        } else if (tokenType.equals(YScriptTypes.KEY_EXTERNAL)) {
+            return KEY_KEYS;
         } else if (tokenType.equals(YScriptTypes.KEY_VAR)) {
             return KEY_KEYS;
         } else if (tokenType.equals(YScriptTypes.KEY_AS)) {

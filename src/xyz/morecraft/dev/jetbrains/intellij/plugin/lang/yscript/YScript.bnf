@@ -13,15 +13,19 @@
   tokenTypeClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptTokenType"
 }
 
-YScriptFile ::= item_*
+YScriptFile ::= item*
 
-private item_ ::= (import | program | define | COMMENT | EOL)
+private item ::= ((structuralItem X_SEMICOLON) | COMMENT | EOL)
 
-import ::= KEY_IMPORT package X_SEMICOLON
+structuralItem ::= (import | program | define)
 
-program ::= KEY_PROGRAM package X_OPEN_BRACKET vars? X_CLOSE_BRACKET (KEY_RETURNS type)? block X_SEMICOLON
+import ::= KEY_IMPORT package
 
-define ::= KEY_DEFINE type KEY_AS (KEY_EXTENSION KEY_OF type)? blockDefine X_SEMICOLON
+program ::= KEY_PROGRAM package X_OPEN_BRACKET vars? X_CLOSE_BRACKET (KEY_RETURNS type)? (block | externalProgram)
+
+externalProgram ::= KEY_EXTERNAL V_STRING X_OPEN_BRACKET arguments? X_CLOSE_BRACKET
+
+define ::= KEY_DEFINE type KEY_AS (KEY_EXTENSION KEY_OF type)? blockDefine
 
 package ::= IDENTIFIER (X_DOUBLE_COLON IDENTIFIER)*
 

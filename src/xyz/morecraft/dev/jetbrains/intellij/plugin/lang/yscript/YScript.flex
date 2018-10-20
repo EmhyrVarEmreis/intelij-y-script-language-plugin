@@ -37,7 +37,7 @@ V_NUMBER=-?\d+(\.\d+)?
 IDENTIFIER=[a-zA-Z]\w*
 
 COMMENT_1="//"[^\r\n]*
-COMMENT_2="/*".*"*/"
+COMMENT_2="/*"( [^*] | (\*+[^*/]) )*\*+\/
 
 KEY_IMPORT="IMPORT"
 KEY_PROGRAM="PROGRAM"

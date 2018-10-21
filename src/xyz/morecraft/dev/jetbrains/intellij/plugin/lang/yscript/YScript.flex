@@ -31,7 +31,7 @@ X_OPEN_SQUARE_BRACKET="["
 X_CLOSE_SQUARE_BRACKET="]"
 //X_QUOTATION_MARK=\"
 
-V_STRING=\"([^\\\"]|\\\\|\\\")*\"
+V_STRING=\"(\\.|[^\"\\])*\"
 V_NUMBER=-?\d+(\.\d+)?
 
 IDENTIFIER=[a-zA-Z]\w*

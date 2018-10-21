@@ -11,17 +11,18 @@
   elementTypeHolderClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptTypes"
   elementTypeClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptElementType"
   tokenTypeClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptTokenType"
+
+  psiImplUtilClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl.YScriptPsiImplUtil"
 }
 
-YScriptFile ::= item*
-
-private item ::= ((structuralItem X_SEMICOLON) | COMMENT | EOL)
+YScriptFile ::= ((structuralItem X_SEMICOLON) | COMMENT | EOL)*
 
 structuralItem ::= (import | program | define)
 
 import ::= KEY_IMPORT package
 
 program ::= KEY_PROGRAM package X_OPEN_BRACKET vars? X_CLOSE_BRACKET (KEY_RETURNS type)? (block | externalProgram)
+    {methods=[getPackageName]}
 
 externalProgram ::= KEY_EXTERNAL V_STRING X_OPEN_BRACKET arguments? X_CLOSE_BRACKET
 

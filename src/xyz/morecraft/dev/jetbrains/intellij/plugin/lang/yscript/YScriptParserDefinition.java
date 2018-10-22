@@ -54,10 +54,12 @@ public class YScriptParserDefinition implements ParserDefinition {
         return FILE;
     }
 
+    @Override
     public PsiFile createFile(FileViewProvider viewProvider) {
         return new YScriptFile(viewProvider);
     }
 
+    @Override
     public SpaceRequirements spaceExistenceTypeBetweenTokens(ASTNode left, ASTNode right) {
         return SpaceRequirements.MAY;
     }

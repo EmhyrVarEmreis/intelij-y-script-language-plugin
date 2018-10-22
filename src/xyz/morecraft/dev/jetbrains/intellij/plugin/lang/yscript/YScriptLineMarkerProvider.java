@@ -5,7 +5,10 @@ import com.intellij.codeInsight.daemon.RelatedItemLineMarkerProvider;
 import com.intellij.codeInsight.navigation.NavigationGutterIconBuilder;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.stubs.StubIndex;
+import com.intellij.util.indexing.FileBasedIndex;
 import org.jetbrains.annotations.NotNull;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptStubIndexKeys;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptCall;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptPackage;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptProgram;
@@ -48,7 +51,13 @@ public class YScriptLineMarkerProvider extends RelatedItemLineMarkerProvider {
         super.collectNavigationMarkers(element, result);
         if (element instanceof YScriptCall) {
             final YScriptCall yScriptCall = (YScriptCall) element;
-            final String programName = yScriptCall.getPackage().getText();
+            final YScriptPackage yScriptPackage = yScriptCall.getPackage();
+            final String programName = yScriptPackage.getText();
+            StubIndex.getInstance().getAllKeys(
+                    YScriptStubIndexKeys.PROGRAM_NAME,
+                    element.getProject()
+            ).forEach(System.out::println);
+//            FileBasedIndex.getInstance().getValues()
             final Project project = element.getProject();
             final List<YScriptProgram> properties = YScriptUtil.findPrograms(project, programName);
             if (properties.size() > 0) {
@@ -59,8 +68,8 @@ public class YScriptLineMarkerProvider extends RelatedItemLineMarkerProvider {
                 NavigationGutterIconBuilder<PsiElement> builder =
                         NavigationGutterIconBuilder.create(YScriptIcons.FILE)
                                 .setTargets(targets)
-                                .setTooltipText("Navigate to " + programName + "()");
-                result.add(builder.createLineMarkerInfo(element));
+                                .setTooltipText("Navigate to program " + programName);
+                result.add(builder.createLineMarkerInfo(yScriptPackage.getFirstChild()));
             }
         }
     }

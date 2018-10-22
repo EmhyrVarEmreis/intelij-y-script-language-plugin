@@ -9,7 +9,7 @@ import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.TokenType;
-import com.intellij.psi.tree.IFileElementType;
+import com.intellij.psi.tree.IStubFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import org.jetbrains.annotations.NotNull;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.parser.YScriptParser;
@@ -21,7 +21,7 @@ public class YScriptParserDefinition implements ParserDefinition {
     public static final TokenSet WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE);
     public static final TokenSet COMMENTS = TokenSet.create(YScriptTypes.COMMENT);
 
-    public static final IFileElementType FILE = new IFileElementType(YScript.INSTANCE);
+    public static final IStubFileElementType FILE = new IStubFileElementType(YScript.INSTANCE);
 
     @NotNull
     @Override
@@ -50,7 +50,7 @@ public class YScriptParserDefinition implements ParserDefinition {
     }
 
     @Override
-    public IFileElementType getFileNodeType() {
+    public IStubFileElementType getFileNodeType() {
         return FILE;
     }
 

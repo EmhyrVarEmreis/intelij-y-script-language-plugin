@@ -22,7 +22,7 @@ structuralItem ::= (import | program | define)
 import ::= KEY_IMPORT package
 
 program ::= KEY_PROGRAM package X_OPEN_BRACKET vars? X_CLOSE_BRACKET (KEY_RETURNS type)? (block | externalProgram)
-    {methods=[getPackageName]}
+    {methods=[getPackageName]; stubClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptProgramStubElement"}
 
 externalProgram ::= KEY_EXTERNAL V_STRING X_OPEN_BRACKET arguments? X_CLOSE_BRACKET
 

@@ -31,6 +31,8 @@
         <lang.braceMatcher language="YScript" implementationClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.YScriptPairedBraceMatcher"/>
         <lang.foldingBuilder language="YScript" implementationClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.YScriptFoldingBuilder"/>
         <codeInsight.lineMarkerProvider language="YScript" implementationClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.YScriptLineMarkerProvider"/>
+        <stubElementTypeHolder class="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptElementTypes"/>
+        <stubIndex implementation="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptProgramNameFBIdx"/>
     </extensions>
 
     <actions>

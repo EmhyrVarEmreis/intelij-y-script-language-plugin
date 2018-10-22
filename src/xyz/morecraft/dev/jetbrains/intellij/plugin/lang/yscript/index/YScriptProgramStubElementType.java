@@ -8,21 +8,21 @@ import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl.YScript
 
 import java.io.IOException;
 
-public class YScriptProgramStubElementType extends IStubElementType<YScriptProgramStubElement, YScriptProgram> {
+public class YScriptProgramStubElementType extends IStubElementType<YScriptProgramStub, YScriptProgram> {
 
     public YScriptProgramStubElementType() {
         super("PROGRAM", YScriptElementTypes.LANG);
     }
 
     @Override
-    public YScriptProgram createPsi(@NotNull YScriptProgramStubElement stub) {
+    public YScriptProgram createPsi(@NotNull YScriptProgramStub stub) {
         return new YScriptProgramImpl(stub, this);
     }
 
     @NotNull
     @Override
-    public YScriptProgramStubElement createStub(@NotNull YScriptProgram yScriptProgram, StubElement parentStub) {
-        return new YScriptProgramStubElementImpl(parentStub, yScriptProgram.getPackageName());
+    public YScriptProgramStub createStub(@NotNull YScriptProgram yScriptProgram, StubElement parentStub) {
+        return new YScriptProgramStubImpl(parentStub, yScriptProgram.getPackageName());
     }
 
     @NotNull
@@ -32,20 +32,20 @@ public class YScriptProgramStubElementType extends IStubElementType<YScriptProgr
     }
 
     @Override
-    public void serialize(@NotNull YScriptProgramStubElement stub, @NotNull StubOutputStream dataStream) throws IOException {
+    public void serialize(@NotNull YScriptProgramStub stub, @NotNull StubOutputStream dataStream) throws IOException {
         dataStream.writeName(stub.getPackageName());
     }
 
     @NotNull
     @Override
-    public YScriptProgramStubElement deserialize(@NotNull StubInputStream dataStream, StubElement parentStub) throws IOException {
+    public YScriptProgramStub deserialize(@NotNull StubInputStream dataStream, StubElement parentStub) throws IOException {
         final StringRef ref = dataStream.readName();
         //noinspection ConstantConditions
-        return new YScriptProgramStubElementImpl(parentStub, ref.getString());
+        return new YScriptProgramStubImpl(parentStub, ref.getString());
     }
 
     @Override
-    public void indexStub(@NotNull YScriptProgramStubElement stub, @NotNull IndexSink indexSink) {
+    public void indexStub(@NotNull YScriptProgramStub stub, @NotNull IndexSink indexSink) {
         indexSink.occurrence(YScriptStubIndexKeys.PROGRAM_NAME, stub.getPackageName());
     }
 

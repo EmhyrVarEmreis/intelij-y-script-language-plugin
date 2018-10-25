@@ -14,6 +14,8 @@
     <change-notes><![CDATA[
         <ul>
             <li>Add - Line markers for program calls</li>
+            <li>Add - Lime markers for unresolved program calls</li>
+            <li>Add - Mark some build-in programs as keywords</li>
         </ul>
     ]]>
     </change-notes>

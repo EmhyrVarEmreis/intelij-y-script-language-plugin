@@ -43,7 +43,7 @@ varDef ::= IDENTIFIER KEY_AS type
 
 type ::= (KEY_ARRAY KEY_OF)? IDENTIFIER (X_COLON V_STRING)?
 
-statement ::= (var | return | if | with | while | create | sort | index | delete | try | throw | for | assign | merge | call)
+statement ::= (var | return | if | with | while | create | sort | index | delete | try | throw | for | assign | merge | anyCall)
 
 if ::= KEY_IF expression KEY_THEN body (KEY_ELSE body)?
 
@@ -83,17 +83,19 @@ expressionTerm ::= (expressionFactor operator expressionTerm) | expressionFactor
 
 expressionFactor ::= (expressionDotted | expressionSimple)
 
-expressionDotted ::= (expressionBraced | cast | call) (X_DOT expressionFactor)?
+expressionDotted ::= (expressionBraced | cast | anyCall) (X_DOT expressionFactor)?
 
 expressionBraced ::= X_OPEN_BRACKET expression X_CLOSE_BRACKET
 
-expressionSimple ::= KEY_NEGATION? (fIsInstance | fIsType | cast | call | value | boolean | propertySimple)
+expressionSimple ::= KEY_NEGATION? (fIsInstance | fIsType | cast | anyCall | value | boolean | propertySimple)
 
 operator ::= (KEY_AND | KEY_OR | OP_LT | OP_GT | OP_LTE | OP_GTE | OP_PLUS | OP_MINUS | OP_MUL | OP_DIVIDE | OP_MODULO | OP_EQIALS | OP_NEQUALS)
 
 boolean ::= (KEY_TRUE | KEY_FALSE)
 
 cast ::= X_OPEN_BRACKET expressionFactor KEY_AS type X_CLOSE_BRACKET
+
+private anyCall ::= fSizeOf | fIsSet | fCopyOf | call
 
 call ::= package X_OPEN_BRACKET arguments? X_CLOSE_BRACKET
 
@@ -114,6 +116,12 @@ fIsInstance ::= propertySimple F_KEY_IS_INSTANCE X_OPEN_BRACKET type X_CLOSE_BRA
 
 fIsType ::= propertySimple F_KEY_IS_TYPE X_OPEN_BRACKET type X_CLOSE_BRACKET
 // TODO 'expression' instead of 'propertySimple'
+
+fSizeOf ::= F_KEY_SIZE_OF X_OPEN_BRACKET arguments? X_CLOSE_BRACKET
+
+fIsSet ::= F_KEY_IS_SET X_OPEN_BRACKET arguments? X_CLOSE_BRACKET
+
+fCopyOf ::= F_KEY_COPY_OF X_OPEN_BRACKET arguments? X_CLOSE_BRACKET
 
 body ::= (block | statement)
 

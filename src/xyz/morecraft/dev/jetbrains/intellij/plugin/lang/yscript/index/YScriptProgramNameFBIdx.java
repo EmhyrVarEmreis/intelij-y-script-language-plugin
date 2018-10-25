@@ -31,4 +31,9 @@ public class YScriptProgramNameFBIdx extends AbstractStubIndex<String, YScriptPr
         return YScriptProgramNameFBIdxKeyDescriptor.INSTANCE;
     }
 
+    @Override
+    public int getCacheSize() {
+        return 4 * 1024;
+    }
+
 }

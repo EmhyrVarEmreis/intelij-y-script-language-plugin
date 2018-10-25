@@ -6,18 +6,15 @@ import com.intellij.codeInsight.navigation.NavigationGutterIconBuilder;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.psi.stubs.StubIndex;
-import com.intellij.util.indexing.FileBasedIndex;
 import org.jetbrains.annotations.NotNull;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptProgramNameFBIdx;
-import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptStubIndexKeys;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptCall;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptPackage;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptProgram;
-import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScriptUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class YScriptLineMarkerProvider extends RelatedItemLineMarkerProvider {
@@ -43,7 +40,13 @@ public class YScriptLineMarkerProvider extends RelatedItemLineMarkerProvider {
                 NavigationGutterIconBuilder<PsiElement> builder =
                         NavigationGutterIconBuilder.create(YScriptIcons.PROGRAM_REF)
                                 .setTargets(targets)
-                                .setTooltipText("Navigate to program " + programName);
+                                .setTooltipText("Navigate to program `" + programName + "`");
+                result.add(builder.createLineMarkerInfo(yScriptPackage.getFirstChild()));
+            } else {
+                NavigationGutterIconBuilder<PsiElement> builder =
+                        NavigationGutterIconBuilder.create(YScriptIcons.PROGRAM_ERR)
+                                .setTargets(Collections.emptyList())
+                                .setTooltipText("Program `" + programName + "` does not exist!");
                 result.add(builder.createLineMarkerInfo(yScriptPackage.getFirstChild()));
             }
         }

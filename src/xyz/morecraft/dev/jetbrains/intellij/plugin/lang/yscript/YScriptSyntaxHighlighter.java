@@ -138,6 +138,10 @@ public class YScriptSyntaxHighlighter extends SyntaxHighlighterBase {
             return KEY_KEYS;
         } else if (tokenType.equals(YScriptTypes.F_KEY_COPY_OF)) {
             return KEY_KEYS;
+        } else if (tokenType.equals(YScriptTypes.F_KEY_IS_NULL)) {
+            return KEY_KEYS;
+        } else if (tokenType.equals(YScriptTypes.F_KEY_TYPE)) {
+            return KEY_KEYS;
         } else if (tokenType.equals(YScriptTypes.X_DOT)) {
             return SEPARATOR_KEYS;
         } else if (tokenType.equals(YScriptTypes.X_COMMA)) {

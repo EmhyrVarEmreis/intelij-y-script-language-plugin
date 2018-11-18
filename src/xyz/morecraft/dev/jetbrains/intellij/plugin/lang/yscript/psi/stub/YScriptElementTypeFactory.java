@@ -8,6 +8,7 @@ public class YScriptElementTypeFactory {
 
     public static IStubElementType stubFactory(@NotNull String name) {
         if ("PROGRAM".equals(name)) return YScriptElementTypes.PROGRAM;
+        if ("FILE_CONTENT".equals(name)) return YScriptElementTypes.FILE_CONTENT;
         throw new RuntimeException("Unknown element type: " + name);
     }
 

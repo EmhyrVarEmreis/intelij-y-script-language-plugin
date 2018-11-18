@@ -6,10 +6,9 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.search.GlobalSearchScope;
 import org.jetbrains.annotations.NotNull;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptFilePackageFBIdx;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptProgramNameFBIdx;
-import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptCall;
-import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptPackage;
-import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptProgram;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.*;
 
 import java.util.Collection;
 
@@ -28,7 +27,20 @@ public class YscriptAnnotator implements Annotator {
                     GlobalSearchScope.projectScope(project)
             );
             if (properties.size() == 0) {
-                holder.createErrorAnnotation(yScriptPackage.getTextRange(), "Unresolved program");
+                holder.createErrorAnnotation(yScriptCall.getTextRange(), "Unresolved program");
+            }
+        } else if (element instanceof YScriptImport) {
+            final YScriptImport yScriptImport = (YScriptImport) element;
+            final YScriptPackage yScriptPackage = yScriptImport.getPackage();
+            final String filePackage = yScriptPackage.getText();
+            final Project project = element.getProject();
+            final Collection<YScriptFileContent> properties = YScriptFilePackageFBIdx.getInstance().get(
+                    filePackage,
+                    project,
+                    GlobalSearchScope.projectScope(project)
+            );
+            if (properties.size() == 0) {
+                holder.createErrorAnnotation(yScriptImport.getTextRange(), "Unresolved file");
             }
         }
     }

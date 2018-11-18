@@ -8,9 +8,9 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-public class YScriptProgramNameFBIdxKeyDescriptor implements KeyDescriptor<String>  {
+public class YScriptStringKeyDescriptor implements KeyDescriptor<String>  {
 
-    public static final YScriptProgramNameFBIdxKeyDescriptor INSTANCE = new YScriptProgramNameFBIdxKeyDescriptor();
+    public static final YScriptStringKeyDescriptor INSTANCE = new YScriptStringKeyDescriptor();
 
     @Override
     public int getHashCode(final String value) {

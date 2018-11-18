@@ -15,7 +15,15 @@
   psiImplUtilClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl.YScriptPsiImplUtil"
 }
 
-YScriptFile ::= ((structuralItem X_SEMICOLON) | COMMENT | EOL)*
+YScriptFile ::= fileContent
+
+//noinspection BnfResolve
+fileContent ::= ((structuralItem X_SEMICOLON) | COMMENT | EOL)* {
+   methods=[getName];
+   stubClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptFileContentStub";
+   extends="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl.YScriptStubbedElementImpl<?>";
+   elementTypeFactory="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.stub.YScriptElementTypeFactory.stubFactory"
+}
 
 structuralItem ::= (import | program | define)
 

@@ -8,5 +8,6 @@ public class YScriptElementTypes {
     static YScript LANG = YScript.INSTANCE;
 
     public static IStubElementType PROGRAM = new YScriptProgramStubElementType();
+    public static IStubElementType FILE_CONTENT = new YScriptFileContentStubElementType();
 
 }

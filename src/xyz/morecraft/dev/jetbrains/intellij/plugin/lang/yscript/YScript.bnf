@@ -67,7 +67,7 @@ try ::= KEY_TRY block (KEY_CATCH X_OPEN_BRACKET var X_CLOSE_BRACKET block)+
 
 throw ::= KEY_THROW (new | expression)
 
-for ::= KEY_FOR IDENTIFIER X_ASSIGN V_NUMBER KEY_TO expression KEY_DO block
+for ::= KEY_FOR IDENTIFIER X_ASSIGN V_NUMBER KEY_TO expression KEY_DO body
 
 return ::= KEY_RETURN expression?;
 

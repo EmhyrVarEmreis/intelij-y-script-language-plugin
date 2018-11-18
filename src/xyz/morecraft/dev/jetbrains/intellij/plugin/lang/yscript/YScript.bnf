@@ -81,7 +81,7 @@ expression ::= (expressionTerm operator expression) | expressionTerm
 
 expressionTerm ::= (expressionFactor operator expressionTerm) | expressionFactor
 
-expressionFactor ::= (expressionDotted | expressionSimple)
+expressionFactor ::= (expressionDotted | expressionSimple | new)
 
 expressionDotted ::= (expressionBraced | cast | anyCall) (X_DOT expressionFactor)?
 

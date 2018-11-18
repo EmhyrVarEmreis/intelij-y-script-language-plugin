@@ -22,7 +22,7 @@ public class YScriptProgramStubElementType extends IStubElementType<YScriptProgr
     @NotNull
     @Override
     public YScriptProgramStub createStub(@NotNull YScriptProgram yScriptProgram, StubElement parentStub) {
-        return new YScriptProgramStubImpl(parentStub, yScriptProgram.getPackageName());
+        return new YScriptProgramStubImpl(parentStub, yScriptProgram.getName());
     }
 
     @NotNull

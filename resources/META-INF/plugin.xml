@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript</id>
     <name>Y Script support (IAS)</name>
-    <version>0.3.6</version>
+    <version>0.3.7</version>
     <vendor email="mstef94@gmail.com" url="http://mateuszstefaniak.me/">Mateusz Stefaniak</vendor>
 
     <description><![CDATA[
@@ -15,6 +15,7 @@
         <ul>
             <li>Add - Mark some build-in programs as keywords - Added "TYPE" and "ISNULL"</li>
             <li>Add - Support for NULL keyword</li>
+            <li>Add - Annotator for unresolved programs</li>
             <li>Fix - Fixed #5 (issue from GH)</li>
             <li>Fix - Fixed #1 (issue from GH)</li>
         </ul>
@@ -36,6 +37,7 @@
         <codeInsight.lineMarkerProvider language="YScript" implementationClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.YScriptLineMarkerProvider"/>
         <stubElementTypeHolder class="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptElementTypes"/>
         <stubIndex implementation="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptProgramNameFBIdx"/>
+        <annotator language="YScript" implementationClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.YscriptAnnotator"/>
     </extensions>
 
     <actions>

@@ -1,17 +1,28 @@
 package xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl;
 
-import com.intellij.psi.PsiElement;
-import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptProgram;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.*;
 
 public class YScriptPsiImplUtil {
 
-    public static String getPackageName(YScriptProgram element) {
+    public static String getName(YScriptProgram element) {
 //        ASTNode keyNode = element.getNode().findChildByType(YScriptTypes.PACKAGE);
-        return element.getPackage().getText();
+        return getName(element.getPackage());
     }
 
-    public static void consumeToken(PsiElement element) {
-        System.out.println(element.getClass());
+    public static String getName(YScriptCall element) {
+        return getName(element.getPackage());
+    }
+
+    public static String getName(YScriptPropertyBase element) {
+        return getName(element.getVarName());
+    }
+
+    public static String getName(YScriptPackage element) {
+        return element.getText();
+    }
+
+    public static String getName(YScriptVarName element) {
+        return element.getText();
     }
 
 }

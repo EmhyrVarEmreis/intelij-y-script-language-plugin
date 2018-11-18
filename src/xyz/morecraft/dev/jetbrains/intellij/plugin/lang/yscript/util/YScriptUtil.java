@@ -33,7 +33,7 @@ public class YScriptUtil {
                         if (Objects.isNull(yScriptProgram)) {
                             continue;
                         }
-                        if (programName.equals(yScriptProgram.getPackageName())) {
+                        if (programName.equals(yScriptProgram.getName())) {
                             if (result == null) {
                                 result = new ArrayList<>();
                             }

@@ -23,7 +23,7 @@ import ::= KEY_IMPORT package
 
 //noinspection BnfResolve
 program ::= KEY_PROGRAM package X_OPEN_BRACKET vars? X_CLOSE_BRACKET (KEY_RETURNS type)? (block | externalProgram) {
-    methods=[getPackageName];
+    methods=[getName];
     stubClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptProgramStub";
     extends="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl.YScriptStubbedElementImpl<?>";
     elementTypeFactory="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.stub.YScriptElementTypeFactory.stubFactory"
@@ -39,9 +39,9 @@ vars ::= var (X_COMMA var)*
 
 var ::= KEY_VAR varDef
 
-varDef ::= IDENTIFIER KEY_AS type
+varDef ::= varName KEY_AS type
 
-type ::= (KEY_ARRAY KEY_OF)? IDENTIFIER (X_COLON V_STRING)?
+type ::= (KEY_ARRAY KEY_OF)? varName (X_COLON V_STRING)?
 
 statement ::= (var | return | if | with | while | create | sort | index | delete | try | throw | for | assign | merge | anyCall)
 
@@ -49,7 +49,7 @@ if ::= KEY_IF expression KEY_THEN body (KEY_ELSE body)?
 
 with ::= (withLoop | withObj)
 
-withLoop ::= KEY_WITH IDENTIFIER KEY_AS expression KEY_DO body
+withLoop ::= KEY_WITH varName KEY_AS expression KEY_DO body
 
 withObj ::= KEY_WITH propertySimple KEY_DO body
 
@@ -67,7 +67,7 @@ try ::= KEY_TRY block (KEY_CATCH X_OPEN_BRACKET var X_CLOSE_BRACKET block)+
 
 throw ::= KEY_THROW (new | expression)
 
-for ::= KEY_FOR IDENTIFIER X_ASSIGN V_NUMBER KEY_TO expression KEY_DO body
+for ::= KEY_FOR varName X_ASSIGN V_NUMBER KEY_TO expression KEY_DO body
 
 return ::= KEY_RETURN expression?;
 
@@ -103,7 +103,7 @@ arguments ::= expression (X_COMMA expression)*
 
 propertySimple ::= propertyBase (X_DOT propertyBase)*
 
-propertyBase ::= IDENTIFIER (bracketSingleExpression|bracketDoubleExpression)?
+propertyBase ::= varName (bracketSingleExpression|bracketDoubleExpression)?
 
 bracketSingleExpression ::= X_OPEN_SQUARE_BRACKET expression X_CLOSE_SQUARE_BRACKET
 
@@ -132,3 +132,5 @@ body ::= (block | statement)
 block ::= KEY_BEGIN (statement X_SEMICOLON)* KEY_END
 
 blockDefine ::= KEY_BEGIN (varDef X_SEMICOLON)* KEY_END
+
+varName ::= IDENTIFIER

@@ -128,6 +128,8 @@ public class YScriptSyntaxHighlighter extends SyntaxHighlighterBase {
             return KEY_KEYS;
         } else if (tokenType.equals(YScriptTypes.KEY_FALSE)) {
             return KEY_KEYS;
+        } else if (tokenType.equals(YScriptTypes.KEY_NULL)) {
+            return KEY_KEYS;
         } else if (tokenType.equals(YScriptTypes.F_KEY_IS_INSTANCE)) {
             return KEY_KEYS;
         } else if (tokenType.equals(YScriptTypes.F_KEY_IS_TYPE)) {

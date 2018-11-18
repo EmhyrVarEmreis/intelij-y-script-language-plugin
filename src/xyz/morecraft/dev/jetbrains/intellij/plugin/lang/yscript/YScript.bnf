@@ -109,7 +109,7 @@ bracketSingleExpression ::= X_OPEN_SQUARE_BRACKET expression X_CLOSE_SQUARE_BRAC
 
 bracketDoubleExpression ::= X_OPEN_SQUARE_BRACKET X_OPEN_SQUARE_BRACKET expression X_CLOSE_SQUARE_BRACKET X_CLOSE_SQUARE_BRACKET
 
-value ::= (V_STRING|V_NUMBER)
+value ::= (KEY_NULL | V_STRING | V_NUMBER)
 
 fIsInstance ::= propertySimple F_KEY_IS_INSTANCE X_OPEN_BRACKET type X_CLOSE_BRACKET
 // TODO 'expression' instead of 'propertySimple'

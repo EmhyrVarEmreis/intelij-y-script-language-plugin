@@ -1,10 +1,11 @@
 package xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl;
 
-import com.intellij.openapi.util.Key;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class YScriptPsiImplUtil {
@@ -41,12 +42,38 @@ public class YScriptPsiImplUtil {
         return getName(element.getVarName());
     }
 
+    public static String getName(YScriptImport element) {
+        return getName(element.getPackage());
+    }
+
     public static String getName(YScriptPackage element) {
         return element.getText();
     }
 
     public static String getName(YScriptVarName element) {
         return element.getText();
+    }
+
+    public static List<String> getImportNames(YScriptFileContent element) {
+        List<String> list = new ArrayList<>();
+        for (YScriptStructuralItem yScriptStructuralItem : element.getStructuralItemList()) {
+            final YScriptImport yScriptElement = yScriptStructuralItem.getImport();
+            if (Objects.nonNull(yScriptElement)) {
+                list.add(getName(yScriptElement));
+            }
+        }
+        return list;
+    }
+
+    public static List<String> getProgramNames(YScriptFileContent element) {
+        List<String> list = new ArrayList<>();
+        for (YScriptStructuralItem yScriptStructuralItem : element.getStructuralItemList()) {
+            final YScriptProgram yScriptElement = yScriptStructuralItem.getProgram();
+            if (Objects.nonNull(yScriptElement)) {
+                list.add(getName(yScriptElement));
+            }
+        }
+        return list;
     }
 
 }

@@ -19,7 +19,7 @@ YScriptFile ::= fileContent
 
 //noinspection BnfResolve
 fileContent ::= ((structuralItem X_SEMICOLON) | COMMENT | EOL)* {
-   methods=[getName];
+   methods=[getName getImportNames getProgramNames];
    stubClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptFileContentStub";
    extends="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl.YScriptStubbedElementImpl<?>";
    elementTypeFactory="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.stub.YScriptElementTypeFactory.stubFactory"

@@ -6,11 +6,11 @@ import com.intellij.util.io.KeyDescriptor;
 import org.jetbrains.annotations.NotNull;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptFileContent;
 
-public class YScriptFilePackageFBIdx extends AbstractStubIndex<String, YScriptFileContent> {
+public class YScriptFileContentFBIdx extends AbstractStubIndex<String, YScriptFileContent> {
 
-    private static final YScriptFilePackageFBIdx ourInstance = new YScriptFilePackageFBIdx();
+    private static final YScriptFileContentFBIdx ourInstance = new YScriptFileContentFBIdx();
 
-    public static YScriptFilePackageFBIdx getInstance() {
+    public static YScriptFileContentFBIdx getInstance() {
         return ourInstance;
     }
 

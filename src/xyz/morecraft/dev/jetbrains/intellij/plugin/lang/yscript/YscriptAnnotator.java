@@ -6,11 +6,14 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.search.GlobalSearchScope;
 import org.jetbrains.annotations.NotNull;
-import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptFilePackageFBIdx;
+import org.jetbrains.annotations.Nullable;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptFileContentFBIdx;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptProgramNameFBIdx;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.*;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl.YScriptPsiImplUtil;
 
 import java.util.Collection;
+import java.util.Objects;
 
 public class YscriptAnnotator implements Annotator {
 
@@ -21,28 +24,83 @@ public class YscriptAnnotator implements Annotator {
             final YScriptPackage yScriptPackage = yScriptCall.getPackage();
             final String programName = yScriptPackage.getText();
             final Project project = element.getProject();
-            final Collection<YScriptProgram> properties = YScriptProgramNameFBIdx.getInstance().get(
-                    programName,
-                    project,
-                    GlobalSearchScope.projectScope(project)
-            );
-            if (properties.size() == 0) {
+            final Collection<YScriptProgram> collection = getYScriptProgramNameFBIdx(programName, project);
+            if (collection.size() == 0) {
                 holder.createErrorAnnotation(yScriptCall.getTextRange(), "Unresolved program");
+            } else {
+                if (!isImported(yScriptCall, project)) {
+                    holder.createErrorAnnotation(yScriptCall.getTextRange(), "Program is not imported");
+                }
             }
         } else if (element instanceof YScriptImport) {
             final YScriptImport yScriptImport = (YScriptImport) element;
             final YScriptPackage yScriptPackage = yScriptImport.getPackage();
             final String filePackage = yScriptPackage.getText();
             final Project project = element.getProject();
-            final Collection<YScriptFileContent> properties = YScriptFilePackageFBIdx.getInstance().get(
-                    filePackage,
-                    project,
-                    GlobalSearchScope.projectScope(project)
-            );
-            if (properties.size() == 0) {
+            final Collection<YScriptFileContent> collection = getYScriptFileContentFBIdx(filePackage, project);
+            if (collection.size() == 0) {
                 holder.createErrorAnnotation(yScriptImport.getTextRange(), "Unresolved file");
             }
         }
+    }
+
+    private static Collection<YScriptProgram> getYScriptProgramNameFBIdx(String name, Project project) {
+        return YScriptProgramNameFBIdx.getInstance().get(
+                name,
+                project,
+                GlobalSearchScope.projectScope(project)
+        );
+    }
+
+    private static Collection<YScriptFileContent> getYScriptFileContentFBIdx(String name, Project project) {
+        return YScriptFileContentFBIdx.getInstance().get(
+                name,
+                project,
+                GlobalSearchScope.projectScope(project)
+        );
+    }
+
+    private static YScriptFileContent getFileContent(@Nullable PsiElement element) {
+        if (Objects.isNull(element)) {
+            return null;
+        } else if (element instanceof YScriptFileContent) {
+            return (YScriptFileContent) element;
+        } else {
+            return getFileContent(element.getParent());
+        }
+    }
+
+    private static boolean isImported(YScriptCall yScriptCall, Project project) {
+        final YScriptFileContent yScriptFileContent = getFileContent(yScriptCall);
+        if (Objects.nonNull(yScriptFileContent)) {
+            final String name = YScriptPsiImplUtil.getName(yScriptCall);
+            final Collection<YScriptFileContent> filesFromParentFile = getYScriptFileContentFBIdx(yScriptFileContent.getName(), project);
+            boolean isPresent = false;
+            for (YScriptFileContent fileContent : filesFromParentFile) {
+                for (String importName : fileContent.getImportNames()) {
+                    final Collection<YScriptFileContent> filesFromImport = getYScriptFileContentFBIdx(importName, project);
+                    for (YScriptFileContent fileFromImport : filesFromImport) {
+                        for (String programNameFromImportedFiles : fileFromImport.getProgramNames()) {
+                            if (name.equalsIgnoreCase(programNameFromImportedFiles)) {
+                                isPresent = true;
+                                break;
+                            }
+                        }
+                        if (isPresent) {
+                            break;
+                        }
+                    }
+                    if (isPresent) {
+                        break;
+                    }
+                }
+                if (isPresent) {
+                    break;
+                }
+            }
+            return isPresent;
+        }
+        return true;
     }
 
 }

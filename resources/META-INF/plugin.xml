@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript</id>
     <name>Y Script support (IAS)</name>
-    <version>0.3.9</version>
+    <version>0.3.10</version>
     <vendor email="mstef94@gmail.com" url="http://mateuszstefaniak.me/">Mateusz Stefaniak</vendor>
 
     <description><![CDATA[
@@ -18,6 +18,7 @@
             <li>Add - Annotator for unresolved programs</li>
             <li>Add - Annotator for unresolved imports</li>
             <li>Add - Annotator for not imported programs</li>
+            <li>Add - Allowed "_" (underscore) in identifiers</li>
             <li>Fix - Fixed #5 (issue from GH)</li>
             <li>Fix - Fixed #1 (issue from GH)</li>
         </ul>

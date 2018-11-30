@@ -34,7 +34,7 @@ X_CLOSE_SQUARE_BRACKET="]"
 V_STRING=\"(\\.|[^\"\\])*\"
 V_NUMBER=-?\d+(\.\d+)?
 
-IDENTIFIER=[a-zA-Z]\w*
+IDENTIFIER=[a-zA-Z_]\w*
 
 COMMENT_1="//"[^\r\n]*
 COMMENT_2="/*"( [^*] | (\*+[^*/]) )*\*+\/

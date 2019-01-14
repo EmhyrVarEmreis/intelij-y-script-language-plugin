@@ -17,11 +17,7 @@ public class YScriptPsiImplUtil {
 
     public static String getName(YScriptFileContent element) {
         final PsiFile containingFile = element.getContainingFile();
-        final VirtualFile virtualFile = containingFile.getVirtualFile();
-        if (Objects.isNull(virtualFile)) {
-            return "";
-        }
-        final String path = virtualFile.getCanonicalPath();
+        final String path = getPathFromContainingFile(containingFile);
         if (Objects.isNull(path)) {
             return "";
         }
@@ -32,6 +28,17 @@ public class YScriptPsiImplUtil {
         } else {
             return dottedPath;
         }
+    }
+
+    private static String getPathFromContainingFile(final PsiFile containingFile) {
+        VirtualFile virtualFile = containingFile.getVirtualFile();
+        if (Objects.isNull(virtualFile)) {
+            virtualFile = containingFile.getOriginalFile().getVirtualFile();
+            if (Objects.isNull(virtualFile)) {
+                return null;
+            }
+        }
+        return virtualFile.getCanonicalPath();
     }
 
     public static String getName(YScriptCall element) {

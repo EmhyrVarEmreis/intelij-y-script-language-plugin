@@ -2,11 +2,13 @@ package xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.indexing.FileBasedIndex;
+import com.intellij.util.indexing.IndexingDataKeys;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.YScriptFileType;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptFile;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptProgram;
@@ -44,6 +46,18 @@ public class YScriptUtil {
             }
         }
         return result != null ? result : Collections.emptyList();
+    }
+
+    public static String getPathFromContainingFile(final PsiFile containingFile) {
+        final PsiFile originalFile = containingFile.getOriginalFile();
+        VirtualFile virtualFile = originalFile.getVirtualFile();
+        if (Objects.isNull(virtualFile)) {
+            virtualFile = originalFile.getUserData(IndexingDataKeys.VIRTUAL_FILE);
+            if (Objects.isNull(virtualFile)) {
+                return null;
+            }
+        }
+        return virtualFile.getCanonicalPath();
     }
 
 }

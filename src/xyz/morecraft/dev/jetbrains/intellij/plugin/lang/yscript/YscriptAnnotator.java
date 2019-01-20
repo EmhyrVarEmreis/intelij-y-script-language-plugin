@@ -3,6 +3,7 @@ package xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.search.GlobalSearchScope;
 import org.jetbrains.annotations.NotNull;
@@ -11,6 +12,7 @@ import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptFil
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptProgramNameFBIdx;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.*;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl.YScriptPsiImplUtil;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScriptUtil;
 
 import java.util.Collection;
 import java.util.Objects;
@@ -44,9 +46,25 @@ public class YscriptAnnotator implements Annotator {
             final Project project = element.getProject();
             final Collection<YScriptFileContent> collection = getYScriptFileContentFBIdx(filePackage, project);
             if (collection.size() == 0) {
-                holder.createErrorAnnotation(yScriptImport.getTextRange(), "Unresolved file");
+                final boolean directoryExists = checkIfDirectoryExists(filePackage, yScriptImport);
+                if (!directoryExists) {
+                    holder.createErrorAnnotation(yScriptImport.getTextRange(), "Unresolved file or directory");
+                }
             }
         }
+    }
+
+    private static boolean checkIfDirectoryExists(final String packageName, final PsiElement element) {
+        final String rawPath = YScriptUtil.getPathFromContainingFile(element.getContainingFile());
+        if (Objects.isNull(rawPath)) {
+            return false;
+        }
+        final int i = rawPath.indexOf("/lang/");
+        if (i == -1) {
+            return false;
+        }
+        final String path = rawPath.substring(0, i + 6) + packageName.replaceAll("::", "/");
+        return Objects.nonNull(LocalFileSystem.getInstance().findFileByPath(path));
     }
 
     private static Collection<YScriptProgram> getYScriptProgramNameFBIdx(String name, Project project) {

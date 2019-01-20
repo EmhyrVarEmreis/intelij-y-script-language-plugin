@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript</id>
     <name>Y Script support (IAS)</name>
-    <version>0.3.12</version>
+    <version>0.3.13</version>
     <vendor email="mstef94@gmail.com" url="http://mateuszstefaniak.me/">Mateusz Stefaniak</vendor>
 
     <description><![CDATA[
@@ -22,6 +22,7 @@
             <li>Add - Allowed "_" (underscore) in identifiers</li>
             <li>Add - Import completion provider</li>
             <li>Add - Marking env-specific program calls</li>
+            <li>Add - Support for directory imports</li>
             <li>Fix - Fixed #5 (issue from GH)</li>
             <li>Fix - Fixed #1 (issue from GH)</li>
             <li>Fix - Look for programs inside current file</li>

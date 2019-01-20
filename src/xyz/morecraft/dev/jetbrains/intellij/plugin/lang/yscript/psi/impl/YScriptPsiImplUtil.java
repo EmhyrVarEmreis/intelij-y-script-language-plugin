@@ -1,9 +1,8 @@
 package xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl;
 
-import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
-import com.intellij.util.indexing.IndexingDataKeys;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.*;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScriptUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +17,7 @@ public class YScriptPsiImplUtil {
 
     public static String getName(YScriptFileContent element) {
         final PsiFile containingFile = element.getContainingFile();
-        final String path = getPathFromContainingFile(containingFile);
+        final String path = YScriptUtil.getPathFromContainingFile(containingFile);
         if (Objects.isNull(path)) {
             return "";
         }
@@ -29,18 +28,6 @@ public class YScriptPsiImplUtil {
         } else {
             return dottedPath;
         }
-    }
-
-    private static String getPathFromContainingFile(final PsiFile containingFile) {
-        final PsiFile originalFile = containingFile.getOriginalFile();
-        VirtualFile virtualFile = originalFile.getVirtualFile();
-        if (Objects.isNull(virtualFile)) {
-            virtualFile = originalFile.getUserData(IndexingDataKeys.VIRTUAL_FILE);
-            if(Objects.isNull(virtualFile)){
-                return null;
-            }
-        }
-        return virtualFile.getCanonicalPath();
     }
 
     public static String getName(YScriptCall element) {

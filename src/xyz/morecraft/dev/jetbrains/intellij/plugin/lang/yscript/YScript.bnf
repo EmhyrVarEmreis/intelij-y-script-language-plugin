@@ -103,7 +103,7 @@ boolean ::= (KEY_TRUE | KEY_FALSE)
 
 cast ::= X_OPEN_BRACKET expressionFactor KEY_AS type X_CLOSE_BRACKET
 
-private anyCall ::= fSizeOf | fIsSet | fCopyOf | fIsNull | fType | call
+private anyCall ::= fSizeOf | fIsSet | fCopyOf | fIsNull | fType | fStrlen | call
 
 call ::= package X_OPEN_BRACKET arguments? X_CLOSE_BRACKET
 
@@ -134,6 +134,8 @@ fCopyOf ::= F_KEY_COPY_OF X_OPEN_BRACKET propertySimple X_CLOSE_BRACKET
 fIsNull ::= F_KEY_IS_NULL X_OPEN_BRACKET propertySimple X_CLOSE_BRACKET
 
 fType ::= F_KEY_TYPE X_OPEN_BRACKET propertySimple X_CLOSE_BRACKET
+
+fStrlen ::= F_KEY_STRLEN X_OPEN_BRACKET propertySimple X_CLOSE_BRACKET
 
 body ::= (block | statement)
 

@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript</id>
     <name>Y Script support (IAS)</name>
-    <version>0.3.11</version>
+    <version>0.3.12</version>
     <vendor email="mstef94@gmail.com" url="http://mateuszstefaniak.me/">Mateusz Stefaniak</vendor>
 
     <description><![CDATA[
@@ -14,6 +14,7 @@
     <change-notes><![CDATA[
         <ul>
             <li>Add - Mark some build-in programs as keywords - Added "TYPE" and "ISNULL"</li>
+            <li>Add - Mark some build-in programs as keywords - Added "STRLEN"</li>
             <li>Add - Support for NULL keyword</li>
             <li>Add - Annotator for unresolved programs</li>
             <li>Add - Annotator for unresolved imports</li>

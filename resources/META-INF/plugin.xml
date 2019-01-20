@@ -22,6 +22,7 @@
             <li>Add - Import completion provider</li>
             <li>Fix - Fixed #5 (issue from GH)</li>
             <li>Fix - Fixed #1 (issue from GH)</li>
+            <li>Fix - Look for programs inside current file</li>
         </ul>
     ]]>
     </change-notes>

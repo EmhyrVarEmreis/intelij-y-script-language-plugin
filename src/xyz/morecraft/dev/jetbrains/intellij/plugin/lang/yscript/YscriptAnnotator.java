@@ -28,7 +28,7 @@ public class YscriptAnnotator implements Annotator {
             if (collection.size() == 0) {
                 holder.createErrorAnnotation(yScriptCall.getTextRange(), "Unresolved program");
             } else {
-                if (!isImported(yScriptCall, project)) {
+                if (!isImportedOrUsed(yScriptCall, project)) {
                     holder.createErrorAnnotation(yScriptCall.getTextRange(), "Program is not imported");
                 }
             }
@@ -70,19 +70,21 @@ public class YscriptAnnotator implements Annotator {
         }
     }
 
-    private static boolean isImported(YScriptCall yScriptCall, Project project) {
+    private static boolean isImportedOrUsed(YScriptCall yScriptCall, Project project) {
         final YScriptFileContent yScriptFileContent = getFileContent(yScriptCall);
         if (Objects.nonNull(yScriptFileContent)) {
             final String name = YScriptPsiImplUtil.getName(yScriptCall);
-            final Collection<YScriptFileContent> filesFromParentFile = getYScriptFileContentFBIdx(yScriptFileContent.getName(), project);
-            for (YScriptFileContent fileContent : filesFromParentFile) {
-                for (String importName : fileContent.getImportNames()) {
-                    final Collection<YScriptFileContent> filesFromImport = getYScriptFileContentFBIdx(importName, project);
-                    for (YScriptFileContent fileFromImport : filesFromImport) {
-                        for (String programNameFromImportedFiles : fileFromImport.getProgramNames()) {
-                            if (name.equalsIgnoreCase(programNameFromImportedFiles)) {
-                                return true;
-                            }
+            for (String programName : yScriptFileContent.getProgramNames()) {
+                if (name.equalsIgnoreCase(programName)) {
+                    return true;
+                }
+            }
+            for (String importName : yScriptFileContent.getImportNames()) {
+                final Collection<YScriptFileContent> filesFromImport = getYScriptFileContentFBIdx(importName, project);
+                for (YScriptFileContent fileFromImport : filesFromImport) {
+                    for (String programNameFromImportedFiles : fileFromImport.getProgramNames()) {
+                        if (name.equalsIgnoreCase(programNameFromImportedFiles)) {
+                            return true;
                         }
                     }
                 }

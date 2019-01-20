@@ -75,30 +75,19 @@ public class YscriptAnnotator implements Annotator {
         if (Objects.nonNull(yScriptFileContent)) {
             final String name = YScriptPsiImplUtil.getName(yScriptCall);
             final Collection<YScriptFileContent> filesFromParentFile = getYScriptFileContentFBIdx(yScriptFileContent.getName(), project);
-            boolean isPresent = false;
             for (YScriptFileContent fileContent : filesFromParentFile) {
                 for (String importName : fileContent.getImportNames()) {
                     final Collection<YScriptFileContent> filesFromImport = getYScriptFileContentFBIdx(importName, project);
                     for (YScriptFileContent fileFromImport : filesFromImport) {
                         for (String programNameFromImportedFiles : fileFromImport.getProgramNames()) {
                             if (name.equalsIgnoreCase(programNameFromImportedFiles)) {
-                                isPresent = true;
-                                break;
+                                return true;
                             }
                         }
-                        if (isPresent) {
-                            break;
-                        }
                     }
-                    if (isPresent) {
-                        break;
-                    }
-                }
-                if (isPresent) {
-                    break;
                 }
             }
-            return isPresent;
+            return false;
         }
         return true;
     }

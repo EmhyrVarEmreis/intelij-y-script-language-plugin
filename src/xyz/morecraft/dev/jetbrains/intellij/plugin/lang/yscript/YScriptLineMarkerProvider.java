@@ -1,5 +1,6 @@
 package xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript;
 
+import com.intellij.codeInsight.daemon.LineMarkerInfo;
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo;
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerProvider;
 import com.intellij.codeInsight.navigation.NavigationGutterIconBuilder;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScriptConstants.SHARED_PROGRAM_NAME_PREFIX;
+
 public class YScriptLineMarkerProvider extends RelatedItemLineMarkerProvider {
 
     @Override
@@ -25,6 +28,14 @@ public class YScriptLineMarkerProvider extends RelatedItemLineMarkerProvider {
             final YScriptCall yScriptCall = (YScriptCall) element;
             final YScriptPackage yScriptPackage = yScriptCall.getPackage();
             final String programName = yScriptPackage.getText();
+            if(programName.startsWith(SHARED_PROGRAM_NAME_PREFIX)){
+                NavigationGutterIconBuilder<PsiElement> builder =
+                        NavigationGutterIconBuilder.create(YScriptIcons.SHARED)
+                                .setTarget(null)
+                                .setTooltipText("Environment specific identifier");
+                result.add(builder.createLineMarkerInfo(yScriptPackage.getFirstChild()));
+                return;
+            }
             final Project project = element.getProject();
             final Collection<YScriptProgram> properties = YScriptProgramNameFBIdx.getInstance().get(
                     programName,

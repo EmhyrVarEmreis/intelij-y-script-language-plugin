@@ -15,6 +15,8 @@ import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl.YScript
 import java.util.Collection;
 import java.util.Objects;
 
+import static xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScriptConstants.SHARED_PROGRAM_NAME_PREFIX;
+
 public class YscriptAnnotator implements Annotator {
 
     @Override
@@ -23,6 +25,9 @@ public class YscriptAnnotator implements Annotator {
             final YScriptCall yScriptCall = (YScriptCall) element;
             final YScriptPackage yScriptPackage = yScriptCall.getPackage();
             final String programName = yScriptPackage.getText();
+            if (programName.startsWith(SHARED_PROGRAM_NAME_PREFIX)) {
+                return;
+            }
             final Project project = element.getProject();
             final Collection<YScriptProgram> collection = getYScriptProgramNameFBIdx(programName, project);
             if (collection.size() == 0) {

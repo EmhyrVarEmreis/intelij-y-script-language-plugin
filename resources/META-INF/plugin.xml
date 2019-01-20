@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript</id>
     <name>Y Script support (IAS)</name>
-    <version>0.3.10</version>
+    <version>0.3.11</version>
     <vendor email="mstef94@gmail.com" url="http://mateuszstefaniak.me/">Mateusz Stefaniak</vendor>
 
     <description><![CDATA[

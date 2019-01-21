@@ -1,6 +1,7 @@
 package xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util;
 
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
@@ -58,6 +59,19 @@ public class YScriptUtil {
             }
         }
         return virtualFile.getCanonicalPath();
+    }
+
+    public static VirtualFile getVirtualFileFromPackageName(final String packageName, final PsiFile containingFile) {
+        final String rawPath = YScriptUtil.getPathFromContainingFile(containingFile);
+        if (Objects.isNull(rawPath)) {
+            return null;
+        }
+        final int i = rawPath.indexOf("/lang/");
+        if (i == -1) {
+            return null;
+        }
+        final String path = rawPath.substring(0, i + 6) + packageName.replaceAll("::", "/");
+        return LocalFileSystem.getInstance().findFileByPath(path);
     }
 
 }

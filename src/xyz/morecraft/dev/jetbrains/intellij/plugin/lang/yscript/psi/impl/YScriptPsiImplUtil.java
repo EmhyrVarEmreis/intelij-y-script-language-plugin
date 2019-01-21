@@ -1,6 +1,8 @@
 package xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl;
 
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
+import org.jetbrains.annotations.Nullable;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.*;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScriptUtil;
 
@@ -70,6 +72,29 @@ public class YScriptPsiImplUtil {
             }
         }
         return list;
+    }
+
+    public static YScriptFileContent getYScriptFileContent(@Nullable PsiElement element) {
+        return getYScriptFileContent(element, false);
+    }
+
+    public static YScriptFileContent getYScriptFileContent(@Nullable PsiElement element, final boolean isFromParent) {
+        if (Objects.isNull(element)) {
+            return null;
+        }
+        if (element instanceof YScriptFileContent) {
+            return (YScriptFileContent) element;
+        } else if (!isFromParent && element instanceof PsiFile) {
+            for (PsiElement psiFileChild : element.getChildren()) {
+                final YScriptFileContent yScriptFileContent = getYScriptFileContent(psiFileChild, false);
+                if (Objects.nonNull(yScriptFileContent)) {
+                    return yScriptFileContent;
+                }
+            }
+        } else {
+            return getYScriptFileContent(element.getParent(), true);
+        }
+        return null;
     }
 
 }

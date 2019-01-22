@@ -125,17 +125,17 @@ fIsInstance ::= propertySimple F_KEY_IS_INSTANCE X_OPEN_BRACKET type X_CLOSE_BRA
 fIsType ::= propertySimple F_KEY_IS_TYPE X_OPEN_BRACKET type X_CLOSE_BRACKET
 // TODO 'expression' instead of 'propertySimple'
 
-fSizeOf ::= F_KEY_SIZE_OF X_OPEN_BRACKET propertySimple X_CLOSE_BRACKET
+fSizeOf ::= F_KEY_SIZE_OF X_OPEN_BRACKET expression X_CLOSE_BRACKET
 
-fIsSet ::= F_KEY_IS_SET X_OPEN_BRACKET propertySimple X_CLOSE_BRACKET
+fIsSet ::= F_KEY_IS_SET X_OPEN_BRACKET expression X_CLOSE_BRACKET
 
-fCopyOf ::= F_KEY_COPY_OF X_OPEN_BRACKET propertySimple X_CLOSE_BRACKET
+fCopyOf ::= F_KEY_COPY_OF X_OPEN_BRACKET expression X_CLOSE_BRACKET
 
-fIsNull ::= F_KEY_IS_NULL X_OPEN_BRACKET propertySimple X_CLOSE_BRACKET
+fIsNull ::= F_KEY_IS_NULL X_OPEN_BRACKET expression X_CLOSE_BRACKET
 
-fType ::= F_KEY_TYPE X_OPEN_BRACKET propertySimple X_CLOSE_BRACKET
+fType ::= F_KEY_TYPE X_OPEN_BRACKET expression X_CLOSE_BRACKET
 
-fStrlen ::= F_KEY_STRLEN X_OPEN_BRACKET propertySimple X_CLOSE_BRACKET
+fStrlen ::= F_KEY_STRLEN X_OPEN_BRACKET expression X_CLOSE_BRACKET
 
 body ::= (block | statement)
 

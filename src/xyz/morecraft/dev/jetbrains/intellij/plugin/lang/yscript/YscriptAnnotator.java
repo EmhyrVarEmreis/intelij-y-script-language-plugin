@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScriptConstants.CONFIG_INCLUDE_DIRECTORIES_WHILE_IMPORT;
 import static xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScriptConstants.SHARED_PROGRAM_NAME_PREFIX;
 
 public class YscriptAnnotator implements Annotator {
@@ -42,7 +43,7 @@ public class YscriptAnnotator implements Annotator {
                 holder.createErrorAnnotation(yScriptCall.getTextRange(), "Unresolved program");
             } else {
                 final String name = YScriptPsiImplUtil.getName(yScriptCall);
-                if (!isProgramImportedOrUsed(name, YScriptPsiImplUtil.getYScriptFileContent(yScriptCall), project)) {
+                if (!isProgramImportedOrUsed(name, YScriptPsiImplUtil.getYScriptFileContent(yScriptCall), project, CONFIG_INCLUDE_DIRECTORIES_WHILE_IMPORT)) {
                     holder.createErrorAnnotation(yScriptCall.getTextRange(), "Program is not imported");
                 }
             }
@@ -53,16 +54,23 @@ public class YscriptAnnotator implements Annotator {
             final Project project = element.getProject();
             final Collection<YScriptFileContent> collection = getYScriptFileContentFBIdx(filePackage, project);
             if (collection.size() == 0) {
-                final boolean directoryExists = checkIfDirectoryExists(filePackage, yScriptImport);
+                final boolean directoryExists = checkIfImportExists(filePackage, yScriptImport, CONFIG_INCLUDE_DIRECTORIES_WHILE_IMPORT);
                 if (!directoryExists) {
-                    holder.createErrorAnnotation(yScriptImport.getTextRange(), "Unresolved file or directory");
+                    holder.createErrorAnnotation(yScriptImport.getTextRange(), "Unresolved file");
                 }
             }
         }
     }
 
-    private static boolean checkIfDirectoryExists(final String packageName, final PsiElement element) {
-        return Objects.nonNull(YScriptUtil.getVirtualFileFromPackageName(packageName, element.getContainingFile()));
+    private static boolean checkIfImportExists(final String packageName, final PsiElement element, @SuppressWarnings("SameParameterValue") boolean includeDirectories) {
+        final VirtualFile virtualFileFromPackageName = YScriptUtil.getVirtualFileFromPackageName(packageName, element.getContainingFile());
+        if(Objects.isNull(virtualFileFromPackageName)){
+            return false;
+        }
+        if(!virtualFileFromPackageName.isDirectory()){
+            return true;
+        }
+        return includeDirectories;
     }
 
     private static Collection<YScriptProgram> getYScriptProgramNameFBIdx(String name, Project project) {
@@ -81,7 +89,7 @@ public class YscriptAnnotator implements Annotator {
         );
     }
 
-    private static boolean isProgramImportedOrUsed(@NotNull final String name, @Nullable final YScriptFileContent yScriptFileContent, @NotNull final Project project) {
+    private static boolean isProgramImportedOrUsed(@NotNull final String name, @Nullable final YScriptFileContent yScriptFileContent, @NotNull final Project project, boolean includeDirectories) {
         if (Objects.isNull(yScriptFileContent)) {
             return false;
         }
@@ -97,7 +105,7 @@ public class YscriptAnnotator implements Annotator {
                 if (Objects.isNull(virtualFile)) {
                     continue;
                 }
-                if (!virtualFile.isDirectory()) {
+                if (!virtualFile.isDirectory() || !includeDirectories) {
                     continue;
                 }
                 final AtomicBoolean atomicBoolean = new AtomicBoolean(false);
@@ -109,7 +117,7 @@ public class YscriptAnnotator implements Annotator {
                             if (Objects.nonNull(psiFile)) {
                                 final YScriptFileContent yScriptFileContent = YScriptPsiImplUtil.getYScriptFileContent(psiFile);
                                 if (Objects.nonNull(yScriptFileContent)) {
-                                    final boolean programImportedOrUsed = isProgramImportedOrUsed(name, yScriptFileContent, project);
+                                    @SuppressWarnings("ConstantConditions") final boolean programImportedOrUsed = isProgramImportedOrUsed(name, yScriptFileContent, project, includeDirectories);
                                     if (programImportedOrUsed) {
                                         atomicBoolean.set(true);
                                         throw new StopVisitingException();

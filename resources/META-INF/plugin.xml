@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript</id>
     <name>Y Script support (IAS)</name>
-    <version>0.3.17</version>
+    <version>0.4.0</version>
     <vendor email="mstef94@gmail.com" url="http://mateuszstefaniak.me/">Mateusz Stefaniak</vendor>
 
     <description><![CDATA[
@@ -13,21 +13,7 @@
 
     <change-notes><![CDATA[
         <ul>
-            <li>Add - Mark some build-in programs as keywords - Added "TYPE" and "ISNULL"</li>
-            <li>Add - Mark some build-in programs as keywords - Added "STRLEN"</li>
-            <li>Add - Support for NULL keyword</li>
-            <li>Add - Annotator for unresolved programs</li>
-            <li>Add - Annotator for unresolved imports</li>
-            <li>Add - Annotator for not imported programs</li>
-            <li>Add - Allowed "_" (underscore) in identifiers</li>
-            <li>Add - Import completion provider</li>
-            <li>Add - Marking env-specific program calls</li>
-            <li>Add - Support for directory imports</li>
-            <li>Add - Top level keywords completion provider</li>
-            <li>Fix - Fixed #5 (issue from GH)</li>
-            <li>Fix - Fixed #1 (issue from GH)</li>
-            <li>Fix - Look for programs inside current file</li>
-            <li>Fix - Expressions instead of properties in build in functions calls</li>
+            <li>Revert - Dropped support for directory imports</li>
         </ul>
     ]]>
     </change-notes>

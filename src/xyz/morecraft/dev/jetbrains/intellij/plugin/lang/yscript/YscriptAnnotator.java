@@ -64,10 +64,10 @@ public class YscriptAnnotator implements Annotator {
 
     private static boolean checkIfImportExists(final String packageName, final PsiElement element, @SuppressWarnings("SameParameterValue") boolean includeDirectories) {
         final VirtualFile virtualFileFromPackageName = YScriptUtil.getVirtualFileFromPackageName(packageName, element.getContainingFile());
-        if(Objects.isNull(virtualFileFromPackageName)){
+        if (Objects.isNull(virtualFileFromPackageName)) {
             return false;
         }
-        if(!virtualFileFromPackageName.isDirectory()){
+        if (!virtualFileFromPackageName.isDirectory()) {
             return true;
         }
         return includeDirectories;

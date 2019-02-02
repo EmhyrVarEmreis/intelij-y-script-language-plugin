@@ -3,18 +3,30 @@ package xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript;
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo;
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerProvider;
 import com.intellij.codeInsight.navigation.NavigationGutterIconBuilder;
+import com.intellij.icons.AllIcons;
+import com.intellij.ide.highlighter.XmlFileType;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiManager;
+import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
+import com.intellij.psi.xml.XmlDocument;
+import com.intellij.psi.xml.XmlFile;
+import com.intellij.psi.xml.XmlTag;
+import com.intellij.util.indexing.FileBasedIndex;
+import com.intellij.xml.index.IndexedRelevantResource;
+import com.intellij.xml.index.XmlNamespaceIndex;
+import com.intellij.xml.index.XsdNamespaceBuilder;
 import org.jetbrains.annotations.NotNull;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptProgramNameFBIdx;
-import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptCall;
-import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptPackage;
-import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptProgram;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import static xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScriptConstants.SHARED_PROGRAM_NAME_PART;
 
@@ -27,7 +39,7 @@ public class YScriptLineMarkerProvider extends RelatedItemLineMarkerProvider {
             final YScriptCall yScriptCall = (YScriptCall) element;
             final YScriptPackage yScriptPackage = yScriptCall.getPackage();
             final String programName = yScriptPackage.getText();
-            if(programName.contains(SHARED_PROGRAM_NAME_PART)){
+            if (programName.contains(SHARED_PROGRAM_NAME_PART)) {
                 NavigationGutterIconBuilder<PsiElement> builder =
                         NavigationGutterIconBuilder.create(YScriptIcons.SHARED)
                                 .setTarget(null)
@@ -51,6 +63,52 @@ public class YScriptLineMarkerProvider extends RelatedItemLineMarkerProvider {
                                 .setTargets(targets)
                                 .setTooltipText("Navigate to program `" + programName + "`");
                 result.add(builder.createLineMarkerInfo(yScriptPackage.getFirstChild()));
+            }
+        } else if (element instanceof YScriptVarDef) {
+            final YScriptType type = ((YScriptVarDef) element).getType();
+            final YScriptXmlType xmlType = type.getXmlType();
+            if (Objects.isNull(xmlType)) {
+                return;
+            }
+            final YScriptXmlTypeNamespace xmlTypeNamespace = xmlType.getXmlTypeNamespace();
+            final String rawNamespace = xmlTypeNamespace.getText();
+            final String namespace = rawNamespace.substring(1, rawNamespace.length() - 1);
+            final String typeName = type.getVarName().getText();
+            final Project project = element.getProject();
+            final PsiManager psiManager = PsiManager.getInstance(project);
+            final List<XmlTag> targets = new ArrayList<>();
+            final List<IndexedRelevantResource<String, XsdNamespaceBuilder>> indexedRelevantResourceList = XmlNamespaceIndex.getResourcesByNamespace(namespace, project, null);
+            for (IndexedRelevantResource<String, XsdNamespaceBuilder> indexedRelevantResource : indexedRelevantResourceList) {
+                final PsiFile file = psiManager.findFile(indexedRelevantResource.getFile());
+                if (Objects.isNull(file)) {
+                    continue;
+                }
+                if (!(file instanceof XmlFile)) {
+                    return;
+                }
+                final XmlDocument document = ((XmlFile) file).getDocument();
+                if (Objects.isNull(document)) {
+                    continue;
+                }
+                final XmlTag rootTag = document.getRootTag();
+                if (Objects.isNull(rootTag)) {
+                    continue;
+                }
+                if (namespace.equalsIgnoreCase(rootTag.getAttributeValue("targetNamespace"))) {
+                    final XmlTag[] complexTypes = rootTag.findSubTags("complexType", "http://www.w3.org/2001/XMLSchema");
+                    for (XmlTag complexType : complexTypes) {
+                        if (typeName.equalsIgnoreCase(complexType.getAttributeValue("name"))) {
+                            targets.add(complexType);
+                        }
+                    }
+                }
+            }
+            if (targets.size() > 0) {
+                NavigationGutterIconBuilder<PsiElement> builder =
+                        NavigationGutterIconBuilder.create(AllIcons.FileTypes.Xml)
+                                .setTargets(targets)
+                                .setTooltipText("Navigate to declared type in XML `" + namespace + "`");
+                result.add(builder.createLineMarkerInfo(xmlTypeNamespace));
             }
         }
     }

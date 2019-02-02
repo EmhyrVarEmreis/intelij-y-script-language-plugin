@@ -49,7 +49,11 @@ var ::= KEY_VAR varDef
 
 varDef ::= varName KEY_AS type
 
-type ::= (KEY_ARRAY KEY_OF)? varName (X_COLON V_STRING)?
+type ::= (KEY_ARRAY KEY_OF)? varName xmlType?
+
+xmlType ::= X_COLON xmlTypeNamespace
+
+xmlTypeNamespace ::= V_STRING
 
 statement ::= (var | return | if | with | while | create | sort | index | delete | try | throw | for | assign | merge | anyCall)
 

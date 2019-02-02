@@ -4,6 +4,6 @@ public class YScriptConstants {
 
     public static final boolean CONFIG_INCLUDE_DIRECTORIES_WHILE_IMPORT = false;
 
-    public static final String SHARED_PROGRAM_NAME_PREFIX = "shared::envspecific";
+    public static final String SHARED_PROGRAM_NAME_PART = "envspecific::";
 
 }

@@ -24,7 +24,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScriptConstants.CONFIG_INCLUDE_DIRECTORIES_WHILE_IMPORT;
-import static xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScriptConstants.SHARED_PROGRAM_NAME_PREFIX;
+import static xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScriptConstants.SHARED_PROGRAM_NAME_PART;
 
 public class YscriptAnnotator implements Annotator {
 
@@ -34,7 +34,7 @@ public class YscriptAnnotator implements Annotator {
             final YScriptCall yScriptCall = (YScriptCall) element;
             final YScriptPackage yScriptPackage = yScriptCall.getPackage();
             final String programName = yScriptPackage.getText();
-            if (programName.startsWith(SHARED_PROGRAM_NAME_PREFIX)) {
+            if (programName.contains(SHARED_PROGRAM_NAME_PART)) {
                 return;
             }
             final Project project = element.getProject();

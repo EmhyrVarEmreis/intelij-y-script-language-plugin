@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript</id>
     <name>Y Script support (IAS)</name>
-    <version>0.4.0</version>
+    <version>0.4.1</version>
     <vendor email="mstef94@gmail.com" url="http://mateuszstefaniak.me/">Mateusz Stefaniak</vendor>
 
     <description><![CDATA[
@@ -13,6 +13,7 @@
 
     <change-notes><![CDATA[
         <ul>
+            <li>Fix - Better support for "envspecific"</li>
             <li>Revert - Dropped support for directory imports</li>
         </ul>
     ]]>

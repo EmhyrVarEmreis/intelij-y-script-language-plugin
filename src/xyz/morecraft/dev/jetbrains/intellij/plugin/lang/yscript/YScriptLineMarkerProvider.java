@@ -105,7 +105,7 @@ public class YScriptLineMarkerProvider extends RelatedItemLineMarkerProvider {
             }
             if (targets.size() > 0) {
                 NavigationGutterIconBuilder<PsiElement> builder =
-                        NavigationGutterIconBuilder.create(AllIcons.FileTypes.Xml)
+                        NavigationGutterIconBuilder.create(AllIcons.FileTypes.XsdFile)
                                 .setTargets(targets)
                                 .setTooltipText("Navigate to declared type in XML `" + namespace + "`");
                 result.add(builder.createLineMarkerInfo(xmlTypeNamespace));

@@ -15,7 +15,7 @@ import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl.YScript
 public class YScriptStructuralItemCompletionProvider extends CompletionProvider<CompletionParameters> {
 
     @Override
-    protected void addCompletions(@NotNull CompletionParameters completionParameters, ProcessingContext processingContext, @NotNull CompletionResultSet completionResultSet) {
+    protected void addCompletions(@NotNull CompletionParameters completionParameters, @NotNull ProcessingContext processingContext, @NotNull CompletionResultSet completionResultSet) {
         completionResultSet.addElement(LookupElementBuilder.create("IMPORT "));
         completionResultSet.addElement(LookupElementBuilder.create("PROGRAM "));
         completionResultSet.addElement(LookupElementBuilder.create("DEFINE "));

@@ -17,7 +17,7 @@ import static xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.completio
 public class YScriptImportCompletionProvider extends CompletionProvider<CompletionParameters> {
 
     @Override
-    protected void addCompletions(@NotNull CompletionParameters completionParameters, ProcessingContext processingContext, @NotNull CompletionResultSet completionResultSet) {
+    protected void addCompletions(@NotNull CompletionParameters completionParameters, @NotNull ProcessingContext processingContext, @NotNull CompletionResultSet completionResultSet) {
         final Collection<String> allKeys = YScriptFileContentFBIdx.getInstance().getAllKeys(completionParameters.getPosition().getProject());
         final String text = YScriptCompletionProviderHelper.getTextUntil(completionParameters.getPosition(), YScriptTypes.KEY_IMPORT);
         final int textLength = text.length();

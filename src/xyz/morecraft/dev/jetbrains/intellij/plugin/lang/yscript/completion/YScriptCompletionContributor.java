@@ -25,6 +25,23 @@ public class YScriptCompletionContributor extends YScriptCustomCompletionContrib
         );
         customExtend(
                 CompletionType.BASIC,
+                PlatformPatterns.psiElement(YScriptTypes.IDENTIFIER).withTreeParent(PlatformPatterns.or(
+                        PlatformPatterns.psiElement(YScriptTypes.BODY)
+                )).withLanguage(YScript.INSTANCE),
+                new YScriptSimpleCompletionProvider(),
+                false
+        );
+        customExtend(
+                CompletionType.BASIC,
+                PlatformPatterns.psiElement().afterLeafSkipping(PlatformPatterns.psiElement(PsiWhiteSpace.class), PlatformPatterns.or(
+                        PlatformPatterns.psiElement(YScriptTypes.KEY_THEN),
+                        PlatformPatterns.psiElement(YScriptTypes.KEY_DO)
+                )),
+                new YScriptSimpleBodyCompletionProvider(),
+                false
+        );
+        customExtend(
+                CompletionType.BASIC,
                 PlatformPatterns.psiElement().withParent(PlatformPatterns.or(
                         PlatformPatterns.psiElement(YScriptTypes.FILE_CONTENT)
                 )).withLanguage(YScript.INSTANCE),

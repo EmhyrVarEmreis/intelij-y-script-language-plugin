@@ -1,4 +1,4 @@
-package xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.completion;
+package xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.completion.provider;
 
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;
@@ -6,6 +6,7 @@ import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.util.ProcessingContext;
 import org.jetbrains.annotations.NotNull;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.completion.YScriptCompletionProviderHelper;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptFileContentFBIdx;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptTypes;
 

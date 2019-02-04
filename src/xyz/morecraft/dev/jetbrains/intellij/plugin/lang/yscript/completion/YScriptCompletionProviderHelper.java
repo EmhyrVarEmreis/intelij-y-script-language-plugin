@@ -12,16 +12,15 @@ import java.util.Objects;
 
 import static com.intellij.codeInsight.completion.CompletionUtil.DUMMY_IDENTIFIER_TRIMMED;
 
+public class YScriptCompletionProviderHelper {
 
-class YScriptCompletionProviderHelper {
-
-    static final InsertHandler<LookupElement> STRUCTURAL_ITEM_HANDLER = (context, item) -> {
+    public static final InsertHandler<LookupElement> STRUCTURAL_ITEM_HANDLER = (context, item) -> {
         context.setAddCompletionChar(false);
         EditorModificationUtil.insertStringAtCaret(context.getEditor(), ";");
         context.commitDocument();
     };
 
-    static String getTextUntil(PsiElement element, IElementType to) {
+    public static String getTextUntil(PsiElement element, IElementType to) {
         ASTNode node = element.getNode();
         final StringBuilder txt = new StringBuilder();
         do {

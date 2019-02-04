@@ -1,4 +1,4 @@
-package xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.completion;
+package xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.completion.provider;
 
 import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;

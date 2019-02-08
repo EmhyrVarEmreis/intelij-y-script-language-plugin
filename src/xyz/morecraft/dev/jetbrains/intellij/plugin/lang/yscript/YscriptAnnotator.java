@@ -44,7 +44,7 @@ public class YscriptAnnotator implements Annotator {
             } else {
                 final String name = YScriptPsiImplUtil.getName(yScriptCall);
                 if (!isProgramImportedOrUsed(name, YScriptPsiImplUtil.getYScriptFileContent(yScriptCall), project, CONFIG_INCLUDE_DIRECTORIES_WHILE_IMPORT)) {
-                    holder.createErrorAnnotation(yScriptCall.getTextRange(), "Program is not imported");
+                    holder.createErrorAnnotation(yScriptCall.getTextRange(), "Program is not strictly imported");
                 }
             }
         } else if (element instanceof YScriptImport) {

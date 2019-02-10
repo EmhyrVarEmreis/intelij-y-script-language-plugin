@@ -28,3 +28,4 @@ hs_err_pid*
 # Generated
 gen/
 out/
+_YScriptLexer.flex

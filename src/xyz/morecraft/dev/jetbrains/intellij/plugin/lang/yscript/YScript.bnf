@@ -1,31 +1,124 @@
 {
-  parserClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.parser.YScriptParser"
 
-  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+    tokens=[
+        X_DOT="."
+        X_COMMA=","
+        X_COLON=":"
+        X_ASSIGN="regexp:\??="
+        X_SEMICOLON=";"
+        X_DOUBLE_COLON="::"
+        X_OPEN_BRACKET="("
+        X_CLOSE_BRACKET=")"
+        X_OPEN_SQUARE_BRACKET="["
+        X_CLOSE_SQUARE_BRACKET="]"
+        //X_QUOTATION_MARK=\"
 
-  psiClassPrefix="YScript"
-  psiImplClassSuffix="Impl"
-  psiPackage="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi"
-  psiImplPackage="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl"
+        V_STRING="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
+        V_NUMBER="regexp:-?\d+(\.\d+)?"
 
-  elementTypeHolderClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptTypes"
-  elementTypeClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptElementType"
-  tokenTypeClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptTokenType"
+        space='regexp:\s+'
+//        comment="regexp://.*"
+        comment="regexp:(\/\*([^*]|(\*+[^*\/]))*\*+\/)|(\/\/.+)"
 
-  psiImplUtilClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl.YScriptPsiImplUtil"
+        KEY_IMPORT="IMPORT"
+        KEY_PROGRAM="PROGRAM"
+        KEY_DEFINE="DEFINE"
+        KEY_EXTENSION="EXTENSION"
+        KEY_EXTERNAL="EXTERNAL"
+        KEY_VAR="VAR"
+        KEY_AS="AS"
+        KEY_BEGIN="BEGIN"
+        KEY_END="END"
+        KEY_RETURN="RETURN"
+        KEY_RETURNS="RETURNS"
+        KEY_ARRAY="ARRAY"
+        KEY_OF="OF"
+        KEY_IF="IF"
+        KEY_THEN="THEN"
+        KEY_ELSE="ELSE"
+        KEY_WITH="WITH"
+        KEY_DO="DO"
+        KEY_WHILE="WHILE"
+        KEY_CREATE="CREATE"
+        KEY_SORT="SORT"
+        KEY_INDEX="INDEX"
+        KEY_USING="USING"
+        KEY_DELETE="DELETE"
+        KEY_TRY="TRY"
+        KEY_CATCH="CATCH"
+        KEY_THROW="THROW"
+        KEY_NEW="NEW"
+        KEY_FOR="FOR"
+        KEY_TO="TO"
+        KEY_MERGE="MERGE"
+
+        KEY_AND="AND"
+        KEY_OR="OR"
+        KEY_NEGATION="NOT"
+
+        KEY_TRUE="TRUE"
+        KEY_FALSE="FALSE"
+
+        KEY_NULL="NULL"
+
+        F_KEY_IS_INSTANCE="ISINSTANCE"
+        F_KEY_IS_TYPE="ISTYPE"
+        F_KEY_SIZE_OF="SIZEOF"
+        F_KEY_IS_SET="ISSET"
+        F_KEY_COPY_OF="COPYOF"
+        F_KEY_IS_NULL="ISNULL"
+        F_KEY_TYPE="TYPE"
+        F_KEY_STRLEN="STRLEN"
+
+        OP_LT="<"
+        OP_GT=">"
+        OP_LTE="<="
+        OP_GTE=">="
+        OP_PLUS="+"
+        OP_MINUS="-"
+        OP_MUL="*"
+        OP_DIVIDE="/"
+        OP_MODULO="%"
+        OP_EQIALS="=="
+        OP_NEQUALS="<>"
+
+        IDENTIFIER="regexp:\p{Alpha}\w*"
+    ]
+
+    parserClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.parser.YScriptParser"
+
+    extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+    psiClassPrefix="YScript"
+    psiImplClassSuffix="Impl"
+    psiPackage="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi"
+    psiImplPackage="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl"
+
+    elementTypeHolderClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptTypes"
+    elementTypeClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptElementType"
+    tokenTypeClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptTokenType"
+
+    psiImplUtilClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl.YScriptPsiImplUtil"
 }
 
 YScriptFile ::= fileContent
 
 //noinspection BnfResolve
-fileContent ::= ((structuralItem X_SEMICOLON) | COMMENT | EOL)* {
+fileContent ::= structuralItem_ * {
    methods=[getName getImportNames getProgramNames];
    stubClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptFileContentStub";
    extends="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl.YScriptStubbedElementImpl<?>";
-   elementTypeFactory="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.stub.YScriptElementTypeFactory.stubFactory"
+   elementTypeFactory="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.stub.YScriptElementTypeFactory.stubFactory";
 }
 
-structuralItem ::= (import | program | define)
+private structuralItem_ ::= !<<eof>> structuralItem X_SEMICOLON {
+   pin=1
+   recoverWhile=structuralItemRecover
+}
+
+private structuralItemRecover ::= !(KEY_PROGRAM | KEY_IMPORT | KEY_DEFINE)
+
+structuralItem ::= (import | program | define) {pin=1}
 
 import ::= KEY_IMPORT package
 
@@ -83,7 +176,9 @@ for ::= KEY_FOR varName X_ASSIGN V_NUMBER KEY_TO expression KEY_DO body
 
 return ::= KEY_RETURN expression?;
 
-assign ::= propertySimple X_ASSIGN (expression | new)
+assign ::= propertySimple X_ASSIGN (expression | new) {
+    pin=2
+}
 
 merge ::= propertySimple KEY_MERGE propertySimple
 
@@ -143,7 +238,13 @@ fStrlen ::= F_KEY_STRLEN X_OPEN_BRACKET expression X_CLOSE_BRACKET
 
 body ::= (block | statement)
 
-block ::= KEY_BEGIN (statement X_SEMICOLON)* KEY_END
+block ::= KEY_BEGIN statementWithEnding* KEY_END {
+    pin=1
+}
+
+private statementWithEnding ::= statement X_SEMICOLON {
+    pin=1
+}
 
 blockDefine ::= KEY_BEGIN (varDef X_SEMICOLON)* KEY_END
 

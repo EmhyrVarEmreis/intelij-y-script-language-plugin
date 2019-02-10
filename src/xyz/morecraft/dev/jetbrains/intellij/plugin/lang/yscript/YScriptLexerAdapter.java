@@ -7,7 +7,7 @@ import java.io.Reader;
 public class YScriptLexerAdapter extends FlexAdapter {
 
     public YScriptLexerAdapter() {
-        super(new YScriptLexer((Reader) null));
+        super(new _YScriptLexer((Reader) null));
     }
 
 }

@@ -4,12 +4,9 @@ import com.intellij.codeInsight.completion.CompletionParameters;
 import com.intellij.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
-import com.intellij.patterns.PlatformPatterns;
-import com.intellij.patterns.PsiElementPattern;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.ProcessingContext;
 import org.jetbrains.annotations.NotNull;
-import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.YScript;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.*;
 
 import java.util.ArrayList;
@@ -25,7 +22,7 @@ public class YScriptSimpleCompletionProvider extends CompletionProvider<Completi
         final List<String> variables = new ArrayList<>();
 
         addProgramVars(variables, yScriptProgram);
-        assPreviousVars(variables, yScriptProgram, originalPosition);
+        addPreviousVars(variables, yScriptProgram, originalPosition);
 
         variables.forEach(variable -> completionResultSet.addElement(LookupElementBuilder.create(variable)));
     }
@@ -43,7 +40,7 @@ public class YScriptSimpleCompletionProvider extends CompletionProvider<Completi
         }
     }
 
-    private static void assPreviousVars(final List<String> variables, final YScriptProgram program, final PsiElement originalPosition) {
+    private static void addPreviousVars(final List<String> variables, final YScriptProgram program, final PsiElement originalPosition) {
         if (Objects.isNull(program)) {
             return;
         }

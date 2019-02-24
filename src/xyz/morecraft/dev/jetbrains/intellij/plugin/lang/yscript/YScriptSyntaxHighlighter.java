@@ -84,6 +84,8 @@ public class YScriptSyntaxHighlighter extends SyntaxHighlighterBase {
             return KEY_KEYS;
         } else if (tokenType.equals(YScriptTypes.KEY_IF)) {
             return KEY_KEYS;
+        } else if (tokenType.equals(YScriptTypes.KEY_SHORT_IF)) {
+            return KEY_KEYS;
         } else if (tokenType.equals(YScriptTypes.KEY_THEN)) {
             return KEY_KEYS;
         } else if (tokenType.equals(YScriptTypes.KEY_ELSE)) {

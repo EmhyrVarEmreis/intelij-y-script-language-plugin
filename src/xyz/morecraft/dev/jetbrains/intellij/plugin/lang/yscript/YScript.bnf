@@ -34,6 +34,7 @@
         KEY_ARRAY="ARRAY"
         KEY_OF="OF"
         KEY_IF="IF"
+        KEY_SHORT_IF="?"
         KEY_THEN="THEN"
         KEY_ELSE="ELSE"
         KEY_WITH="WITH"
@@ -194,7 +195,7 @@ expressionDotted ::= (expressionBraced | cast | anyCall) (X_DOT expressionFactor
 
 expressionBraced ::= X_OPEN_BRACKET expression X_CLOSE_BRACKET
 
-expressionSimple ::= KEY_NEGATION? (fIsInstance | fIsType | cast | anyCall | value | boolean | propertySimple)
+expressionSimple ::= KEY_NEGATION? (fIsInstance | fIsType | cast | anyCall | value | boolean | propertySimple | shortIf)
 
 operator ::= (KEY_AND | KEY_OR | OP_LT | OP_GT | OP_LTE | OP_GTE | OP_PLUS | OP_MINUS | OP_MUL | OP_DIVIDE | OP_MODULO | OP_EQIALS | OP_NEQUALS)
 
@@ -205,6 +206,8 @@ cast ::= X_OPEN_BRACKET expressionFactor KEY_AS type X_CLOSE_BRACKET
 private anyCall ::= fSizeOf | fIsSet | fCopyOf | fIsNull | fType | fStrlen | call
 
 call ::= package X_OPEN_BRACKET arguments? X_CLOSE_BRACKET
+
+shortIf ::= X_OPEN_BRACKET expression KEY_SHORT_IF expression X_COLON expression X_CLOSE_BRACKET
 
 arguments ::= expression (X_COMMA expression)*
 

@@ -14,7 +14,7 @@
         //X_QUOTATION_MARK=\"
 
         V_STRING="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
-        V_NUMBER="regexp:-?\d+(\.\d+)?"
+        V_NUMBER="regexp:\d+(\.\d+)?"
 
         space='regexp:\s+'
 //        comment="regexp://.*"
@@ -172,7 +172,7 @@ try ::= KEY_TRY block (KEY_CATCH X_OPEN_BRACKET var X_CLOSE_BRACKET block)+
 
 throw ::= KEY_THROW (new | expression)
 
-for ::= KEY_FOR varName X_ASSIGN V_NUMBER KEY_TO expression KEY_DO body
+for ::= KEY_FOR varName X_ASSIGN valNumber KEY_TO expression KEY_DO body
 
 return ::= KEY_RETURN expression?;
 
@@ -216,7 +216,7 @@ bracketSingleExpression ::= X_OPEN_SQUARE_BRACKET expression X_CLOSE_SQUARE_BRAC
 
 bracketDoubleExpression ::= X_OPEN_SQUARE_BRACKET X_OPEN_SQUARE_BRACKET expression X_CLOSE_SQUARE_BRACKET X_CLOSE_SQUARE_BRACKET
 
-value ::= (KEY_NULL | V_STRING | V_NUMBER)
+value ::= (KEY_NULL | V_STRING | valNumber)
 
 fIsInstance ::= propertySimple F_KEY_IS_INSTANCE X_OPEN_BRACKET type X_CLOSE_BRACKET
 // TODO 'expression' instead of 'propertySimple'
@@ -249,3 +249,5 @@ private statementWithEnding ::= statement X_SEMICOLON {
 blockDefine ::= KEY_BEGIN (varDef X_SEMICOLON)* KEY_END
 
 varName ::= IDENTIFIER
+
+valNumber ::= OP_MINUS? V_NUMBER

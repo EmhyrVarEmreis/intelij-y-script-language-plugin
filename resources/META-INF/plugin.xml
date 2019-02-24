@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript</id>
     <name>Y Script support (IAS)</name>
-    <version>0.4.5</version>
+    <version>0.4.6</version>
     <vendor email="mstef94@gmail.com" url="http://mateuszstefaniak.me/">Mateusz Stefaniak</vendor>
 
     <description><![CDATA[
@@ -17,6 +17,7 @@
             <li>Add - Completion contributor for code blocks</li>
             <li>Add - Completion contributor for variable names</li>
             <li>Fix - Better support for "envspecific"</li>
+            <li>Fix - Negative number without space after "-"</li>
             <li>Revert - Dropped support for directory imports</li>
         </ul>
     ]]>

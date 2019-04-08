@@ -21,7 +21,7 @@ public class YScriptParserDefinition implements ParserDefinition {
     public static final TokenSet WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE);
     public static final TokenSet COMMENTS = TokenSet.create(YScriptTypes.COMMENT);
 
-    public static final IStubFileElementType FILE = new IStubFileElementType(YScript.INSTANCE);
+    public static final IStubFileElementType FILE = new IStubYScriptFileElementType();
 
     @NotNull
     @Override
@@ -67,6 +67,19 @@ public class YScriptParserDefinition implements ParserDefinition {
     @NotNull
     public PsiElement createElement(ASTNode node) {
         return YScriptTypes.Factory.createElement(node);
+    }
+
+    public static class IStubYScriptFileElementType extends IStubFileElementType {
+
+        IStubYScriptFileElementType() {
+            super(YScript.INSTANCE);
+        }
+
+        @Override
+        public int getStubVersion() {
+            return 667;
+        }
+
     }
 
 }

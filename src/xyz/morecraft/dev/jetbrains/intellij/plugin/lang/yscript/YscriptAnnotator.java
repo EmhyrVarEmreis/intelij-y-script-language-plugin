@@ -1,5 +1,6 @@
 package xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript;
 
+import com.intellij.lang.annotation.Annotation;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.Annotator;
 import com.intellij.openapi.project.Project;
@@ -12,6 +13,7 @@ import com.intellij.psi.PsiManager;
 import com.intellij.psi.search.GlobalSearchScope;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.fix.CreateMissingImportQuickFix;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptFileContentFBIdx;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptProgramNameFBIdx;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.*;
@@ -19,7 +21,9 @@ import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl.YScript
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.StopVisitingException;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScriptUtil;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -44,7 +48,11 @@ public class YscriptAnnotator implements Annotator {
             } else {
                 final String name = YScriptPsiImplUtil.getName(yScriptCall);
                 if (!isProgramImportedOrUsed(name, YScriptPsiImplUtil.getYScriptFileContent(yScriptCall), project, CONFIG_INCLUDE_DIRECTORIES_WHILE_IMPORT)) {
-                    holder.createErrorAnnotation(yScriptCall.getTextRange(), "Program is not strictly imported");
+                    final Annotation callAnnotation = holder.createErrorAnnotation(yScriptCall.getTextRange(), "Program is not strictly imported");
+                    final List<String> possibleImports = getPossibleImports(yScriptCall);
+                    if (possibleImports.size() > 0) {
+                        callAnnotation.registerFix(new CreateMissingImportQuickFix(possibleImports));
+                    }
                 }
             }
         } else if (element instanceof YScriptImport) {
@@ -60,6 +68,14 @@ public class YscriptAnnotator implements Annotator {
                 }
             }
         }
+    }
+
+    private static List<String> getPossibleImports(final YScriptCall yScriptCall) {
+        final List<String> possibleImports = new ArrayList<>();
+        for (YScriptProgram yScriptProgram : getYScriptProgramNameFBIdx(yScriptCall.getPackage().getText(), yScriptCall.getProject())) {
+            possibleImports.add(yScriptProgram.getPackage().getText());
+        }
+        return possibleImports;
     }
 
     private static boolean checkIfImportExists(final String packageName, final PsiElement element, @SuppressWarnings("SameParameterValue") boolean includeDirectories) {

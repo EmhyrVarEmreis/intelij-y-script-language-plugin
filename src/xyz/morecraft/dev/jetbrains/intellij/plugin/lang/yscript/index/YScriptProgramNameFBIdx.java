@@ -22,7 +22,7 @@ public class YScriptProgramNameFBIdx extends AbstractStubIndex<String, YScriptPr
 
     @Override
     public int getVersion() {
-        return 4;
+        return 9;
     }
 
     @NotNull
@@ -33,7 +33,7 @@ public class YScriptProgramNameFBIdx extends AbstractStubIndex<String, YScriptPr
 
     @Override
     public int getCacheSize() {
-        return 16 * 1024;
+        return 32 * 1024;
     }
 
 }

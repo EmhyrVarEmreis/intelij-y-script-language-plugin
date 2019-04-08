@@ -64,8 +64,8 @@ public class YScriptLineMarkerProvider extends RelatedItemLineMarkerProvider {
                                 .setTooltipText("Navigate to program `" + programName + "`");
                 result.add(builder.createLineMarkerInfo(yScriptPackage.getFirstChild()));
             }
-        } else if (element instanceof YScriptVarDef) {
-            final YScriptType type = ((YScriptVarDef) element).getType();
+        } else if (element instanceof YScriptType) {
+            final YScriptType type = (YScriptType) element;
             final YScriptXmlType xmlType = type.getXmlType();
             if (Objects.isNull(xmlType)) {
                 return;

@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript</id>
     <name>Y Script support (IAS)</name>
-    <version>0.4.7</version>
+    <version>0.5.0</version>
     <vendor email="mstef94@gmail.com" url="http://mateuszstefaniak.me/">Mateusz Stefaniak</vendor>
 
     <description><![CDATA[
@@ -13,13 +13,12 @@
 
     <change-notes><![CDATA[
         <ul>
-            <li>Add - Added line markers for XML types</li>
             <li>Add - Completion contributor for code blocks</li>
             <li>Add - Completion contributor for variable names</li>
+            <li>Add - Completion contributor for variable names</li>
+            <li>Add - Quick-Fix for imports</li>
             <li>Add - Support for short if</li>
-            <li>Fix - Better support for "envspecific"</li>
             <li>Fix - Negative number without space after "-"</li>
-            <li>Revert - Dropped support for directory imports</li>
         </ul>
     ]]>
     </change-notes>

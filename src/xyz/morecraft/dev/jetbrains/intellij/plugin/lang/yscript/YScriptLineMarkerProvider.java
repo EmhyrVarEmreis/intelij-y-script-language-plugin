@@ -4,23 +4,19 @@ import com.intellij.codeInsight.daemon.RelatedItemLineMarkerInfo;
 import com.intellij.codeInsight.daemon.RelatedItemLineMarkerProvider;
 import com.intellij.codeInsight.navigation.NavigationGutterIconBuilder;
 import com.intellij.icons.AllIcons;
-import com.intellij.ide.highlighter.XmlFileType;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
-import com.intellij.psi.search.FileTypeIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.xml.XmlDocument;
 import com.intellij.psi.xml.XmlFile;
 import com.intellij.psi.xml.XmlTag;
-import com.intellij.util.indexing.FileBasedIndex;
 import com.intellij.xml.index.IndexedRelevantResource;
 import com.intellij.xml.index.XmlNamespaceIndex;
 import com.intellij.xml.index.XsdNamespaceBuilder;
 import org.jetbrains.annotations.NotNull;
-import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptProgramNameFBIdx;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptProgramNameSBIdx;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.*;
 
 import java.util.ArrayList;
@@ -48,7 +44,7 @@ public class YScriptLineMarkerProvider extends RelatedItemLineMarkerProvider {
                 return;
             }
             final Project project = element.getProject();
-            final Collection<YScriptProgram> properties = YScriptProgramNameFBIdx.getInstance().get(
+            final Collection<YScriptProgram> properties = YScriptProgramNameSBIdx.getInstance().get(
                     programName,
                     project,
                     GlobalSearchScope.projectScope(project)
@@ -66,11 +62,10 @@ public class YScriptLineMarkerProvider extends RelatedItemLineMarkerProvider {
             }
         } else if (element instanceof YScriptType) {
             final YScriptType type = (YScriptType) element;
-            final YScriptXmlType xmlType = type.getXmlType();
-            if (Objects.isNull(xmlType)) {
+            final PsiElement xmlTypeNamespace = type.getVString();
+            if (Objects.isNull(xmlTypeNamespace)) {
                 return;
             }
-            final YScriptXmlTypeNamespace xmlTypeNamespace = xmlType.getXmlTypeNamespace();
             final String rawNamespace = xmlTypeNamespace.getText();
             final String namespace = rawNamespace.substring(1, rawNamespace.length() - 1);
             final String typeName = type.getVarName().getText();

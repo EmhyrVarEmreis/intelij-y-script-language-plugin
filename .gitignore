@@ -28,4 +28,4 @@ hs_err_pid*
 # Generated
 gen/
 out/
-_YScriptLexer.flex
+src/xyz/morecraft/dev/jetbrains/intellij/plugin/lang/yscript/_YScriptLexer.bk.flex

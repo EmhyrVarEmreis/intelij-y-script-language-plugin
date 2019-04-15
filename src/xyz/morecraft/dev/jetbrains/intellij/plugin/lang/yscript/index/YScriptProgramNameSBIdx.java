@@ -4,25 +4,25 @@ import com.intellij.psi.stubs.AbstractStubIndex;
 import com.intellij.psi.stubs.StubIndexKey;
 import com.intellij.util.io.KeyDescriptor;
 import org.jetbrains.annotations.NotNull;
-import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptFileContent;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptProgram;
 
-public class YScriptFileContentFBIdx extends AbstractStubIndex<String, YScriptFileContent> {
+public class YScriptProgramNameSBIdx extends AbstractStubIndex<String, YScriptProgram> {
 
-    private static final YScriptFileContentFBIdx ourInstance = new YScriptFileContentFBIdx();
+    private static final YScriptProgramNameSBIdx ourInstance = new YScriptProgramNameSBIdx();
 
-    public static YScriptFileContentFBIdx getInstance() {
+    public static YScriptProgramNameSBIdx getInstance() {
         return ourInstance;
     }
 
     @NotNull
     @Override
-    public StubIndexKey<String, YScriptFileContent> getKey() {
-        return YScriptStubIndexKeys.FILE_PACKAGE;
+    public StubIndexKey<String, YScriptProgram> getKey() {
+        return YScriptStubIndexKeys.PROGRAM_NAME;
     }
 
     @Override
     public int getVersion() {
-        return 4;
+        return 9;
     }
 
     @NotNull
@@ -33,7 +33,7 @@ public class YScriptFileContentFBIdx extends AbstractStubIndex<String, YScriptFi
 
     @Override
     public int getCacheSize() {
-        return 16 * 1024;
+        return 8 * 1024;
     }
 
 }

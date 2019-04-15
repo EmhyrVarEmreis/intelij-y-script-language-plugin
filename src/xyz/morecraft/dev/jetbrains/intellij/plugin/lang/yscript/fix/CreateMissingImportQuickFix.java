@@ -1,5 +1,6 @@
 package xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.fix;
 
+import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer;
 import com.intellij.codeInsight.intention.impl.BaseIntentionAction;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.application.ApplicationManager;
@@ -10,28 +11,29 @@ import com.intellij.openapi.fileChooser.FileChooserDescriptor;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.util.IncorrectOperationException;
+import com.intellij.util.indexing.FileBasedIndex;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.YScriptFileType;
-import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptFileContentFBIdx;
-import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptProgramNameFBIdx;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.file.YScriptPackageFBIdx;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.*;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl.YScriptFileContentImpl;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScriptUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 public class CreateMissingImportQuickFix extends BaseIntentionAction {
 
-    private final List<String> possibleImports;
+    private final Collection<String> possibleImports;
 
-    public CreateMissingImportQuickFix(final List<String> possibleImports) {
+    public CreateMissingImportQuickFix(final Collection<String> possibleImports) {
         this.possibleImports = possibleImports;
     }
 
@@ -58,14 +60,9 @@ public class CreateMissingImportQuickFix extends BaseIntentionAction {
         ApplicationManager.getApplication().invokeLater(() -> {
             final ArrayList<VirtualFile> virtualFiles = new ArrayList<>();
             for (String possibleImport : this.possibleImports) {
-                Collection<YScriptProgram> yScriptPrograms = YScriptProgramNameFBIdx.getInstance().get(possibleImport, project, GlobalSearchScope.projectScope(project));
-                for (YScriptProgram yScriptProgram : yScriptPrograms) {
-                    final String packageName = YScriptUtil.getPackageName(yScriptProgram.getContainingFile());
-                    Collection<YScriptFileContent> yScriptFileContents = YScriptFileContentFBIdx.getInstance().get(packageName, project, GlobalSearchScope.projectScope(project));
-                    for (YScriptFileContent yScriptFileContent : yScriptFileContents) {
-                        virtualFiles.add(yScriptFileContent.getContainingFile().getVirtualFile());
-                    }
-                }
+                virtualFiles.addAll(
+                        FileBasedIndex.getInstance().getContainingFiles(YScriptPackageFBIdx.KEY, possibleImport, GlobalSearchScope.projectScope(project))
+                );
             }
             if (virtualFiles.size() == 1) {
                 createImport(project, psiFile.getVirtualFile(), virtualFiles.get(0));
@@ -88,18 +85,34 @@ public class CreateMissingImportQuickFix extends BaseIntentionAction {
     }
 
     private void createImport(final Project project, final VirtualFile file, final VirtualFile importFile) {
+        final YScriptFile yScriptFile = (YScriptFile) PsiManager.getInstance(project).findFile(file);
+        if (Objects.isNull(yScriptFile)) {
+            return;
+        }
         WriteCommandAction.writeCommandAction(project).run(() -> {
-            final YScriptFile yScriptFile = (YScriptFile) PsiManager.getInstance(project).findFile(file);
-            if (Objects.isNull(yScriptFile)) {
+            final YScriptFileContent yScriptFileContent = YScriptUtil.getYScriptFileContent(yScriptFile);
+            if (Objects.isNull(yScriptFileContent)) {
                 return;
             }
-            ASTNode insertNode = yScriptFile.getNode().findChildByType(YScriptTypes.IMPORT);
-            if (Objects.isNull(insertNode)) {
-                insertNode = yScriptFile.getNode().getFirstChildNode();
+            final ASTNode insertNode = yScriptFileContent.getNode().findChildByType(YScriptTypes.IMPORT);
+            final PsiElement psi1 = YScriptElementFactory.createCRLF(project).getNode().getPsi();
+            final PsiElement psi2 = YScriptElementFactory.createStatementTerminator(project).getNode().getPsi();
+            final PsiElement psi3 = YScriptElementFactory.createImport(project, YScriptUtil.getPackageName(importFile)).getNode().getPsi();
+            if (Objects.nonNull(insertNode)) {
+                final PsiElement insertNodePsi = insertNode.getPsi();
+                insertNodePsi.addAfter(psi1, null);
+                insertNodePsi.addAfter(psi2, null);
+                insertNodePsi.addAfter(psi3, null);
+            } else {
+                final ASTNode insertNodeBkAST = yScriptFileContent.getNode().getFirstChildNode();
+                if (Objects.isNull(insertNodeBkAST)) {
+                    return;
+                }
+                final PsiElement insertNodeBk = insertNodeBkAST.getPsi();
+                insertNodeBk.addBefore(psi3, null);
+                insertNodeBk.addBefore(psi2, null);
+                insertNodeBk.addBefore(psi1, null);
             }
-            yScriptFile.getNode().addChild(
-                    YScriptElementFactory.createImport(project, YScriptUtil.getPackageName(importFile)).getNode()
-            );
         });
     }
 

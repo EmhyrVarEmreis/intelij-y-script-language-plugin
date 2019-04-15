@@ -10,10 +10,12 @@ import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.indexing.FileBasedIndex;
 import com.intellij.util.indexing.IndexingDataKeys;
+import org.jetbrains.annotations.Nullable;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.YScriptFileType;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.util.ProgramArgument;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.util.VariableType;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.*;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl.YScriptFileContentImpl;
 
 import java.io.File;
 import java.util.*;
@@ -30,10 +32,9 @@ public class YScriptUtil {
         for (VirtualFile virtualFile : virtualFiles) {
             YScriptFile simpleFile = (YScriptFile) PsiManager.getInstance(project).findFile(virtualFile);
             if (Objects.nonNull(simpleFile)) {
-                YScriptStructuralItem[] properties = PsiTreeUtil.getChildrenOfType(simpleFile, YScriptStructuralItem.class);
+                YScriptProgram[] properties = PsiTreeUtil.getChildrenOfType(simpleFile, YScriptProgram.class);
                 if (Objects.nonNull(properties)) {
-                    for (YScriptStructuralItem property : properties) {
-                        final YScriptProgram yScriptProgram = property.getProgram();
+                    for (YScriptProgram yScriptProgram : properties) {
                         if (Objects.isNull(yScriptProgram)) {
                             continue;
                         }
@@ -48,6 +49,17 @@ public class YScriptUtil {
             }
         }
         return result != null ? result : Collections.emptyList();
+    }
+
+    public static YScriptFileContent getYScriptFileContent(@Nullable final YScriptFile yScriptFile ){
+        if(Objects.isNull(yScriptFile)){
+            return null;
+        }
+        final YScriptFileContent yScriptFileContent = yScriptFile.findChildByClass(YScriptFileContentImpl.class);
+        if(Objects.isNull(yScriptFileContent)){
+            return null;
+        }
+        return yScriptFileContent;
     }
 
     public static String getPathFromContainingFile(final PsiFile containingFile) {
@@ -125,7 +137,7 @@ public class YScriptUtil {
             arguments[i++] = new ProgramArgument(
                     yScriptVar.getVarDef().getVarName().getIdentifier().getText(),
                     yScriptVar.getVarDef().getType().getVarName().getIdentifier().getText(),
-                    Objects.isNull(yScriptVar.getVarDef().getType().getXmlType()) ? null : yScriptVar.getVarDef().getType().getXmlType().getXmlTypeNamespace().getText()
+                    Objects.isNull(yScriptVar.getVarDef().getType().getVString()) ? null : yScriptVar.getVarDef().getType().getVString().getText()
             );
         }
         return arguments;
@@ -138,7 +150,7 @@ public class YScriptUtil {
         }
         return new VariableType(
                 type.getVarName().getIdentifier().getText(),
-                Objects.isNull(type.getXmlType()) ? null : type.getXmlType().getXmlTypeNamespace().getVString().getText()
+                Objects.isNull(type.getVString()) ? null : type.getVString().getText()
         );
     }
 

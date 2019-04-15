@@ -7,7 +7,7 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.util.ProcessingContext;
 import org.jetbrains.annotations.NotNull;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.completion.YScriptCompletionProviderHelper;
-import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptFileContentFBIdx;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptFileContentSBIdx;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptTypes;
 
 import java.util.Collection;
@@ -19,7 +19,7 @@ public class YScriptImportCompletionProvider extends CompletionProvider<Completi
 
     @Override
     protected void addCompletions(@NotNull CompletionParameters completionParameters, @NotNull ProcessingContext processingContext, @NotNull CompletionResultSet completionResultSet) {
-        final Collection<String> allKeys = YScriptFileContentFBIdx.getInstance().getAllKeys(completionParameters.getPosition().getProject());
+        final Collection<String> allKeys = YScriptFileContentSBIdx.getInstance().getAllKeys(completionParameters.getPosition().getProject());
         final String text = YScriptCompletionProviderHelper.getTextUntil(completionParameters.getPosition(), YScriptTypes.KEY_IMPORT);
         final int textLength = text.length();
         if (Objects.nonNull(allKeys)) {

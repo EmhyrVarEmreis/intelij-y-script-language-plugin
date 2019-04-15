@@ -9,7 +9,12 @@ public class YScriptElementFactory {
 
     public static YScriptImport createImport(Project project, String packageName) {
         final YScriptFile file = createFile(project, "IMPORT " + packageName + ";");
-        return (YScriptImport) file.getFirstChild().getFirstChild().getFirstChild();
+        return (YScriptImport) file.getFirstChild().getFirstChild();
+    }
+
+    public static PsiElement createStatementTerminator(Project project) {
+        final YScriptFile file = createFile(project, ";");
+        return file.getFirstChild().getLastChild();
     }
 
     public static PsiElement createCRLF(Project project) {

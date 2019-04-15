@@ -54,19 +54,15 @@ public class YScriptPsiImplUtil {
 
     public static List<String> getImportNames(YScriptFileContent element) {
         List<String> list = new ArrayList<>();
-        for (YScriptStructuralItem yScriptStructuralItem : element.getStructuralItemList()) {
-            final YScriptImport yScriptElement = yScriptStructuralItem.getImport();
-            if (Objects.nonNull(yScriptElement)) {
-                list.add(getName(yScriptElement));
-            }
+        for (YScriptImport yScriptElement : element.getImportList()) {
+            list.add(getName(yScriptElement));
         }
         return list;
     }
 
     public static List<String> getProgramNames(YScriptFileContent element) {
         List<String> list = new ArrayList<>();
-        for (YScriptStructuralItem yScriptStructuralItem : element.getStructuralItemList()) {
-            final YScriptProgram yScriptElement = yScriptStructuralItem.getProgram();
+        for (YScriptProgram yScriptElement : element.getProgramList()) {
             if (Objects.nonNull(yScriptElement)) {
                 list.add(getName(yScriptElement));
             }

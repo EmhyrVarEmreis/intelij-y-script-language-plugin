@@ -18,7 +18,7 @@
 
         space='regexp:\s+'
 //        comment="regexp://.*"
-        comment="regexp:(\/\*([^*]|(\*+[^*\/]))*\*+\/)|(\/\/.+)"
+        comment="regexp:(/\*([^*]|(\*+[^*/]))*\*+/)|(//.+)"
 
         KEY_IMPORT="IMPORT"
         KEY_PROGRAM="PROGRAM"
@@ -119,7 +119,7 @@ private structuralItem_ ::= !<<eof>> structuralItem X_SEMICOLON {
 
 private structuralItemRecover ::= !(KEY_PROGRAM | KEY_IMPORT | KEY_DEFINE)
 
-structuralItem ::= (import | program | define) {pin=1}
+private structuralItem ::= (import | program | define) {pin=1}
 
 import ::= KEY_IMPORT package
 
@@ -143,11 +143,7 @@ var ::= KEY_VAR varDef
 
 varDef ::= varName KEY_AS type
 
-type ::= (KEY_ARRAY KEY_OF)? varName xmlType?
-
-xmlType ::= X_COLON xmlTypeNamespace
-
-xmlTypeNamespace ::= V_STRING
+type ::= (KEY_ARRAY KEY_OF)? varName (X_COLON V_STRING)?
 
 statement ::= (var | return | if | with | while | create | sort | index | delete | try | throw | for | assign | merge | anyCall)
 

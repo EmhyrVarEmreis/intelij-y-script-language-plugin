@@ -45,7 +45,11 @@ public class YscriptAnnotator implements Annotator {
                 holder.createErrorAnnotation(yScriptCall.getTextRange(), "Unresolved program");
             } else {
                 final YScriptFileContent yScriptFileContent = YScriptPsiImplUtil.getYScriptFileContent(yScriptCall);
-                if (!isProgramImportedOrUsed(yScriptFileContent, yScriptProgramObjectLists)) {
+                if (isProgramImportedOrUsed(yScriptFileContent, yScriptProgramObjectLists)) {
+                    if(!isCallMatched(yScriptCall, yScriptProgramObjectLists)){
+                        holder.createErrorAnnotation(yScriptCall.getTextRange(), "Signature doeas not match - Probably wrong number of arguments");
+                    }
+                } else {
                     final Annotation callAnnotation = holder.createErrorAnnotation(yScriptCall.getTextRange(), "Program is not strictly imported");
                     final List<String> possibleImports = getPossibleImports(yScriptCall, yScriptProgramObjectLists);
                     if (possibleImports.size() > 0) {
@@ -119,6 +123,17 @@ public class YscriptAnnotator implements Annotator {
             final YScriptProgramStruct yScriptProgramStruct = programs.iterator().next();
             for (YScriptImport yScriptImport : yScriptFileContent.getImportList()) {
                 if (yScriptImport.getPackage().getText().equalsIgnoreCase(yScriptProgramStruct.getPackageName())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean isCallMatched(@NotNull final YScriptCall yScriptCall, @NotNull final List<YScriptProgramStructBundle> yScriptProgramStructBundleList) {
+        for (YScriptProgramStructBundle programBundle : yScriptProgramStructBundleList) {
+            for (YScriptProgramStruct program : programBundle.getPrograms()) {
+                if (program.match(yScriptCall, true)) {
                     return true;
                 }
             }

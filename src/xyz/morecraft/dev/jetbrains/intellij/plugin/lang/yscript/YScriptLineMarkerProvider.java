@@ -5,6 +5,7 @@ import com.intellij.codeInsight.daemon.RelatedItemLineMarkerProvider;
 import com.intellij.codeInsight.navigation.NavigationGutterIconBuilder;
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiManager;
@@ -12,11 +13,13 @@ import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.xml.XmlDocument;
 import com.intellij.psi.xml.XmlFile;
 import com.intellij.psi.xml.XmlTag;
+import com.intellij.util.indexing.FileBasedIndex;
 import com.intellij.xml.index.IndexedRelevantResource;
 import com.intellij.xml.index.XmlNamespaceIndex;
 import com.intellij.xml.index.XsdNamespaceBuilder;
 import org.jetbrains.annotations.NotNull;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptProgramNameSBIdx;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.file.YScriptPackageFBIdx;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.*;
 
 import java.util.ArrayList;
@@ -31,7 +34,24 @@ public class YScriptLineMarkerProvider extends RelatedItemLineMarkerProvider {
     @Override
     protected void collectNavigationMarkers(@NotNull PsiElement element, @NotNull Collection<? super RelatedItemLineMarkerInfo> result) {
         super.collectNavigationMarkers(element, result);
-        if (element instanceof YScriptCall) {
+        if (element instanceof YScriptImport) {
+            final YScriptImport yScriptImport = (YScriptImport) element;
+            final YScriptPackage yScriptPackage = yScriptImport.getPackage();
+            final String importName = yScriptPackage.getText();
+            final Collection<VirtualFile> containingFiles = FileBasedIndex.getInstance().getContainingFiles(YScriptPackageFBIdx.KEY, importName, GlobalSearchScope.projectScope(element.getProject()));
+            final List<PsiFile> targets = new ArrayList<>(containingFiles.size());
+            for (VirtualFile containingFile : containingFiles) {
+                final PsiFile psiFile = PsiManager.getInstance(element.getProject()).findFile(containingFile);
+                if(Objects.nonNull(psiFile)){
+                    targets.add(psiFile);
+                }
+            }
+            NavigationGutterIconBuilder<PsiElement> builder =
+                    NavigationGutterIconBuilder.create(YScriptIcons.IMPORT_REF)
+                            .setTargets(targets)
+                            .setTooltipText("Navigate to import `" + importName + "`");
+            result.add(builder.createLineMarkerInfo(yScriptPackage.getFirstChild()));
+        } else if (element instanceof YScriptCall) {
             final YScriptCall yScriptCall = (YScriptCall) element;
             final YScriptPackage yScriptPackage = yScriptCall.getPackage();
             final String programName = yScriptPackage.getText();

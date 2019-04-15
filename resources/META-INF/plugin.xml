@@ -18,6 +18,7 @@
             <li>Add - Completion contributor for variable names</li>
             <li>Add - Quick-Fix for imports</li>
             <li>Add - Support for short if</li>
+            <li>Add - Line markers for imports</li>
             <li>Fix - Negative number without space after "-"</li>
         </ul>
     ]]>

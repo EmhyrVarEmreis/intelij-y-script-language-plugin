@@ -238,7 +238,7 @@ fStrlen ::= F_KEY_STRLEN X_OPEN_BRACKET expression X_CLOSE_BRACKET
 body ::= (block | statement)
 
 block ::= KEY_BEGIN statementWithEnding* KEY_END {
-    pin=1
+    pin=3
 }
 
 private statementWithEnding ::= statement X_SEMICOLON {

@@ -21,8 +21,10 @@ import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.YScriptFileType;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.file.YScriptPackageFBIdx;
-import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.*;
-import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl.YScriptFileContentImpl;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptElementFactory;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptFile;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptFileContent;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptImport;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScriptUtil;
 
 import java.util.ArrayList;
@@ -94,26 +96,37 @@ public class CreateMissingImportQuickFix extends BaseIntentionAction {
             if (Objects.isNull(yScriptFileContent)) {
                 return;
             }
-            final ASTNode insertNode = yScriptFileContent.getNode().findChildByType(YScriptTypes.IMPORT);
-            final PsiElement psi1 = YScriptElementFactory.createCRLF(project).getNode().getPsi();
-            final PsiElement psi2 = YScriptElementFactory.createStatementTerminator(project).getNode().getPsi();
-            final PsiElement psi3 = YScriptElementFactory.createImport(project, YScriptUtil.getPackageName(importFile)).getNode().getPsi();
-            if (Objects.nonNull(insertNode)) {
-                final PsiElement insertNodePsi = insertNode.getPsi();
-                insertNodePsi.addAfter(psi1, null);
-                insertNodePsi.addAfter(psi2, null);
-                insertNodePsi.addAfter(psi3, null);
-            } else {
-                final ASTNode insertNodeBkAST = yScriptFileContent.getNode().getFirstChildNode();
-                if (Objects.isNull(insertNodeBkAST)) {
-                    return;
-                }
-                final PsiElement insertNodeBk = insertNodeBkAST.getPsi();
-                insertNodeBk.addBefore(psi3, null);
-                insertNodeBk.addBefore(psi2, null);
-                insertNodeBk.addBefore(psi1, null);
+            final PsiElement psiLine0 = YScriptElementFactory.createCRLF(project).getNode().getPsi();
+            final PsiElement psiLine1 = YScriptElementFactory.createCRLF(project).getNode().getPsi();
+            final PsiElement psiTerminator = YScriptElementFactory.createStatementTerminator(project).getNode().getPsi();
+            final PsiElement psiImport = YScriptElementFactory.createImport(project, YScriptUtil.getPackageName(importFile)).getNode().getPsi();
+
+            ASTNode insertNode = this.getLast(yScriptFileContent.getChildren(), YScriptImport.class);
+
+            boolean addSecondLine = false;
+
+            if (Objects.isNull(insertNode)) {
+                insertNode = yScriptFileContent.getNode().getFirstChildNode();
+                addSecondLine = true;
             }
+            yScriptFileContent.getNode().addChild(psiImport.getNode(), insertNode);
+            yScriptFileContent.getNode().addChild(psiTerminator.getNode(), insertNode);
+            yScriptFileContent.getNode().addChild(psiLine0.getNode(), insertNode);
+            if (addSecondLine) {
+                yScriptFileContent.getNode().addChild(psiLine1.getNode(), insertNode);
+            }
+            DaemonCodeAnalyzer.getInstance(project).restart();
         });
+    }
+
+    private ASTNode getLast(final PsiElement[] elements, final Class type) {
+        PsiElement element = null;
+        for (PsiElement psiElement : elements) {
+            if (type.isInstance(psiElement)) {
+                element = psiElement;
+            }
+        }
+        return Objects.isNull(element) ? null : element.getNode();
     }
 
 }

@@ -108,6 +108,9 @@ public class YscriptAnnotator implements Annotator {
     }
 
     private boolean checkIfDefined(final YScriptPropertyBase leadPropertyBase) {
+        if (leadPropertyBase.getName().equals("result")) {
+            return true;
+        }
         PsiElement element = getPrev(leadPropertyBase);
         while (element != null) {
             if (element instanceof YScriptStatement) {

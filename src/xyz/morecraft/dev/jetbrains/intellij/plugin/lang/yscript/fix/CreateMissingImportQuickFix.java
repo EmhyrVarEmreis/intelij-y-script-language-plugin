@@ -98,7 +98,6 @@ public class CreateMissingImportQuickFix extends BaseIntentionAction {
             }
             final PsiElement psiLine0 = YScriptElementFactory.createCRLF(project).getNode().getPsi();
             final PsiElement psiLine1 = YScriptElementFactory.createCRLF(project).getNode().getPsi();
-            final PsiElement psiTerminator = YScriptElementFactory.createStatementTerminator(project).getNode().getPsi();
             final PsiElement psiImport = YScriptElementFactory.createImport(project, YScriptUtil.getPackageName(importFile)).getNode().getPsi();
 
             ASTNode insertNode = this.getLast(yScriptFileContent.getChildren(), YScriptImport.class);
@@ -110,7 +109,6 @@ public class CreateMissingImportQuickFix extends BaseIntentionAction {
                 addSecondLine = true;
             }
             yScriptFileContent.getNode().addChild(psiImport.getNode(), insertNode);
-            yScriptFileContent.getNode().addChild(psiTerminator.getNode(), insertNode);
             yScriptFileContent.getNode().addChild(psiLine0.getNode(), insertNode);
             if (addSecondLine) {
                 yScriptFileContent.getNode().addChild(psiLine1.getNode(), insertNode);

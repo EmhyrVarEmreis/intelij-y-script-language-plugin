@@ -35,6 +35,7 @@ public class YscriptAnnotator implements Annotator {
         BUILT_IN_TYPES.add("String");
         BUILT_IN_TYPES.add("DateTime");
         BUILT_IN_TYPES.add("Float");
+        BUILT_IN_TYPES.add("Boolean");
         BUILT_IN_TYPES.add("AnyType");
     }
 

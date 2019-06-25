@@ -72,7 +72,7 @@ public class YScriptLineMarkerProvider extends RelatedItemLineMarkerProvider {
             if (properties.size() > 0) {
                 final List<YScriptPackage> targets = new ArrayList<>(properties.size());
                 for (YScriptProgram property : properties) {
-                    targets.add(property.getPackage());
+                    targets.add(property.getProgramHeader().getPackage());
                 }
                 NavigationGutterIconBuilder<PsiElement> builder =
                         NavigationGutterIconBuilder.create(YScriptIcons.PROGRAM_REF)

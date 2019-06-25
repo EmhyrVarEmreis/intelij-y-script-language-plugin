@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript</id>
     <name>Y Script support (IAS)</name>
-    <version>0.5.0</version>
+    <version>0.5.1</version>
     <vendor email="mstef94@gmail.com" url="http://mateuszstefaniak.me/">Mateusz Stefaniak</vendor>
 
     <description><![CDATA[
@@ -15,7 +15,7 @@
         <ul>
             <li>Add - Completion contributor for code blocks</li>
             <li>Add - Completion contributor for variable names</li>
-            <li>Add - Completion contributor for variable names</li>
+            <li>Add - Simple variable existence check</li>
             <li>Add - Quick-Fix for imports</li>
             <li>Add - Support for short if</li>
             <li>Add - Line markers for imports</li>
@@ -45,6 +45,7 @@
         <fileBasedIndex implementation="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.file.YScriptProgramNameFBIdx"/>
         <annotator language="YScript" implementationClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.YscriptAnnotator"/>
         <completion.contributor language="YScript" implementationClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.completion.YScriptCompletionContributor"/>
+        <!--<lang.formatter language="YScript" implementationClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.YScriptFormattingModelBuilder"/>-->
     </extensions>
 
     <actions>

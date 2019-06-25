@@ -22,7 +22,7 @@ public class YScriptProgramNameSBIdx extends AbstractStubIndex<String, YScriptPr
 
     @Override
     public int getVersion() {
-        return 9;
+        return 10;
     }
 
     @NotNull

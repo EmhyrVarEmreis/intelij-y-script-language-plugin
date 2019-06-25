@@ -18,6 +18,7 @@ import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptTypes
 
 public class YScriptParserDefinition implements ParserDefinition {
 
+    public static final TokenSet NO_SPACES = TokenSet.create(YScriptTypes.X_DOUBLE_COLON, YScriptTypes.X_DOT);
     public static final TokenSet WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE);
     public static final TokenSet COMMENTS = TokenSet.create(YScriptTypes.COMMENT);
 
@@ -61,6 +62,9 @@ public class YScriptParserDefinition implements ParserDefinition {
 
     @Override
     public SpaceRequirements spaceExistenceTypeBetweenTokens(ASTNode left, ASTNode right) {
+        if (NO_SPACES.contains(left.getElementType()) || NO_SPACES.contains(right.getElementType())) {
+            return SpaceRequirements.MUST_NOT;
+        }
         return SpaceRequirements.MAY;
     }
 

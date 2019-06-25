@@ -12,9 +12,17 @@ import java.util.Objects;
 
 public class YScriptPsiImplUtil {
 
+    public static String getName(YScriptType element) {
+        return getName(element.getVarName());
+    }
+
+    public static String getName(YScriptVarDef element) {
+        return getName(element.getVarName());
+    }
+
     public static String getName(YScriptProgram element) {
 //        ASTNode keyNode = element.getNode().findChildByType(YScriptTypes.PACKAGE);
-        return getName(element.getPackage());
+        return getName(element.getProgramHeader().getPackage());
     }
 
     public static String getName(YScriptFileContent element) {

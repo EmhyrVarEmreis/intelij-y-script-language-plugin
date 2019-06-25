@@ -20,15 +20,23 @@ import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.*;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl.YScriptPsiImplUtil;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScriptUtil;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScriptConstants.CONFIG_INCLUDE_DIRECTORIES_WHILE_IMPORT;
 import static xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScriptConstants.SHARED_PROGRAM_NAME_PART;
 
 public class YscriptAnnotator implements Annotator {
+
+    private static Set<String> BUILT_IN_TYPES;
+
+    static {
+        BUILT_IN_TYPES = new HashSet<>();
+        BUILT_IN_TYPES.add("Integer");
+        BUILT_IN_TYPES.add("String");
+        BUILT_IN_TYPES.add("DateTime");
+        BUILT_IN_TYPES.add("Float");
+        BUILT_IN_TYPES.add("AnyType");
+    }
 
     @Override
     public void annotate(@NotNull PsiElement element, @NotNull AnnotationHolder holder) {
@@ -46,11 +54,11 @@ public class YscriptAnnotator implements Annotator {
             } else {
                 final YScriptFileContent yScriptFileContent = YScriptPsiImplUtil.getYScriptFileContent(yScriptCall);
                 if (isProgramImportedOrUsed(yScriptFileContent, yScriptProgramObjectLists)) {
-                    if(!isCallMatched(yScriptCall, yScriptProgramObjectLists)){
+                    if (!isCallMatched(yScriptCall, yScriptProgramObjectLists)) {
                         holder.createErrorAnnotation(yScriptCall.getTextRange(), "Signature doeas not match - Probably wrong number of arguments");
                     }
                 } else {
-                    final Annotation callAnnotation = holder.createErrorAnnotation(yScriptCall.getTextRange(), "Program is not strictly imported");
+                    final Annotation callAnnotation = holder.createWarningAnnotation(yScriptCall.getTextRange(), "Program is not strictly imported");
                     final List<String> possibleImports = getPossibleImports(yScriptCall, yScriptProgramObjectLists);
                     if (possibleImports.size() > 0) {
                         callAnnotation.registerFix(new CreateMissingImportQuickFix(possibleImports));
@@ -69,7 +77,66 @@ public class YscriptAnnotator implements Annotator {
                     holder.createErrorAnnotation(yScriptImport.getTextRange(), "Unresolved file");
                 }
             }
+        } else if (element instanceof YScriptPropertySimple) {
+            final YScriptPropertySimple propertySimple = (YScriptPropertySimple) element;
+            final List<YScriptPropertyBase> propertyBaseList = propertySimple.getPropertyBaseList();
+            if (propertyBaseList.size() < 1) {
+                return;
+            }
+            final YScriptPropertyBase leadPropertyBase = propertyBaseList.get(0);
+            final boolean present = checkIfDefined(leadPropertyBase);
+            if (!present) {
+                holder.createErrorAnnotation(leadPropertyBase.getTextRange(), "Undefined variable");
+                return;
+            }
+            for (int i = 0; i < propertyBaseList.size(); i++) {
+                final YScriptPropertyBase propertyBase = propertyBaseList.get(i);
+            }
+        } else if (element instanceof YScriptType) {
+            final YScriptType type = (YScriptType) element;
+            if (Objects.nonNull(type.getVString())) {
+                return;
+            }
+            if (!BUILT_IN_TYPES.contains(type.getName())) {
+                holder.createErrorAnnotation(type.getTextRange(), "Unknown type");
+            }
         }
+    }
+
+    private PsiElement getPrev(final PsiElement element) {
+        return element.getPrevSibling() == null ? element.getParent() : element.getPrevSibling();
+    }
+
+    private boolean checkIfDefined(final YScriptPropertyBase leadPropertyBase) {
+        PsiElement element = getPrev(leadPropertyBase);
+        while (element != null) {
+            if (element instanceof YScriptStatement) {
+                final YScriptVar var = ((YScriptStatement) element).getVar();
+                if (var != null) {
+                    if (var.getVarDef().getName().equals(leadPropertyBase.getName())) {
+                        return true;
+                    }
+                }
+            } else if (element instanceof YScriptProgram) {
+                final YScriptProgramHeader header = ((YScriptProgram) element).getProgramHeader();
+                for (YScriptVar yScriptVar : header.getVarList()) {
+                    if (yScriptVar.getVarDef().getName().equals(leadPropertyBase.getName())) {
+                        return true;
+                    }
+                }
+                break;
+            } else if (element instanceof YScriptBlock) {
+                if (element.getParent() instanceof YScriptCreate) {
+                    return true;
+                } else if (element.getParent() instanceof YScriptNew) {
+                    return true;
+                }
+            } else if (element instanceof YScriptWithObj) {
+                return true;
+            }
+            element = getPrev(element);
+        }
+        return false;
     }
 
     private static List<String> getPossibleImports(@NotNull final YScriptCall yScriptCall, @NotNull final List<YScriptProgramStructBundle> yScriptProgramStructBundleList) {

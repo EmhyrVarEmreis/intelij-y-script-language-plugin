@@ -9,10 +9,4 @@ public interface YScriptProgramStub extends StubElement<YScriptProgram> {
 
     String getName();
 
-    String getPackageName();
-
-    ProgramArgument[] getArguments();
-
-    VariableType getReturnType();
-
 }

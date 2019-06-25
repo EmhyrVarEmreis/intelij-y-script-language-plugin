@@ -51,12 +51,12 @@ public class YScriptUtil {
         return result != null ? result : Collections.emptyList();
     }
 
-    public static YScriptFileContent getYScriptFileContent(@Nullable final YScriptFile yScriptFile ){
-        if(Objects.isNull(yScriptFile)){
+    public static YScriptFileContent getYScriptFileContent(@Nullable final YScriptFile yScriptFile) {
+        if (Objects.isNull(yScriptFile)) {
             return null;
         }
         final YScriptFileContent yScriptFileContent = yScriptFile.findChildByClass(YScriptFileContentImpl.class);
-        if(Objects.isNull(yScriptFileContent)){
+        if (Objects.isNull(yScriptFileContent)) {
             return null;
         }
         return yScriptFileContent;
@@ -126,11 +126,10 @@ public class YScriptUtil {
     }
 
     public static ProgramArgument[] getProgramArguments(final YScriptProgram yScriptProgram) {
-        final YScriptVars vars = yScriptProgram.getVars();
-        if (Objects.isNull(vars)) {
+        final List<YScriptVar> varList = yScriptProgram.getProgramHeader().getVarList();
+        if (varList.size() == 0) {
             return new ProgramArgument[0];
         }
-        final List<YScriptVar> varList = vars.getVarList();
         final ProgramArgument[] arguments = new ProgramArgument[varList.size()];
         int i = 0;
         for (YScriptVar yScriptVar : varList) {
@@ -144,7 +143,7 @@ public class YScriptUtil {
     }
 
     public static VariableType getProgramReturnType(YScriptProgram yScriptProgram) {
-        final YScriptType type = yScriptProgram.getType();
+        final YScriptType type = yScriptProgram.getProgramHeader().getType();
         if (Objects.isNull(type)) {
             return null;
         }

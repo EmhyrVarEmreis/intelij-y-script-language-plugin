@@ -31,11 +31,7 @@ public class YScriptSimpleCompletionProvider extends CompletionProvider<Completi
         if (Objects.isNull(program)) {
             return;
         }
-        final YScriptVars yScriptProgramVars = program.getVars();
-        if (Objects.isNull(yScriptProgramVars)) {
-            return;
-        }
-        for (YScriptVar yScriptVar : yScriptProgramVars.getVarList()) {
+        for (YScriptVar yScriptVar : program.getProgramHeader().getVarList()) {
             variables.add(yScriptVar.getVarDef().getVarName().getText());
         }
     }

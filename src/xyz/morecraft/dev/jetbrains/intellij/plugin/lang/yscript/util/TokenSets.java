@@ -10,4 +10,11 @@ public class TokenSets {
             YScriptTypes.BLOCK_DEFINE
     );
 
+    public static TokenSet RELEVANT_SET = TokenSet.create(
+            YScriptTypes.FILE_CONTENT,
+            YScriptTypes.PROGRAM,
+            YScriptTypes.IMPORT,
+            YScriptTypes.DEFINE
+    );
+
 }

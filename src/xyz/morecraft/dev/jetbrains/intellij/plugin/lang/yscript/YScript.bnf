@@ -18,7 +18,7 @@
 
         space='regexp:\s+'
 //        comment="regexp://.*"
-        comment="regexp:(/\*([^*]|(\*+[^*/]))*\*+/)|(//.+)"
+        comment="regexp:(/\*([^*]|(\*+[^*/]))*\*+/)|(//.*)"
 
         KEY_IMPORT="IMPORT"
         KEY_PROGRAM="PROGRAM"
@@ -83,7 +83,7 @@
         OP_EQIALS="=="
         OP_NEQUALS="<>"
 
-        IDENTIFIER="regexp:\p{Alpha}\w*"
+        IDENTIFIER="regexp:(\p{Alpha}\w*+)|(\{[\w.@\-]+\})"
     ]
 
     parserClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.parser.YScriptParser"
@@ -112,7 +112,7 @@ fileContent ::= structuralItem_ * {
    elementTypeFactory="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.stub.YScriptElementTypeFactory.stubFactory";
 }
 
-private structuralItem_ ::= !<<eof>> structuralItem X_SEMICOLON {
+private structuralItem_ ::= !<<eof>> structuralItem {
    pin=1
    recoverWhile=structuralItemRecover
 }
@@ -121,29 +121,37 @@ private structuralItemRecover ::= !(KEY_PROGRAM | KEY_IMPORT | KEY_DEFINE)
 
 private structuralItem ::= (import | program | define) {pin=1}
 
-import ::= KEY_IMPORT package
+import ::= KEY_IMPORT package X_SEMICOLON
 
 //noinspection BnfResolve
-program ::= KEY_PROGRAM package X_OPEN_BRACKET vars? X_CLOSE_BRACKET (KEY_RETURNS type)? (block | externalProgram) {
+program ::= programHeader programBody X_SEMICOLON {
     methods=[getName];
     stubClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptProgramStub";
     extends="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl.YScriptStubbedElementImpl<?>";
     elementTypeFactory="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.stub.YScriptElementTypeFactory.stubFactory"
 }
 
+programHeader ::= KEY_PROGRAM package X_OPEN_BRACKET vars? X_CLOSE_BRACKET (KEY_RETURNS type)?
+
+programBody ::= (block | externalProgram)
+
 externalProgram ::= KEY_EXTERNAL V_STRING X_OPEN_BRACKET arguments? X_CLOSE_BRACKET
 
-define ::= KEY_DEFINE type KEY_AS (KEY_EXTENSION KEY_OF type)? blockDefine
+define ::= KEY_DEFINE type KEY_AS (KEY_EXTENSION KEY_OF type)? blockDefine X_SEMICOLON
 
 package ::= IDENTIFIER (X_DOUBLE_COLON IDENTIFIER)*
 
-vars ::= var (X_COMMA var)*
+private vars ::= var (X_COMMA var)*
 
 var ::= KEY_VAR varDef
 
-varDef ::= varName KEY_AS type
+varDef ::= varName KEY_AS type {
+    methods=[getName];
+}
 
-type ::= (KEY_ARRAY KEY_OF)? varName (X_COLON V_STRING)?
+type ::= (KEY_ARRAY KEY_OF)? varName (X_COLON V_STRING)? {
+    methods=[getName];
+}
 
 statement ::= (var | return | if | with | while | create | sort | index | delete | try | throw | for | assign | merge | anyCall)
 
@@ -209,11 +217,15 @@ arguments ::= expression (X_COMMA expression)*
 
 propertySimple ::= propertyBase (X_DOT propertyBase)*
 
-propertyBase ::= varName (bracketSingleExpression|bracketDoubleExpression)?
+propertyBase ::= varName bracketExpression? {
+    methods=[getName];
+}
 
-bracketSingleExpression ::= X_OPEN_SQUARE_BRACKET expression X_CLOSE_SQUARE_BRACKET
+bracketExpression ::= bracketSingleExpression | bracketDoubleExpression
 
-bracketDoubleExpression ::= X_OPEN_SQUARE_BRACKET X_OPEN_SQUARE_BRACKET expression X_CLOSE_SQUARE_BRACKET X_CLOSE_SQUARE_BRACKET
+private bracketSingleExpression ::= X_OPEN_SQUARE_BRACKET expression X_CLOSE_SQUARE_BRACKET
+
+private bracketDoubleExpression ::= X_OPEN_SQUARE_BRACKET X_OPEN_SQUARE_BRACKET expression X_CLOSE_SQUARE_BRACKET X_CLOSE_SQUARE_BRACKET
 
 value ::= (KEY_NULL | V_STRING | valNumber)
 

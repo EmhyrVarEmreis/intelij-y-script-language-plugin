@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript</id>
     <name>Y Script support (IAS)</name>
-    <version>0.5.4</version>
+    <version>0.5.5</version>
     <vendor email="mstef94@gmail.com" url="http://mateuszstefaniak.me/">Mateusz Stefaniak</vendor>
 
     <description><![CDATA[
@@ -20,6 +20,7 @@
             <li>Add - Support for short if</li>
             <li>Add - Line markers for imports</li>
             <li>Fix - Negative number without space after "-"</li>
+            <li>Fix - Program not imported when is in the same file</li>
         </ul>
     ]]>
     </change-notes>

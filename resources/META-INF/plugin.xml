@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript</id>
     <name>Y Script support (IAS)</name>
-    <version>0.5.5</version>
+    <version>0.5.6</version>
     <vendor email="mstef94@gmail.com" url="http://mateuszstefaniak.me/">Mateusz Stefaniak</vendor>
 
     <description><![CDATA[
@@ -21,6 +21,7 @@
             <li>Add - Line markers for imports</li>
             <li>Fix - Negative number without space after "-"</li>
             <li>Fix - Program not imported when is in the same file</li>
+            <li>Fix - Import nav icon for unresolved file</li>
         </ul>
     ]]>
     </change-notes>

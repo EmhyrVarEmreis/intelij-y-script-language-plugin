@@ -39,10 +39,13 @@ public class YScriptLineMarkerProvider extends RelatedItemLineMarkerProvider {
             final YScriptPackage yScriptPackage = yScriptImport.getPackage();
             final String importName = yScriptPackage.getText();
             final Collection<VirtualFile> containingFiles = FileBasedIndex.getInstance().getContainingFiles(YScriptPackageFBIdx.KEY, importName, GlobalSearchScope.projectScope(element.getProject()));
+            if (containingFiles.size() == 0) {
+                return;
+            }
             final List<PsiFile> targets = new ArrayList<>(containingFiles.size());
             for (VirtualFile containingFile : containingFiles) {
                 final PsiFile psiFile = PsiManager.getInstance(element.getProject()).findFile(containingFile);
-                if(Objects.nonNull(psiFile)){
+                if (Objects.nonNull(psiFile)) {
                     targets.add(psiFile);
                 }
             }

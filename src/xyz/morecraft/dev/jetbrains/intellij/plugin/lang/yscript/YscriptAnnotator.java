@@ -129,7 +129,7 @@ public class YscriptAnnotator implements Annotator {
                     }
                 }
                 break;
-            } else if (element instanceof YScriptBlock && (element.getParent() instanceof YScriptCreate || element.getParent() instanceof YScriptNew)) {
+            } else if ((element instanceof YScriptBlock || element instanceof YScriptBody) && (element.getParent() instanceof YScriptCreate || element.getParent() instanceof YScriptNew || element.getParent() instanceof YScriptWithObj)) {
                 return true;
             } else if (element instanceof YScriptWithLoop) {
                 final String varName = ((YScriptWithLoop) element).getVarName().getIdentifier().getText();

@@ -7,10 +7,21 @@ import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.*;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScriptUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 public class YScriptPsiImplUtil {
+
+    public static List<YScriptStatement> getStatements(YScriptBody element) {
+        if (Objects.nonNull(element.getStatement())) {
+            return Collections.singletonList(element.getStatement());
+        }
+        if (Objects.isNull(element.getBlock())) {
+            return Collections.emptyList();
+        }
+        return element.getBlock().getStatementList();
+    }
 
     public static String getName(YScriptType element) {
         return getName(element.getVarName());

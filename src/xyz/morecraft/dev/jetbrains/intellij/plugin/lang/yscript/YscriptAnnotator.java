@@ -136,6 +136,8 @@ public class YscriptAnnotator implements Annotator {
                 if (varName.equals(leadPropertyBase.getName())) {
                     return true;
                 }
+            } else if (element instanceof YScriptExpressionDotted) {
+                return true;
             }
             element = getPrev(element);
         }

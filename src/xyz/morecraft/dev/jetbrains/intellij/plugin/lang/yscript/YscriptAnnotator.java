@@ -129,6 +129,11 @@ public class YscriptAnnotator implements Annotator {
                     }
                 }
                 break;
+            } else if (element instanceof YScriptCatchBlock) {
+                final YScriptCatchBlock catchBlock = ((YScriptCatchBlock) element);
+                if (catchBlock.getVar().getVarDef().getName().equals(leadPropertyBase.getName())) {
+                    return true;
+                }
             } else if ((element instanceof YScriptBlock || element instanceof YScriptBody) && (element.getParent() instanceof YScriptCreate || element.getParent() instanceof YScriptNew || element.getParent() instanceof YScriptWithObj)) {
                 return true;
             } else if (element instanceof YScriptWithLoop) {

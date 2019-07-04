@@ -173,7 +173,9 @@ index ::= KEY_INDEX propertySimple KEY_USING propertySimple;
 
 delete ::= KEY_DELETE propertySimple
 
-try ::= KEY_TRY block (KEY_CATCH X_OPEN_BRACKET var X_CLOSE_BRACKET block)+
+try ::= KEY_TRY block catchBlock+
+
+catchBlock ::= KEY_CATCH X_OPEN_BRACKET var X_CLOSE_BRACKET block
 
 throw ::= KEY_THROW (new | expression)
 

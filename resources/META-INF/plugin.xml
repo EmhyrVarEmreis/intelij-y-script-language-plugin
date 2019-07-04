@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript</id>
     <name>Y Script support (IAS)</name>
-    <version>0.5.8</version>
+    <version>0.5.9</version>
     <vendor email="mstef94@gmail.com" url="http://mateuszstefaniak.me/">Mateusz Stefaniak</vendor>
 
     <description><![CDATA[
@@ -13,7 +13,7 @@
 
     <change-notes><![CDATA[
         <ul>
-            <li>Fix - Simple variable existence check - Expression dotted marked as incorrect</li>
+            <li>Fix - Simple variable existence check - Variables in try-catch</li>
         </ul>
     ]]>
     </change-notes>

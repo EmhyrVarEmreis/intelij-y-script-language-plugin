@@ -34,6 +34,8 @@ public class YscriptAnnotator implements Annotator {
         BUILT_IN_TYPES.add("Integer");
         BUILT_IN_TYPES.add("String");
         BUILT_IN_TYPES.add("DateTime");
+        BUILT_IN_TYPES.add("Date");
+        BUILT_IN_TYPES.add("Raw");
         BUILT_IN_TYPES.add("Float");
         BUILT_IN_TYPES.add("Boolean");
         BUILT_IN_TYPES.add("AnyType");
@@ -56,11 +58,11 @@ public class YscriptAnnotator implements Annotator {
                 final YScriptFileContent yScriptFileContent = YScriptPsiImplUtil.getYScriptFileContent(yScriptCall);
                 if (isProgramImportedOrUsed(yScriptFileContent, yScriptProgramObjectLists, programName)) {
                     if (!isCallMatched(yScriptCall, yScriptProgramObjectLists)) {
-                        holder.createErrorAnnotation(yScriptCall.getTextRange(), "Signature doeas not match - Probably wrong number of arguments");
+                        holder.createErrorAnnotation(yScriptCall.getTextRange(), "Signature does not match - Probably wrong number of arguments");
                     }
                 } else {
                     final Annotation callAnnotation = holder.createWarningAnnotation(yScriptCall.getTextRange(), "Program is not strictly imported");
-                    final List<String> possibleImports = getPossibleImports(yScriptCall, yScriptProgramObjectLists);
+                    final Collection<String> possibleImports = getPossibleImports(yScriptCall, yScriptProgramObjectLists);
                     if (possibleImports.size() > 0) {
                         callAnnotation.registerFix(new CreateMissingImportQuickFix(possibleImports));
                     }
@@ -88,10 +90,6 @@ public class YscriptAnnotator implements Annotator {
             final boolean present = checkIfDefined(leadPropertyBase);
             if (!present) {
                 holder.createErrorAnnotation(leadPropertyBase.getTextRange(), "Undefined variable");
-                return;
-            }
-            for (int i = 0; i < propertyBaseList.size(); i++) {
-                final YScriptPropertyBase propertyBase = propertyBaseList.get(i);
             }
         } else if (element instanceof YScriptType) {
             final YScriptType type = (YScriptType) element;
@@ -149,8 +147,8 @@ public class YscriptAnnotator implements Annotator {
         return false;
     }
 
-    private static List<String> getPossibleImports(@NotNull final YScriptCall yScriptCall, @NotNull final List<YScriptProgramStructBundle> yScriptProgramStructBundleList) {
-        final List<String> possibleImports = new ArrayList<>();
+    private static Collection<String> getPossibleImports(@NotNull final YScriptCall yScriptCall, @NotNull final List<YScriptProgramStructBundle> yScriptProgramStructBundleList) {
+        final Set<String> possibleImports = new HashSet<>();
         for (YScriptProgramStructBundle programStructBundle : yScriptProgramStructBundleList) {
             for (YScriptProgramStruct program : programStructBundle.getPrograms()) {
                 if (program.match(yScriptCall, false)) {

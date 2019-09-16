@@ -14,6 +14,7 @@
     <change-notes><![CDATA[
         <ul>
             <li>Fix - Simple variable existence check - Variables in try-catch</li>
+            <li>Add - More build-in IAS types</li>
         </ul>
     ]]>
     </change-notes>

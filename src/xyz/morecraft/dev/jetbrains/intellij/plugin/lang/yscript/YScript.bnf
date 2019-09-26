@@ -70,6 +70,7 @@
         F_KEY_IS_NULL="ISNULL"
         F_KEY_TYPE="TYPE"
         F_KEY_STRLEN="STRLEN"
+        F_KEY_TYPENS="TYPENS"
 
         OP_LT="<"
         OP_GT=">"
@@ -209,7 +210,7 @@ boolean ::= (KEY_TRUE | KEY_FALSE)
 
 cast ::= X_OPEN_BRACKET expressionFactor KEY_AS type X_CLOSE_BRACKET
 
-private anyCall ::= fSizeOf | fIsSet | fCopyOf | fIsNull | fType | fStrlen | call
+private anyCall ::= fSizeOf | fIsSet | fCopyOf | fIsNull | fType | fStrlen | fTypeNS | call
 
 call ::= package X_OPEN_BRACKET arguments? X_CLOSE_BRACKET
 
@@ -241,13 +242,15 @@ fSizeOf ::= F_KEY_SIZE_OF X_OPEN_BRACKET expression X_CLOSE_BRACKET
 
 fIsSet ::= F_KEY_IS_SET X_OPEN_BRACKET expression X_CLOSE_BRACKET
 
-fCopyOf ::= F_KEY_COPY_OF X_OPEN_BRACKET expression X_CLOSE_BRACKET
+fCopyOf ::= F_KEY_COPY_OF X_OPEN_BRACKET propertySimple X_CLOSE_BRACKET
 
 fIsNull ::= F_KEY_IS_NULL X_OPEN_BRACKET expression X_CLOSE_BRACKET
 
 fType ::= F_KEY_TYPE X_OPEN_BRACKET expression X_CLOSE_BRACKET
 
 fStrlen ::= F_KEY_STRLEN X_OPEN_BRACKET expression X_CLOSE_BRACKET
+
+fTypeNS ::= F_KEY_TYPENS X_OPEN_BRACKET expression X_CLOSE_BRACKET
 
 body ::= (block | statement) {
     methods=[getStatements];

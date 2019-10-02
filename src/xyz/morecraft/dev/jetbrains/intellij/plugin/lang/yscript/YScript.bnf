@@ -84,7 +84,7 @@
         OP_EQIALS="=="
         OP_NEQUALS="<>"
 
-        IDENTIFIER="regexp:(\p{Alpha}\w*+)|(\{[\w.@\-]+\})"
+        IDENTIFIER="regexp:([\p{Alpha}_]\w*+)|(\{[\w.@\-]+\})"
     ]
 
     parserClass="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.parser.YScriptParser"

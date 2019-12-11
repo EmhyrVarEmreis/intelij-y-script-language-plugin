@@ -16,6 +16,8 @@ import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.YScriptPro
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.file.YScriptProgramNameFBIdx;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.file.obj.YScriptProgramStruct;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.file.obj.YScriptProgramStructBundle;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.util.ProgramArgument;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.util.VariableType;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.*;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.impl.YScriptPsiImplUtil;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScriptUtil;
@@ -27,7 +29,8 @@ import static xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScr
 
 public class YscriptAnnotator implements Annotator {
 
-    private static Set<String> BUILT_IN_TYPES;
+    private final static Set<String> BUILT_IN_TYPES;
+    private final static Map<String, YScriptProgramStructBundle> BUILT_IN_PROGRAMS;
 
     static {
         BUILT_IN_TYPES = new HashSet<>();
@@ -40,6 +43,15 @@ public class YscriptAnnotator implements Annotator {
         BUILT_IN_TYPES.add("Float");
         BUILT_IN_TYPES.add("Boolean");
         BUILT_IN_TYPES.add("AnyType");
+        BUILT_IN_PROGRAMS = new HashMap<>();
+        BUILT_IN_PROGRAMS.put("std::strlen", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::strlen",
+                        "dts::default",
+                        new ProgramArgument[]{new ProgramArgument("strArgument", "String", null)},
+                        new VariableType("Integer", null)
+                )
+        )));
     }
 
     @Override
@@ -51,8 +63,9 @@ public class YscriptAnnotator implements Annotator {
             if (programName.contains(SHARED_PROGRAM_NAME_PART)) {
                 return;
             }
+            final YScriptProgramStructBundle yScriptProgramStructBundle = BUILT_IN_PROGRAMS.get(programName);
             final Project project = element.getProject();
-            final List<YScriptProgramStructBundle> yScriptProgramObjectLists = FileBasedIndex.getInstance().getValues(YScriptProgramNameFBIdx.KEY, programName, GlobalSearchScope.projectScope(project));
+            final List<YScriptProgramStructBundle> yScriptProgramObjectLists = Objects.isNull(yScriptProgramStructBundle) ? FileBasedIndex.getInstance().getValues(YScriptProgramNameFBIdx.KEY, programName, GlobalSearchScope.projectScope(project)) : Collections.singletonList(yScriptProgramStructBundle);
             if (yScriptProgramObjectLists.size() == 0) {
                 holder.createErrorAnnotation(yScriptCall.getTextRange(), "Unresolved program");
             } else {

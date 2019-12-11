@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript</id>
     <name>Y Script support (IAS)</name>
-    <version>0.5.10</version>
+    <version>0.5.11</version>
     <vendor email="mstef94@gmail.com" url="http://mateuszstefaniak.me/">Mateusz Stefaniak</vendor>
 
     <description><![CDATA[
@@ -13,10 +13,8 @@
 
     <change-notes><![CDATA[
         <ul>
-            <li>Fix - Simple variable existence check - Variables in try-catch</li>
-            <li>Fix - Variable starting with _</li>
-            <li>Add - Support for TYPENS</li>
-            <li>Add - More build-in IAS types</li>
+            <li>Support for new IAS version</li>
+            <li>Fix - Support for Time</li>
         </ul>
     ]]>
     </change-notes>

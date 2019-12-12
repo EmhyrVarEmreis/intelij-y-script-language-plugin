@@ -122,6 +122,18 @@ public class YscriptAnnotator implements Annotator {
                         new VariableType("String", null)
                 )
         )));
+        BUILT_IN_PROGRAMS.put("std::replace", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::replace",
+                        STD_DEFAULT,
+                        new ProgramArgument[]{
+                                new ProgramArgument("strArgument", "String", null),
+                                new ProgramArgument("strPattern", "String", null),
+                                new ProgramArgument("strNewText", "String", null)
+                        },
+                        new VariableType("String", null)
+                )
+        )));
         BUILT_IN_PROGRAMS.put("std::str2lower", new YScriptProgramStructBundle(Collections.singletonList(
                 new YScriptProgramStruct(
                         "std::str2lower",
@@ -243,6 +255,37 @@ public class YscriptAnnotator implements Annotator {
                         new ProgramArgument[]{
                                 new ProgramArgument("strArgument", "String", null),
                                 new ProgramArgument("iStart", "Integer", null)
+                        },
+                        new VariableType("String", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::find", new YScriptProgramStructBundle(Arrays.asList(
+                new YScriptProgramStruct(
+                        "std::find",
+                        STD_DEFAULT,
+                        new ProgramArgument[]{
+                                new ProgramArgument("strArgument", "String", null),
+                                new ProgramArgument("strPattern", "String", null)
+                        },
+                        new VariableType("Integer", null)
+                ),
+                new YScriptProgramStruct(
+                        "std::find",
+                        STD_DEFAULT,
+                        new ProgramArgument[]{
+                                new ProgramArgument("strArgument", "String", null),
+                                new ProgramArgument("strPattern", "String", null),
+                                new ProgramArgument("iStart", "Integer", null)
+                        },
+                        new VariableType("Integer", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::randString", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::randString",
+                        STD_DEFAULT,
+                        new ProgramArgument[]{
+                                new ProgramArgument("length", "Integer", null)
                         },
                         new VariableType("String", null)
                 )

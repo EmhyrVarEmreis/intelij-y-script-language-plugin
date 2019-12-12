@@ -52,6 +52,199 @@ public class YscriptAnnotator implements Annotator {
                         new VariableType("Integer", null)
                 )
         )));
+        BUILT_IN_PROGRAMS.put("std::getTime", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::getTime",
+                        "dts::default",
+                        new ProgramArgument[]{},
+                        new VariableType("DateTime", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::modifydate", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::modifydate",
+                        "dts::default",
+                        new ProgramArgument[]{
+                                new ProgramArgument("tTime", "DateTime", null),
+                                new ProgramArgument("iDeltaYears", "Integer", null),
+                                new ProgramArgument("iDeltaMonths", "Integer", null),
+                                new ProgramArgument("iDeltaDays", "Integer", null)
+                        },
+                        new VariableType("DateTime", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::modifytime", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::modifytime",
+                        "dts::default",
+                        new ProgramArgument[]{
+                                new ProgramArgument("tTime", "DateTime", null),
+                                new ProgramArgument("iDeltaHours", "Integer", null),
+                                new ProgramArgument("iDeltaMinutes", "Integer", null),
+                                new ProgramArgument("iDeltaSeconds", "Integer", null)
+                        },
+                        new VariableType("DateTime", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::save", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::save",
+                        "dts::default",
+                        new ProgramArgument[]{
+                                new ProgramArgument("file", "String", null),
+                                new ProgramArgument("value", "AnyType", null)
+                        },
+                        null
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::str2ts", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::str2ts",
+                        "dts::default",
+                        new ProgramArgument[]{
+                                new ProgramArgument("strTs", "String", null),
+                                new ProgramArgument("strFmt", "String", null)
+                        },
+                        new VariableType("DateTime", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::replaceRegExp", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::replaceRegExp",
+                        "dts::default",
+                        new ProgramArgument[]{
+                                new ProgramArgument("strArgument", "String", null),
+                                new ProgramArgument("strPattern", "String", null),
+                                new ProgramArgument("strNewText", "String", null)
+                        },
+                        new VariableType("String", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::str2lower", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::str2lower",
+                        "dts::default",
+                        new ProgramArgument[]{
+                                new ProgramArgument("strArgument", "String", null)
+                        },
+                        new VariableType("String", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::str2upper", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::str2upper",
+                        "dts::default",
+                        new ProgramArgument[]{
+                                new ProgramArgument("strArgument", "String", null)
+                        },
+                        new VariableType("String", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::getHour", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::getHour",
+                        "dts::default",
+                        new ProgramArgument[]{
+                                new ProgramArgument("ts", "DateTime", null)
+                        },
+                        new VariableType("Integer", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::getMinute", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::getMinute",
+                        "dts::default",
+                        new ProgramArgument[]{
+                                new ProgramArgument("ts", "DateTime", null)
+                        },
+                        new VariableType("Integer", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::getSecond", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::getSecond",
+                        "dts::default",
+                        new ProgramArgument[]{
+                                new ProgramArgument("ts", "DateTime", null)
+                        },
+                        new VariableType("Integer", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::getDay", new YScriptProgramStructBundle(Arrays.asList(
+                new YScriptProgramStruct(
+                        "std::getDay",
+                        "dts::default",
+                        new ProgramArgument[]{
+                                new ProgramArgument("date", "Date", null)
+                        },
+                        new VariableType("Integer", null)
+                ),
+                new YScriptProgramStruct(
+                        "std::getDay",
+                        "dts::default",
+                        new ProgramArgument[]{
+                                new ProgramArgument("date", "DateTime", null)
+                        },
+                        new VariableType("Integer", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::getMonth", new YScriptProgramStructBundle(Arrays.asList(
+                new YScriptProgramStruct(
+                        "std::getMonth",
+                        "dts::default",
+                        new ProgramArgument[]{
+                                new ProgramArgument("date", "Date", null)
+                        },
+                        new VariableType("Integer", null)
+                ),
+                new YScriptProgramStruct(
+                        "std::getMonth",
+                        "dts::default",
+                        new ProgramArgument[]{
+                                new ProgramArgument("date", "DateTime", null)
+                        },
+                        new VariableType("Integer", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::getYear", new YScriptProgramStructBundle(Arrays.asList(
+                new YScriptProgramStruct(
+                        "std::getYear",
+                        "dts::default",
+                        new ProgramArgument[]{
+                                new ProgramArgument("date", "Date", null)
+                        },
+                        new VariableType("Integer", null)
+                ),
+                new YScriptProgramStruct(
+                        "std::getYear",
+                        "dts::default",
+                        new ProgramArgument[]{
+                                new ProgramArgument("date", "DateTime", null)
+                        },
+                        new VariableType("Integer", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::substring", new YScriptProgramStructBundle(Arrays.asList(
+                new YScriptProgramStruct(
+                        "std::substring",
+                        "dts::default",
+                        new ProgramArgument[]{
+                                new ProgramArgument("strArgument", "String", null),
+                                new ProgramArgument("iStart", "Integer", null),
+                                new ProgramArgument("iLength", "Integer", null)
+                        },
+                        new VariableType("String", null)
+                ),
+                new YScriptProgramStruct(
+                        "std::substring",
+                        "dts::default",
+                        new ProgramArgument[]{
+                                new ProgramArgument("strArgument", "String", null),
+                                new ProgramArgument("iStart", "Integer", null)
+                        },
+                        new VariableType("String", null)
+                )
+        )));
     }
 
     @Override

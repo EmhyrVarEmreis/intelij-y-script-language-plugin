@@ -29,6 +29,8 @@ import static xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScr
 
 public class YscriptAnnotator implements Annotator {
 
+    public final static String STD_DEFAULT = "std::default";
+
     private final static Set<String> BUILT_IN_TYPES;
     private final static Map<String, YScriptProgramStructBundle> BUILT_IN_PROGRAMS;
 
@@ -47,7 +49,7 @@ public class YscriptAnnotator implements Annotator {
         BUILT_IN_PROGRAMS.put("std::strlen", new YScriptProgramStructBundle(Collections.singletonList(
                 new YScriptProgramStruct(
                         "std::strlen",
-                        "dts::default",
+                        STD_DEFAULT,
                         new ProgramArgument[]{new ProgramArgument("strArgument", "String", null)},
                         new VariableType("Integer", null)
                 )
@@ -55,7 +57,7 @@ public class YscriptAnnotator implements Annotator {
         BUILT_IN_PROGRAMS.put("std::getTime", new YScriptProgramStructBundle(Collections.singletonList(
                 new YScriptProgramStruct(
                         "std::getTime",
-                        "dts::default",
+                        STD_DEFAULT,
                         new ProgramArgument[]{},
                         new VariableType("DateTime", null)
                 )
@@ -63,7 +65,7 @@ public class YscriptAnnotator implements Annotator {
         BUILT_IN_PROGRAMS.put("std::modifydate", new YScriptProgramStructBundle(Collections.singletonList(
                 new YScriptProgramStruct(
                         "std::modifydate",
-                        "dts::default",
+                        STD_DEFAULT,
                         new ProgramArgument[]{
                                 new ProgramArgument("tTime", "DateTime", null),
                                 new ProgramArgument("iDeltaYears", "Integer", null),
@@ -76,7 +78,7 @@ public class YscriptAnnotator implements Annotator {
         BUILT_IN_PROGRAMS.put("std::modifytime", new YScriptProgramStructBundle(Collections.singletonList(
                 new YScriptProgramStruct(
                         "std::modifytime",
-                        "dts::default",
+                        STD_DEFAULT,
                         new ProgramArgument[]{
                                 new ProgramArgument("tTime", "DateTime", null),
                                 new ProgramArgument("iDeltaHours", "Integer", null),
@@ -89,7 +91,7 @@ public class YscriptAnnotator implements Annotator {
         BUILT_IN_PROGRAMS.put("std::save", new YScriptProgramStructBundle(Collections.singletonList(
                 new YScriptProgramStruct(
                         "std::save",
-                        "dts::default",
+                        STD_DEFAULT,
                         new ProgramArgument[]{
                                 new ProgramArgument("file", "String", null),
                                 new ProgramArgument("value", "AnyType", null)
@@ -100,7 +102,7 @@ public class YscriptAnnotator implements Annotator {
         BUILT_IN_PROGRAMS.put("std::str2ts", new YScriptProgramStructBundle(Collections.singletonList(
                 new YScriptProgramStruct(
                         "std::str2ts",
-                        "dts::default",
+                        STD_DEFAULT,
                         new ProgramArgument[]{
                                 new ProgramArgument("strTs", "String", null),
                                 new ProgramArgument("strFmt", "String", null)
@@ -111,7 +113,7 @@ public class YscriptAnnotator implements Annotator {
         BUILT_IN_PROGRAMS.put("std::replaceRegExp", new YScriptProgramStructBundle(Collections.singletonList(
                 new YScriptProgramStruct(
                         "std::replaceRegExp",
-                        "dts::default",
+                        STD_DEFAULT,
                         new ProgramArgument[]{
                                 new ProgramArgument("strArgument", "String", null),
                                 new ProgramArgument("strPattern", "String", null),
@@ -123,7 +125,7 @@ public class YscriptAnnotator implements Annotator {
         BUILT_IN_PROGRAMS.put("std::str2lower", new YScriptProgramStructBundle(Collections.singletonList(
                 new YScriptProgramStruct(
                         "std::str2lower",
-                        "dts::default",
+                        STD_DEFAULT,
                         new ProgramArgument[]{
                                 new ProgramArgument("strArgument", "String", null)
                         },
@@ -133,7 +135,7 @@ public class YscriptAnnotator implements Annotator {
         BUILT_IN_PROGRAMS.put("std::str2upper", new YScriptProgramStructBundle(Collections.singletonList(
                 new YScriptProgramStruct(
                         "std::str2upper",
-                        "dts::default",
+                        STD_DEFAULT,
                         new ProgramArgument[]{
                                 new ProgramArgument("strArgument", "String", null)
                         },
@@ -143,7 +145,7 @@ public class YscriptAnnotator implements Annotator {
         BUILT_IN_PROGRAMS.put("std::getHour", new YScriptProgramStructBundle(Collections.singletonList(
                 new YScriptProgramStruct(
                         "std::getHour",
-                        "dts::default",
+                        STD_DEFAULT,
                         new ProgramArgument[]{
                                 new ProgramArgument("ts", "DateTime", null)
                         },
@@ -153,7 +155,7 @@ public class YscriptAnnotator implements Annotator {
         BUILT_IN_PROGRAMS.put("std::getMinute", new YScriptProgramStructBundle(Collections.singletonList(
                 new YScriptProgramStruct(
                         "std::getMinute",
-                        "dts::default",
+                        STD_DEFAULT,
                         new ProgramArgument[]{
                                 new ProgramArgument("ts", "DateTime", null)
                         },
@@ -163,7 +165,7 @@ public class YscriptAnnotator implements Annotator {
         BUILT_IN_PROGRAMS.put("std::getSecond", new YScriptProgramStructBundle(Collections.singletonList(
                 new YScriptProgramStruct(
                         "std::getSecond",
-                        "dts::default",
+                        STD_DEFAULT,
                         new ProgramArgument[]{
                                 new ProgramArgument("ts", "DateTime", null)
                         },
@@ -173,7 +175,7 @@ public class YscriptAnnotator implements Annotator {
         BUILT_IN_PROGRAMS.put("std::getDay", new YScriptProgramStructBundle(Arrays.asList(
                 new YScriptProgramStruct(
                         "std::getDay",
-                        "dts::default",
+                        STD_DEFAULT,
                         new ProgramArgument[]{
                                 new ProgramArgument("date", "Date", null)
                         },
@@ -181,7 +183,7 @@ public class YscriptAnnotator implements Annotator {
                 ),
                 new YScriptProgramStruct(
                         "std::getDay",
-                        "dts::default",
+                        STD_DEFAULT,
                         new ProgramArgument[]{
                                 new ProgramArgument("date", "DateTime", null)
                         },
@@ -191,7 +193,7 @@ public class YscriptAnnotator implements Annotator {
         BUILT_IN_PROGRAMS.put("std::getMonth", new YScriptProgramStructBundle(Arrays.asList(
                 new YScriptProgramStruct(
                         "std::getMonth",
-                        "dts::default",
+                        STD_DEFAULT,
                         new ProgramArgument[]{
                                 new ProgramArgument("date", "Date", null)
                         },
@@ -199,7 +201,7 @@ public class YscriptAnnotator implements Annotator {
                 ),
                 new YScriptProgramStruct(
                         "std::getMonth",
-                        "dts::default",
+                        STD_DEFAULT,
                         new ProgramArgument[]{
                                 new ProgramArgument("date", "DateTime", null)
                         },
@@ -209,7 +211,7 @@ public class YscriptAnnotator implements Annotator {
         BUILT_IN_PROGRAMS.put("std::getYear", new YScriptProgramStructBundle(Arrays.asList(
                 new YScriptProgramStruct(
                         "std::getYear",
-                        "dts::default",
+                        STD_DEFAULT,
                         new ProgramArgument[]{
                                 new ProgramArgument("date", "Date", null)
                         },
@@ -217,7 +219,7 @@ public class YscriptAnnotator implements Annotator {
                 ),
                 new YScriptProgramStruct(
                         "std::getYear",
-                        "dts::default",
+                        STD_DEFAULT,
                         new ProgramArgument[]{
                                 new ProgramArgument("date", "DateTime", null)
                         },
@@ -227,7 +229,7 @@ public class YscriptAnnotator implements Annotator {
         BUILT_IN_PROGRAMS.put("std::substring", new YScriptProgramStructBundle(Arrays.asList(
                 new YScriptProgramStruct(
                         "std::substring",
-                        "dts::default",
+                        STD_DEFAULT,
                         new ProgramArgument[]{
                                 new ProgramArgument("strArgument", "String", null),
                                 new ProgramArgument("iStart", "Integer", null),
@@ -237,7 +239,7 @@ public class YscriptAnnotator implements Annotator {
                 ),
                 new YScriptProgramStruct(
                         "std::substring",
-                        "dts::default",
+                        STD_DEFAULT,
                         new ProgramArgument[]{
                                 new ProgramArgument("strArgument", "String", null),
                                 new ProgramArgument("iStart", "Integer", null)
@@ -267,11 +269,15 @@ public class YscriptAnnotator implements Annotator {
                     if (!isCallMatched(yScriptCall, yScriptProgramObjectLists)) {
                         holder.createErrorAnnotation(yScriptCall.getTextRange(), "Signature does not match - Probably wrong number of arguments");
                     }
-                } else if(Objects.isNull(defaultPrograms)) {
+                } else {
                     final Annotation callAnnotation = holder.createWarningAnnotation(yScriptCall.getTextRange(), "Program is not strictly imported");
-                    final Collection<String> possibleImports = getPossibleImports(yScriptCall, yScriptProgramObjectLists);
-                    if (possibleImports.size() > 0) {
-                        callAnnotation.registerFix(new CreateMissingImportQuickFix(possibleImports));
+                    if (Objects.isNull(defaultPrograms)) {
+                        final Collection<String> possibleImports = getPossibleImports(yScriptCall, yScriptProgramObjectLists);
+                        if (possibleImports.size() > 0) {
+                            callAnnotation.registerFix(new CreateMissingImportQuickFix(possibleImports));
+                        }
+                    } else {
+                        callAnnotation.registerFix(new CreateMissingImportQuickFix(Collections.singleton("std::default")));
                     }
                 }
             }
@@ -279,6 +285,9 @@ public class YscriptAnnotator implements Annotator {
             final YScriptImport yScriptImport = (YScriptImport) element;
             final YScriptPackage yScriptPackage = yScriptImport.getPackage();
             final String filePackage = yScriptPackage.getText();
+            if (filePackage.equalsIgnoreCase(STD_DEFAULT)) {
+                return;
+            }
             final Project project = element.getProject();
             final Collection<YScriptFileContent> collection = getYScriptFileContentFBIdx(filePackage, project);
             if (collection.size() == 0) {

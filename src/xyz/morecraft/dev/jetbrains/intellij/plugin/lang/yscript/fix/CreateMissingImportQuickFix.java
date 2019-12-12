@@ -20,6 +20,7 @@ import com.intellij.util.indexing.FileBasedIndex;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.NotNull;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.YScriptFileType;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.YscriptAnnotator;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.file.YScriptPackageFBIdx;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptElementFactory;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptFile;
@@ -60,6 +61,10 @@ public class CreateMissingImportQuickFix extends BaseIntentionAction {
     @Override
     public void invoke(@NotNull Project project, Editor editor, PsiFile psiFile) throws IncorrectOperationException {
         ApplicationManager.getApplication().invokeLater(() -> {
+            if (this.possibleImports.size() == 1 && this.possibleImports.iterator().next().equalsIgnoreCase(YscriptAnnotator.STD_DEFAULT)) {
+                createImport(project, psiFile.getVirtualFile(), YscriptAnnotator.STD_DEFAULT);
+                return;
+            }
             final ArrayList<VirtualFile> virtualFiles = new ArrayList<>();
             for (String possibleImport : this.possibleImports) {
                 virtualFiles.addAll(
@@ -86,7 +91,7 @@ public class CreateMissingImportQuickFix extends BaseIntentionAction {
         });
     }
 
-    private void createImport(final Project project, final VirtualFile file, final VirtualFile importFile) {
+    private void createImport(final Project project, final VirtualFile file, final String importFile) {
         final YScriptFile yScriptFile = (YScriptFile) PsiManager.getInstance(project).findFile(file);
         if (Objects.isNull(yScriptFile)) {
             return;
@@ -98,7 +103,7 @@ public class CreateMissingImportQuickFix extends BaseIntentionAction {
             }
             final PsiElement psiLine0 = YScriptElementFactory.createCRLF(project).getNode().getPsi();
             final PsiElement psiLine1 = YScriptElementFactory.createCRLF(project).getNode().getPsi();
-            final PsiElement psiImport = YScriptElementFactory.createImport(project, YScriptUtil.getPackageName(importFile)).getNode().getPsi();
+            final PsiElement psiImport = YScriptElementFactory.createImport(project, importFile).getNode().getPsi();
 
             ASTNode insertNode = this.getLast(yScriptFileContent.getChildren(), YScriptImport.class);
 
@@ -115,6 +120,10 @@ public class CreateMissingImportQuickFix extends BaseIntentionAction {
             }
             DaemonCodeAnalyzer.getInstance(project).restart();
         });
+    }
+
+    private void createImport(final Project project, final VirtualFile file, final VirtualFile importFile) {
+        createImport(project, file, YScriptUtil.getPackageName(importFile));
     }
 
     private ASTNode getLast(final PsiElement[] elements, final Class type) {

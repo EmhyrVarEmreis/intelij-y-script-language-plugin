@@ -256,9 +256,9 @@ public class YscriptAnnotator implements Annotator {
             if (programName.contains(SHARED_PROGRAM_NAME_PART)) {
                 return;
             }
-            final YScriptProgramStructBundle yScriptProgramStructBundle = BUILT_IN_PROGRAMS.get(programName);
+            final YScriptProgramStructBundle defaultPrograms = BUILT_IN_PROGRAMS.get(programName);
             final Project project = element.getProject();
-            final List<YScriptProgramStructBundle> yScriptProgramObjectLists = Objects.isNull(yScriptProgramStructBundle) ? FileBasedIndex.getInstance().getValues(YScriptProgramNameFBIdx.KEY, programName, GlobalSearchScope.projectScope(project)) : Collections.singletonList(yScriptProgramStructBundle);
+            final List<YScriptProgramStructBundle> yScriptProgramObjectLists = Objects.isNull(defaultPrograms) ? FileBasedIndex.getInstance().getValues(YScriptProgramNameFBIdx.KEY, programName, GlobalSearchScope.projectScope(project)) : Collections.singletonList(defaultPrograms);
             if (yScriptProgramObjectLists.size() == 0) {
                 holder.createErrorAnnotation(yScriptCall.getTextRange(), "Unresolved program");
             } else {
@@ -267,7 +267,7 @@ public class YscriptAnnotator implements Annotator {
                     if (!isCallMatched(yScriptCall, yScriptProgramObjectLists)) {
                         holder.createErrorAnnotation(yScriptCall.getTextRange(), "Signature does not match - Probably wrong number of arguments");
                     }
-                } else {
+                } else if(Objects.isNull(defaultPrograms)) {
                     final Annotation callAnnotation = holder.createWarningAnnotation(yScriptCall.getTextRange(), "Program is not strictly imported");
                     final Collection<String> possibleImports = getPossibleImports(yScriptCall, yScriptProgramObjectLists);
                     if (possibleImports.size() > 0) {

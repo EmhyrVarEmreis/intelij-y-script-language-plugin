@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript</id>
     <name>Y Script support (IAS)</name>
-    <version>0.5.12</version>
+    <version>0.5.13</version>
     <vendor email="mstef94@gmail.com" url="http://mateuszstefaniak.me/">Mateusz Stefaniak</vendor>
 
     <description><![CDATA[
@@ -16,6 +16,8 @@
             <li>Support for new IAS version</li>
             <li>Support for new IAS version - More build-in functions</li>
             <li>Fix - Support for Time</li>
+            <li>Fix - Null packageNames</li>
+            <li>Go-to now checks arguments count</li>
         </ul>
     ]]>
     </change-notes>

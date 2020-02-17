@@ -8,6 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.YScriptFileType;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScriptUtil;
 
+import java.util.Objects;
+
 public class YScriptPackageFBIdx extends ScalarIndexExtension<String> {
 
     public static final ID<String, Void> KEY = ID.create("yScript.idx.fb.package");
@@ -23,7 +25,10 @@ public class YScriptPackageFBIdx extends ScalarIndexExtension<String> {
     public DataIndexer<String, Void, FileContent> getIndexer() {
         return fileContent -> {
             final THashMap<String, Void> map = new THashMap<>();
-            map.put(YScriptUtil.getPackageName(fileContent.getPsiFile()), null);
+            final String packageName = YScriptUtil.getPackageName(fileContent.getPsiFile());
+            if (Objects.nonNull(packageName)) {
+                map.put(packageName, null);
+            }
             return map;
         };
     }

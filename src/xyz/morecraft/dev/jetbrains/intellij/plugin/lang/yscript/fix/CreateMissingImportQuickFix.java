@@ -26,6 +26,7 @@ import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptEleme
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptFile;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptFileContent;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptImport;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.Std;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScriptUtil;
 
 import java.util.ArrayList;
@@ -61,8 +62,8 @@ public class CreateMissingImportQuickFix extends BaseIntentionAction {
     @Override
     public void invoke(@NotNull Project project, Editor editor, PsiFile psiFile) throws IncorrectOperationException {
         ApplicationManager.getApplication().invokeLater(() -> {
-            if (this.possibleImports.size() == 1 && this.possibleImports.iterator().next().equalsIgnoreCase(YscriptAnnotator.STD_DEFAULT)) {
-                createImport(project, psiFile.getVirtualFile(), YscriptAnnotator.STD_DEFAULT);
+            if (this.possibleImports.size() == 1 && this.possibleImports.iterator().next().equalsIgnoreCase(Std.STD_DEFAULT)) {
+                createImport(project, psiFile.getVirtualFile(), Std.STD_DEFAULT);
                 return;
             }
             final ArrayList<VirtualFile> virtualFiles = new ArrayList<>();

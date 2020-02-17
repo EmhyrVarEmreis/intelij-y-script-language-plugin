@@ -132,7 +132,9 @@ program ::= programHeader programBody X_SEMICOLON {
     elementTypeFactory="xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.stub.YScriptElementTypeFactory.stubFactory"
 }
 
-programHeader ::= KEY_PROGRAM package X_OPEN_BRACKET vars? X_CLOSE_BRACKET (KEY_RETURNS type)?
+programHeader ::= KEY_PROGRAM package X_OPEN_BRACKET vars? X_CLOSE_BRACKET (KEY_RETURNS type)? {
+    methods=[getArgumentsCount];
+}
 
 programBody ::= (block | externalProgram)
 
@@ -212,7 +214,9 @@ cast ::= X_OPEN_BRACKET expressionFactor KEY_AS type X_CLOSE_BRACKET
 
 private anyCall ::= fSizeOf | fIsSet | fCopyOf | fIsNull | fType | fStrlen | fTypeNS | call
 
-call ::= package X_OPEN_BRACKET arguments? X_CLOSE_BRACKET
+call ::= package X_OPEN_BRACKET arguments? X_CLOSE_BRACKET {
+    methods=[getArgumentsCount];
+}
 
 shortIf ::= X_OPEN_BRACKET expression KEY_SHORT_IF expression X_COLON expression X_CLOSE_BRACKET
 

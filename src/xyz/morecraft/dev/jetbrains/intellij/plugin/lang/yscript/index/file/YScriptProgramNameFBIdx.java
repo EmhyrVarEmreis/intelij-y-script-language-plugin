@@ -13,6 +13,7 @@ import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.index.file.obj.Y
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptFile;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptFileContent;
 import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.psi.YScriptProgram;
+import xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript.util.YScriptUtil;
 
 import java.util.Objects;
 
@@ -39,6 +40,9 @@ public class YScriptProgramNameFBIdx extends FileBasedIndexExtension<String, YSc
                 return map;
             }
             for (YScriptProgram yScriptProgram : yScriptFileContent.getProgramList()) {
+                if(Objects.isNull(YScriptUtil.getPackageName(yScriptProgram.getContainingFile()))){
+                    continue;
+                }
                 final YScriptProgramStruct yScriptProgramStruct = YScriptProgramStruct.create(yScriptProgram);
                 final String key = yScriptProgramStruct.getName();
                 final YScriptProgramStructBundle programStructBundle = map.get(key);

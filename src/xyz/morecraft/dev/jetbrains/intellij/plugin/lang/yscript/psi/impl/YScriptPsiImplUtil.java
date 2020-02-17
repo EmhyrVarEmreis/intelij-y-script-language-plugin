@@ -112,4 +112,15 @@ public class YScriptPsiImplUtil {
         return null;
     }
 
+    public static int getArgumentsCount(YScriptCall element) {
+        if (Objects.isNull(element.getArguments())) {
+            return 0;
+        }
+        return element.getArguments().getExpressionList().size();
+    }
+
+    public static int getArgumentsCount(YScriptProgramHeader element) {
+        return element.getVarList().size();
+    }
+
 }

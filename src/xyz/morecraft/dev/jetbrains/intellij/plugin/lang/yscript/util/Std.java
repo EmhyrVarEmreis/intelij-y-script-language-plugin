@@ -278,7 +278,119 @@ public final class Std {
                         new VariableType("String", null)
                 )
         )));
-        BUILT_IN_PROGRAMS.put("std::applyTemplate", new YScriptProgramStructBundle(Collections.singletonList(
+        BUILT_IN_PROGRAMS.put("std::sha256", new YScriptProgramStructBundle(Arrays.asList(
+                new YScriptProgramStruct(
+                        "std::sha256",
+                        STD_DEFAULT,
+                        new ProgramArgument[]{
+                                new ProgramArgument("value", "String", null)
+                        },
+                        new VariableType("String", null)
+                ),
+                new YScriptProgramStruct(
+                        "std::sha256",
+                        STD_DEFAULT,
+                        new ProgramArgument[]{
+                                new ProgramArgument("value", "Raw", null)
+                        },
+                        new VariableType("String", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::sha1", new YScriptProgramStructBundle(Arrays.asList(
+                new YScriptProgramStruct(
+                        "std::sha1",
+                        STD_DEFAULT,
+                        new ProgramArgument[]{
+                                new ProgramArgument("value", "String", null)
+                        },
+                        new VariableType("String", null)
+                ),
+                new YScriptProgramStruct(
+                        "std::sha1",
+                        STD_DEFAULT,
+                        new ProgramArgument[]{
+                                new ProgramArgument("value", "Raw", null)
+                        },
+                        new VariableType("String", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::md5", new YScriptProgramStructBundle(Arrays.asList(
+                new YScriptProgramStruct(
+                        "std::md5",
+                        STD_DEFAULT,
+                        new ProgramArgument[]{
+                                new ProgramArgument("value", "String", null)
+                        },
+                        new VariableType("String", null)
+                ),
+                new YScriptProgramStruct(
+                        "std::md5",
+                        STD_DEFAULT,
+                        new ProgramArgument[]{
+                                new ProgramArgument("value", "Raw", null)
+                        },
+                        new VariableType("String", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::hmac256", new YScriptProgramStructBundle(Arrays.asList(
+                new YScriptProgramStruct(
+                        "std::hmac256",
+                        STD_DEFAULT,
+                        new ProgramArgument[]{
+                                new ProgramArgument("value", "String", null)
+                        },
+                        new VariableType("String", null)
+                ),
+                new YScriptProgramStruct(
+                        "std::hmac256",
+                        STD_DEFAULT,
+                        new ProgramArgument[]{
+                                new ProgramArgument("value", "Raw", null)
+                        },
+                        new VariableType("String", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::fromHex", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::fromHex",
+                        STD_DEFAULT,
+                        new ProgramArgument[]{
+                                new ProgramArgument("value", "String", null)
+                        },
+                        new VariableType("Raw", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::toHex", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::toHex",
+                        STD_DEFAULT,
+                        new ProgramArgument[]{
+                                new ProgramArgument("value", "Raw", null)
+                        },
+                        new VariableType("String", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::fromBase64", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::fromBase64",
+                        STD_DEFAULT,
+                        new ProgramArgument[]{
+                                new ProgramArgument("value", "String", null)
+                        },
+                        new VariableType("Raw", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::toBase64", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::toBase64",
+                        STD_DEFAULT,
+                        new ProgramArgument[]{
+                                new ProgramArgument("value", "Raw", null)
+                        },
+                        new VariableType("String", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("dict::applyTemplate", new YScriptProgramStructBundle(Collections.singletonList(
                 new YScriptProgramStruct(
                         "dict::applyTemplate",
                         STD_TEMPLATE,

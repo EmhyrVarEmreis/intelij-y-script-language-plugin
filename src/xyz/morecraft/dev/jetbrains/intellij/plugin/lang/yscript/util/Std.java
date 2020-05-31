@@ -10,6 +10,14 @@ import java.util.*;
 public final class Std {
 
     public final static String STD_DEFAULT = "std::default";
+    public final static String STD_QS = "std::qs";
+    public final static String STD_DS = "std::ds";
+    public final static String STD_FMT = "std::fmt";
+    public final static String STD_ADHOC = "std::adhoc";
+    public final static String STD_DICT = "std::dict";
+    public final static String STD_STORAGE = "std::storage";
+    public final static String STD_CACHE = "std::cache";
+    public final static String STD_TEMPLATE = "std::template";
 
     public final static Set<String> BUILT_IN_TYPES;
     public final static Map<String, YScriptProgramStructBundle> BUILT_IN_PROGRAMS;
@@ -268,6 +276,241 @@ public final class Std {
                                 new ProgramArgument("length", "Integer", null)
                         },
                         new VariableType("String", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::applyTemplate", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "dict::applyTemplate",
+                        STD_TEMPLATE,
+                        new ProgramArgument[]{
+                                new ProgramArgument("template", "String", null),
+                                new ProgramArgument("data", "AnyType", null)
+                        },
+                        new VariableType("String", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("dict::getValue", new YScriptProgramStructBundle(Arrays.asList(
+                new YScriptProgramStruct(
+                        "dict::getValue",
+                        STD_DICT,
+                        new ProgramArgument[]{
+                                new ProgramArgument("dictionaryName", "String", null),
+                                new ProgramArgument("keyName", "String", null),
+                                new ProgramArgument("timeout", "Integer", null)
+                        },
+                        new VariableType("AnyType", null)
+                ),
+                new YScriptProgramStruct(
+                        "dict::getValue",
+                        STD_DICT,
+                        new ProgramArgument[]{
+                                new ProgramArgument("dictionaryName", "String", null),
+                                new ProgramArgument("keyName", "String", null)
+                        },
+                        new VariableType("AnyType", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("dict::createDictionary", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "dict::createDictionary",
+                        STD_DICT,
+                        new ProgramArgument[]{
+                                new ProgramArgument("dictionary", "Dictionary", "http://www.invenireaude.org/qsystem/workers/dict")
+                        },
+                        null
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("dict::newItem", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "dict::newItem",
+                        STD_DICT,
+                        new ProgramArgument[]{
+                                new ProgramArgument("key", "String", null),
+                                new ProgramArgument("value", "AnyType", null)
+                        },
+                        new VariableType("Item", "http://www.invenireaude.org/qsystem/workers/dict")
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("cache::createBucket", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "cache::createBucket",
+                        STD_CACHE,
+                        new ProgramArgument[]{
+                                new ProgramArgument("cache", "String", null),
+                                new ProgramArgument("key", "String", null)
+                        },
+                        null
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("cache::fetchBucket", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "cache::fetchBucket",
+                        STD_CACHE,
+                        new ProgramArgument[]{
+                                new ProgramArgument("cache", "String", null),
+                                new ProgramArgument("key", "String", null)
+                        },
+                        null
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("cache::deleteBucket", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "cache::deleteBucket",
+                        STD_CACHE,
+                        new ProgramArgument[]{
+                                new ProgramArgument("cache", "String", null),
+                                new ProgramArgument("key", "String", null)
+                        },
+                        null
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("cache::releaseBucket", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "cache::releaseBucket",
+                        STD_CACHE,
+                        new ProgramArgument[]{
+                                new ProgramArgument("cache", "String", null),
+                                new ProgramArgument("key", "String", null)
+                        },
+                        null
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("cache::getItem", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "cache::getItem",
+                        STD_CACHE,
+                        new ProgramArgument[]{
+                                new ProgramArgument("cache", "String", null),
+                                new ProgramArgument("key", "String", null)
+                        },
+                        new VariableType("AnyType", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("cache::createOrUpdate", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "cache::createOrUpdate",
+                        STD_CACHE,
+                        new ProgramArgument[]{
+                                new ProgramArgument("cache", "String", null),
+                                new ProgramArgument("key", "String", null),
+                                new ProgramArgument("value", "AnyType", null)
+                        },
+                        null
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::getLocalValue", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::getLocalValue",
+                        STD_STORAGE,
+                        new ProgramArgument[]{
+                                new ProgramArgument("key", "String", null)
+                        },
+                        new VariableType("AnyType", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::getGlobalValue", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::getGlobalValue",
+                        STD_STORAGE,
+                        new ProgramArgument[]{
+                                new ProgramArgument("key", "String", null)
+                        },
+                        new VariableType("AnyType", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::setLocalValue", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::setLocalValue",
+                        STD_STORAGE,
+                        new ProgramArgument[]{
+                                new ProgramArgument("key", "String", null),
+                                new ProgramArgument("value", "AnyType", null)
+                        },
+                        null
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::setGlobalValue", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::setGlobalValue",
+                        STD_STORAGE,
+                        new ProgramArgument[]{
+                                new ProgramArgument("key", "String", null),
+                                new ProgramArgument("value", "AnyType", null)
+                        },
+                        null
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("fmt::serialize", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "fmt::serialize",
+                        STD_FMT,
+                        new ProgramArgument[]{
+                                new ProgramArgument("format", "String", null),
+                                new ProgramArgument("data", "AnyType", null)
+                        },
+                        new VariableType("String", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("fmt::parse", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "fmt::parse",
+                        STD_FMT,
+                        new ProgramArgument[]{
+                                new ProgramArgument("format", "String", null),
+                                new ProgramArgument("payload", "String", null)
+                        },
+                        new VariableType("AnyType", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::send", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::send",
+                        STD_QS,
+                        new ProgramArgument[]{
+                                new ProgramArgument("name", "String", null),
+                                new ProgramArgument("ctx", "Context", "http://www.invenireaude.org/qsystem/workers"),
+                                new ProgramArgument("data", "AnyType", null),
+                        },
+                        null
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::receive", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::receive",
+                        STD_QS,
+                        new ProgramArgument[]{
+                                new ProgramArgument("name", "String", null),
+                                new ProgramArgument("ctx", "Context", "http://www.invenireaude.org/qsystem/workers")
+                        },
+                        new VariableType("AnyType", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("std::execute", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "std::execute",
+                        STD_ADHOC,
+                        new ProgramArgument[]{
+                                new ProgramArgument("program", "String", null),
+                                new ProgramArgument("source", "String", null),
+                                new ProgramArgument("argument", "AnyType", null),
+                        },
+                        new VariableType("AnyType", null)
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("ds::commitAll", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "ds::commitAll",
+                        STD_DS,
+                        new ProgramArgument[]{},
+                        null
+                )
+        )));
+        BUILT_IN_PROGRAMS.put("ds::rollbackAll", new YScriptProgramStructBundle(Collections.singletonList(
+                new YScriptProgramStruct(
+                        "ds::rollbackAll",
+                        STD_DS,
+                        new ProgramArgument[]{},
+                        null
                 )
         )));
     }

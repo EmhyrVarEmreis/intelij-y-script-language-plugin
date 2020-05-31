@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>xyz.morecraft.dev.jetbrains.intellij.plugin.lang.yscript</id>
     <name>Y Script support (IAS)</name>
-    <version>0.5.13</version>
+    <version>0.5.14</version>
     <vendor email="mstef94@gmail.com" url="http://mateuszstefaniak.me/">Mateusz Stefaniak</vendor>
 
     <description><![CDATA[
@@ -18,6 +18,7 @@
             <li>Fix - Support for Time</li>
             <li>Fix - Null packageNames</li>
             <li>Go-to now checks arguments count</li>
+            <li>Added support for std::template, std::qs, std::dict, std::ds, std::storage, std::fmt, std::adhoc</li>
         </ul>
     ]]>
     </change-notes>
